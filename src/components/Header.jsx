@@ -1,7 +1,21 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { logoutUser } from "../features/reducer/auth/authSlice";
+import { useDispatch } from "react-redux";
 
 const Header = () => {
+  const [openDrawer, setOpenDrawer] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    dispatch(logoutUser());
+    navigate("/auth/login");
+  };
+
   return (
     <>
       <div className="header">
@@ -514,11 +528,12 @@ const Header = () => {
                 </li>
                 <li className="nav-item pl-4 flex justify-center relative">
                   <div className="dropdown header-profile2">
-                    <a
+                    <Link
                       data-dz-dropdown="DzinfoDropdown"
                       className="dz-dropdown nav-link relative p-2 text-[#464a53] text-lg leading-[1] block duration-500"
                       role="button"
                       data-bs-toggle="dropdown"
+                      onClick={() => setOpenDrawer(!openDrawer)}
                     >
                       <div className="header-info2 flex items-center">
                         <div className="header-media mr-[7px] h-[1.875rem] w-[1.875rem]">
@@ -537,10 +552,12 @@ const Header = () => {
                           </p>
                         </div>
                       </div>
-                    </a>
+                    </Link>
                     <div
-                      id="DzinfoDropdown"
-                      className="dz-dropdown-menu dropdown-menu dropdown-menu-end bg-white dark:bg-[#242424] absolute rounded-es-md rounded-ee-md w-[275px] right-0 top-full z-[9] shadow-[0_0_3.125rem_0_rgba(82,63,105,0.15)] py-2 hidden"
+                      // id="DzinfoDropdown"
+                      className={`dz-dropdown-menu dropdown-menu dropdown-menu-end bg-white dark:bg-[#242424] absolute rounded-es-md rounded-ee-md w-[275px] right-0 top-full z-[9] shadow-[0_0_3.125rem_0_rgba(82,63,105,0.15)] py-2  ${
+                        openDrawer ? "" : "hidden"
+                      }`}
                     >
                       <div className="card border-0 mb-0">
                         <div className="card-header relative flex items-center justify-between bg-transparent py-2 sm:px-[1.25rem] px-4 border-b border-[#E6E6E6] dark:border-[#444444]">
@@ -724,6 +741,7 @@ const Header = () => {
                           </a>
                           <Link
                             to="auth/login"
+                            onClick={(e) => handleLogout(e)}
                             className="dropdown-item py-[0.6rem] px-[1.25rem] text-base block w-full ai-icon"
                           >
                             <svg

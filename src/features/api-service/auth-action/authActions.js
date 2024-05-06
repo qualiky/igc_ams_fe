@@ -1,6 +1,7 @@
 import axios from "axios";
 import base_url from "../../../utils/base_url";
 import { toast } from "react-toastify";
+
 // Register Service
 const register = async (registerData) => {
   try {
@@ -20,7 +21,7 @@ const login = async (data) => {
   try {
     const response = await axios.post(`${base_url}auth/local`, data);
     if (response.status === 200) {
-      toast.success(response?.message);
+      toast.success(response?.message || "Login Successfully");
     } else {
       toast.error(response?.error?.message);
     }

@@ -1,10 +1,9 @@
-import React from "react";
 import { Outlet } from "react-router-dom";
 import NavHeader from "../../components/NavHeader";
 import Chatbox from "../../components/Chatbox";
 import Header from "../../components/Header";
 import Sidebar from "../../components/Sidebar";
-import OffCanvas from "../../components/OffCanvas";
+// import OffCanvas from "../../components/OffCanvas";
 import Footer from "../../components/Footer";
 
 const LayoutMain = () => {
@@ -15,8 +14,8 @@ const LayoutMain = () => {
       <Header />
       <Sidebar />
       <Outlet />
+      {/* <OffCanvas /> */}
       <Footer />
-      <OffCanvas />
     </>
   );
 };

@@ -1,13 +1,14 @@
-import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "../pages/home/Home";
-import Employee from "../pages/Employees/Employee";
 import LayoutMain from "../layout/main/LayoutMain";
 import PreLoader from "../components/PreLoader";
 import LayoutAuth from "../layout/auth/LayoutAuth";
-import Login from "../pages/auth/Login";
+import Login from "../pages/auth/login/Login";
 import Register from "../pages/auth/Register";
 import Error403 from "../pages/error/Error403";
+import AddEmployee from "../pages/Employees/_sections/add-employee";
+import EmployeeList from "../pages/Employees/_sections/Employee";
+import Employee from "../pages/Employees";
 
 const CustomRoutes = () => {
   return (
@@ -16,7 +17,10 @@ const CustomRoutes = () => {
         {/* Main Layout */}
         <Route path="/" element={<LayoutMain />}>
           <Route index element={<Home />} />
-          <Route path="employee" element={<Employee />} />
+          <Route path="employee" element={<Employee />}>
+            <Route index element={<EmployeeList />} />
+            <Route path="add-employee" element={<AddEmployee />} />
+          </Route>
         </Route>
 
         {/* Auth Routes */}

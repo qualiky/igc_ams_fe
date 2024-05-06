@@ -12,17 +12,6 @@ const initialState = {
   token: "",
 };
 
-export const registerUser = createAsyncThunk(
-  "auth/register",
-  async (registerData, thunkAPI) => {
-    try {
-      return await authService.register(registerData);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-);
-
 export const loginUser = createAsyncThunk(
   "auth/login",
   async (formData, thunkAPI) => {
@@ -34,16 +23,8 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-export const logoutUser = createAsyncThunk("auth/logout", async (thunkAPI) => {
-  try {
-    return await authService.logout();
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error);
-  }
-});
-
 //Reset State
-export const resetState = createAction("Reset_all");
+export const logoutUser = createAction("Reset_all");
 
 export const authSlice = createSlice({
   name: "auth",
@@ -51,49 +32,34 @@ export const authSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Register User
-      .addCase(registerUser.pending, (state) => {
-        state.isLoading = true;
-        state.user = [];
-      })
-      .addCase(registerUser.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isError = !action.payload.success;
-        state.isSuccess = action.payload.success;
-        state.message = action.payload.message;
-        state.statusCode = action.payload.status_code;
-      })
-      .addCase(registerUser.rejected, (state, action) => {
-        state.isError = true;
-        state.isLoading = false;
-        state.isSuccess = action.payload.message;
-      })
-
       //Login User
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true;
+        state.user = [];
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isError = !action.payload.success;
-        state.isSuccess = action.payload.success;
-        state.message = action.payload.message;
-        state.isAuthenticated = action.payload.success;
-        state.user = action.payload.data;
-        state.statusCode = action.payload.status_code;
+        state.isError = false;
+        state.isSuccess = true;
+        state.isAuthenticated = true;
+        state.user = action?.payload?.user;
+        state.token = action?.payload?.jwt;
       })
       .addCase(loginUser.rejected, (state) => {
         state.isError = true;
         state.isLoading = false;
         state.isSuccess = false;
+        state.user = [];
       })
 
       //Reset State
-      .addCase(resetState, (state) => {
-        state.message = "";
+      .addCase(logoutUser, (state) => {
         state.isSuccess = false;
         state.statusCode = 0;
         state.isError = false;
+        state.user = [];
+        state.token = "";
+        state.isAuthenticated = false;
       });
   },
 });

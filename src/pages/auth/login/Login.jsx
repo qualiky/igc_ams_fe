@@ -1,17 +1,25 @@
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useDispatch } from "react-redux";
-import { loginUser } from "../../features/reducer/auth/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../../../features/reducer/auth/authSlice";
+import LoginSidebar from "./LoginSidebar";
+import { getLoginData } from "../../../selectors/selectors";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const schema = yup.object().shape({
-  email: yup.string().email().required("Email is Required"),
+  identifier: yup.string().email().required("Email is Required"),
   password: yup.string().required("Password is required"),
-  identifier: yup.boolean(),
 });
 
 const Login = () => {
   const dispatch = useDispatch();
+
+  const { token, isAuthenticated, user } = useSelector(getLoginData);
+
+  const navigate = useNavigate();
+
   const {
     control,
     handleSubmit,
@@ -23,6 +31,12 @@ const Login = () => {
   const onSubmit = (data) => {
     dispatch(loginUser(data));
   };
+
+  useEffect(() => {
+    if (token !== "" && isAuthenticated && !!user) {
+      navigate("/");
+    }
+  }, [token, isAuthenticated, user, navigate]);
 
   return (
     <>
@@ -39,7 +53,7 @@ const Login = () => {
               <div className="mb-6">
                 <label className="mb-1 text-dark">Email</label>
                 <Controller
-                  name="email"
+                  name="identifier"
                   control={control}
                   defaultValue=""
                   render={({ field }) => (
@@ -51,8 +65,8 @@ const Login = () => {
                     />
                   )}
                 />
-                {errors.email && (
-                  <p className="text-red-500">{errors.email.message}</p>
+                {errors.identifier && (
+                  <p className="text-red-500">{errors.identifier.message}</p>
                 )}
               </div>
               <div className="mb-6 relative">
@@ -77,19 +91,19 @@ const Login = () => {
               <div className="form-row flex justify-between mt-6 mb-2">
                 <div className="mb-6">
                   <label className="leading-normal block min-h-[1.3125rem] pl-[1.5em] custom-checkbox mb-4 whitespace-nowrap">
-                    <Controller
+                    {/* <Controller
                       name="identifier"
                       control={control}
                       defaultValue={false}
-                      render={({ field }) => (
-                        <input
-                          {...field}
-                          type="checkbox"
-                          className="form-check-input ml-[-1.5em]"
-                          id="customCheckBox1"
-                        />
-                      )}
+                      render={({ field }) => ( */}
+                    <input
+                      // {...field}
+                      type="checkbox"
+                      className="form-check-input ml-[-1.5em]"
+                      id="customCheckBox1"
                     />
+                    {/* )}
+                    /> */}
 
                     <span className="mt-[5px] text-body-color ml-[0.3125rem]">
                       Remember my preference
@@ -116,38 +130,7 @@ const Login = () => {
             </form>
           </div>
         </div>
-        <div className="lg:w-1/2 w-full">
-          <div className="pages-left h-full bg-white dark:bg-[#242424]">
-            <div className="login-content text-center lg:pt-[70px] lg:pl-[70px] sm:pt-10 sm:pl-[51px] pt-[14px] pl-[14px]">
-              <a href="index-2.html">
-                <img
-                  src="/assets/images/logo-full.png"
-                  className="mb-4 inline-block dark:hidden logo-dark"
-                  alt=""
-                />
-              </a>
-              <a href="index-2.html">
-                <img
-                  src="/assets/images/logi-white.png"
-                  className="mb-4 hidden dark:inline-block logo-light"
-                  alt=""
-                />
-              </a>
-
-              <p className="mb-4 xl:text-xl sm:text-base text-sm xl:leading-[1.5] text-black mx-auto max-w-[500px] dark:text-white">
-                CRM dashboard uses line charts to visualize customer-related
-                metrics and trends over time.
-              </p>
-            </div>
-            <div className="login-media text-center sm:mt-20 mt-5">
-              <img
-                src="/assets/images/login.png"
-                alt=""
-                className="max-lg:w-[60%] w-[70%] inline-block"
-              />
-            </div>
-          </div>
-        </div>
+        <LoginSidebar />
       </div>
     </>
   );

@@ -1,42 +1,30 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Icon } from "@iconify/react";
+import { useEffect, useState } from "react";
 
 const Sidebar = () => {
+  const [activeMenu, setActiveMenu] = useState("");
+  let location = useLocation();
+
+  useEffect(() => {
+    const parts = location.pathname.split("/");
+    setActiveMenu(parts[1] || "");
+  }, [location]);
+
   return (
     <>
       <div className="deznav">
         <div className="deznav-scroll">
           <ul className="metismenu" id="menu">
             <li className="menu-title">YOUR COMPANY</li>
-            {/* {SideNavItems.map((item, index) => {
-              return (
-                <li key={index}>
-                  <Link
-                    to={item.route}
-                    className={`${item.sub_menu ? "has-arrow" : ""}`}
-                  >
-                    <div className="menu-icon">
-                      <Icon
-                        icon="lets-icons:home-light"
-                        className="text-[#888888] text-2xl font-regular"
-                      />
-                    </div>
-                    <span className="nav-text">{item?.title}</span>
-                  </Link>
-                  {item.sub_menu && (
-                    <ul className="sub-menu">
-                      {item.sub_menu.map((subMenu, subIndex) => (
-                        <li key={subIndex}>
-                          <a href="index-2.html">{subMenu.title}</a>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
-              );
-            })} */}
 
-            <li>
+            <li
+              className={`${
+                activeMenu !== "employee" && activeMenu === ""
+                  ? "mm-active"
+                  : ""
+              } cursor-pointer`}
+            >
               <Link to="/">
                 <div className="menu-icon">
                   <Icon
@@ -44,19 +32,35 @@ const Sidebar = () => {
                     className="text-[#888888] text-2xl font-regular"
                   />
                 </div>
-                <span className="nav-text">Dashboard</span>
+                <span className="nav-text">Home</span>
               </Link>
             </li>
-            <li>
-              <Link to="/employee">
+
+            <li
+              className={`${
+                activeMenu === "employee" ? "mm-active" : ""
+              } cursor-pointer`}
+            >
+              <a
+                onClick={() => setActiveMenu("employee")}
+                className="has-arrow "
+              >
                 <div className="menu-icon">
                   <Icon
-                    icon="lets-icons:home-light"
+                    icon="ph:users-light"
                     className="text-[#888888] text-2xl font-regular"
                   />
                 </div>
-                <span className="nav-text">Employees</span>
-              </Link>
+                <span className="nav-text">Employee</span>
+              </a>
+              <ul className="sub-menu">
+                <li>
+                  <Link to="/employee"> Employee List</Link>
+                </li>
+                <li>
+                  <Link to="/employee/add-employee">Add Employee</Link>
+                </li>
+              </ul>
             </li>
             <li>
               <a href="finance.html">
