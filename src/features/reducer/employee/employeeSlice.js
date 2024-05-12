@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import { employeeService } from "../../api-service/employee-action/employeeAction";
 
 const initialState = {
-  employee: [],
+  employeeData: [],
   employeeDetail: {},
   isError: false,
   isSuccess: false,
@@ -12,7 +12,7 @@ const initialState = {
   token: "",
 };
 
-export const getEmployees = createAsyncThunk(
+export const getAllEmployees = createAsyncThunk(
   "get_all_employee",
   async (thunkAPI) => {
     try {
@@ -23,11 +23,22 @@ export const getEmployees = createAsyncThunk(
   }
 );
 
-export const getEmployee = createAsyncThunk(
+export const getSingleEmployee = createAsyncThunk(
   "get_single_employee",
-  async (thunkAPI) => {
+  async (id, thunkAPI) => {
     try {
-      return await employeeService.getAllEmployee();
+      return await employeeService.getSingleEmployee(id);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const addEmployee = createAsyncThunk(
+  "add_employee",
+  async (data, thunkAPI) => {
+    try {
+      return await employeeService.addEmployee({ data });
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -35,7 +46,7 @@ export const getEmployee = createAsyncThunk(
 );
 
 //Reset State
-export const resetState = createAction("Reset_all");
+export const resetState = createAction("Reset_all_employee_state");
 
 export const employeeSlice = createSlice({
   name: "employee",
@@ -43,33 +54,50 @@ export const employeeSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getEmployees.pending, (state) => {
+      .addCase(getAllEmployees.pending, (state) => {
         state.isLoading = true;
-        state.user = [];
+        state.employeeData = [];
       })
-      .addCase(getEmployees.fulfilled, (state, action) => {
+      .addCase(getAllEmployees.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
-        state.employee = action?.payload?.data;
+        state.employeeData = action?.payload?.data;
         state.isSuccess = true;
       })
-      .addCase(getEmployees.rejected, (state) => {
+      .addCase(getAllEmployees.rejected, (state) => {
         state.isError = true;
         state.isLoading = false;
         state.isSuccess = false;
+        state.employeeData = [];
       })
 
-      .addCase(getEmployee.pending, (state) => {
+      .addCase(getSingleEmployee.pending, (state) => {
         state.isLoading = true;
         state.employeeDetail = {};
       })
-      .addCase(getEmployee.fulfilled, (state, action) => {
+      .addCase(getSingleEmployee.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
         state.employeeDetail = action?.payload?.data;
       })
-      .addCase(getEmployee.rejected, (state) => {
+      .addCase(getSingleEmployee.rejected, (state) => {
+        state.isError = true;
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.employeeDetail = {};
+      })
+
+      .addCase(addEmployee.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(addEmployee.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        console.log(action?.payload?.data);
+      })
+      .addCase(addEmployee.rejected, (state) => {
         state.isError = true;
         state.isLoading = false;
         state.isSuccess = false;
@@ -85,4 +113,6 @@ export const employeeSlice = createSlice({
   },
 });
 
-export default employeeSlice.reducer;
+const employeeReducer = employeeSlice.reducer;
+
+export default employeeReducer;

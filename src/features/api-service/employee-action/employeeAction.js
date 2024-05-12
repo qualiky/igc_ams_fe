@@ -6,22 +6,40 @@ import { getConfigWithToken } from "../../../utils/config";
 // Get All Employee
 const getAllEmployee = async () => {
   const config = await getConfigWithToken();
-  console.log(config || "not config");
   try {
-    const response = await axios.get(`${base_url}employees`);
+    const response = await axios.get(`${base_url}employees?populate=*`, config);
     return response.data;
   } catch (error) {
-    console.error("Error during register:", error);
+    console.error("Error during get emplyee:", error);
     throw error;
   }
 };
 
-//   Get
+//   Get single employee
 const getSingleEmployee = async (id) => {
   try {
-    const response = await axios.post(`${base_url}employees/${id}`);
+    const config = await getConfigWithToken();
+
+    const response = await axios.get(
+      `${base_url}employees/${id}?populate=*`,
+      config
+    );
+
+    return response.data;
+  } catch (error) {
+    toast.error(error?.response?.data?.error?.message);
+    throw error;
+  }
+};
+
+// Post Employee
+const addEmployee = async ({ data }) => {
+  try {
+    const config = await getConfigWithToken();
+    console.log(data);
+    const response = await axios.post(`${base_url}employees`, data, config);
     if (response.status === 200) {
-      toast.success(response?.message || "");
+      toast.success(response?.message || "Employee Added Successfully");
     } else {
       toast.error(response?.error?.message);
     }
@@ -35,4 +53,5 @@ const getSingleEmployee = async (id) => {
 export const employeeService = {
   getAllEmployee,
   getSingleEmployee,
+  addEmployee,
 };

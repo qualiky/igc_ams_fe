@@ -576,8 +576,8 @@ const Header = () => {
                           </div>
                         </div>
                         <div className="card-body sm:py-2 border-b border-[#E6E6E6] dark:border-[#444444]">
-                          <a
-                            href="app-profile.html"
+                          <Link
+                            to="/user-profile"
                             className="dropdown-item py-[0.6rem] px-[1.25rem] block w-full ai-icon hover:bg-primary-light group"
                           >
                             <svg
@@ -611,7 +611,7 @@ const Header = () => {
                             <span className="ml-2 text-[13px] text-body-color group-hover:text-primary">
                               Profile{" "}
                             </span>
-                          </a>
+                          </Link>
                           <a
                             href="app-profile.html"
                             className="dropdown-item py-[0.6rem] px-[1.25rem] block w-full ai-icon hover:bg-primary-light group"

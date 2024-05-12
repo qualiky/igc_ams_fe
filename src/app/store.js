@@ -1,25 +1,32 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
-import { persistReducer, persistStore } from "redux-persist";
-import authReducer from "../features/reducer/auth/authSlice";
-// import employeeReducer from "../features/reducer/employee/employeeSlice";
+import {
+  persistStore,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
+import { rootReducer } from "../features/reducer";
+import persistReducer from "redux-persist/es/persistReducer";
 
-const authPersistConfig = {
+const persistConfig = {
   key: "root",
   storage,
+  whiteList: ["auth"],
 };
 
-const rootReducer = combineReducers({
-  auth: persistReducer(authPersistConfig, authReducer),
-  // employee: employeeReducer,
-});
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-  reducer: rootReducer,
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      immutableCheck: false,
-      serializableCheck: false,
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
     }),
   // eslint-disable-next-line no-undef
   devTools: process.env.NODE_ENV !== "production",

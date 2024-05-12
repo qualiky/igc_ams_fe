@@ -1,22 +1,16 @@
 import { Link } from "react-router-dom";
-import EmployeeDataTable from "./data-table";
-import { useDispatch, useSelector } from "react-redux";
+import EmployeeDataTable from "../_components/employee-data-table";
+import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-// import { getEmployees } from "../../../features/reducer/employee/employeeSlice";
-// import { getAllEmployee } from "../../../selectors/selectors";
+import { getAllEmployees } from "../../../features/reducer/employee/employeeSlice";
 
 const EmployeeList = () => {
   const dispatch = useDispatch();
 
-  // const { employee } = useSelector(getAllEmployee);
+  useEffect(() => {
+    dispatch(getAllEmployees());
+  }, [dispatch]);
 
-  // useEffect(() => {
-  //   dispatch(getEmployees());
-  // }, [dispatch]);
-
-  // useEffect(() => {
-  //   console.log(employee || "");
-  // }, [employee]);
   return (
     <>
       <div className="container-fluid">

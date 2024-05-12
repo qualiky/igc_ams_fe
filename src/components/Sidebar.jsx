@@ -36,7 +36,7 @@ const Sidebar = () => {
               </Link>
             </li>
 
-            <li
+            {/* <li
               className={`${
                 activeMenu === "employee" ? "mm-active" : ""
               } cursor-pointer`}
@@ -56,6 +56,25 @@ const Sidebar = () => {
               <ul className="sub-menu">
                 <li>
                   <Link to="/employee"> Employee List</Link>
+                </li>
+                <li>
+                  <Link to="/employee/add-employee">Add Employee</Link>
+                </li>
+              </ul>
+            </li> */}
+            <li>
+              <a className="has-arrow ">
+                <div className="menu-icon">
+                  <Icon
+                    icon="lets-icons:home-light"
+                    className="text-[#888888] text-2xl font-regular"
+                  />
+                </div>
+                <span className="nav-text">Employee</span>
+              </a>
+              <ul className="sub-menu">
+                <li>
+                  <Link to="/employee">List</Link>
                 </li>
                 <li>
                   <Link to="/employee/add-employee">Add Employee</Link>

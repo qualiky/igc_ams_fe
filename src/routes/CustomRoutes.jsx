@@ -9,6 +9,9 @@ import Error403 from "../pages/error/Error403";
 import AddEmployee from "../pages/Employees/_sections/add-employee";
 import EmployeeList from "../pages/Employees/_sections/Employee";
 import Employee from "../pages/Employees";
+import UserProfile from "../pages/profile/user-profile";
+import EmployeeDetail from "../pages/Employees/_sections/employee-detail";
+import AddEmployeeBankDetails from "../pages/Employees/_sections/add-bank-details";
 
 const CustomRoutes = () => {
   return (
@@ -20,7 +23,13 @@ const CustomRoutes = () => {
           <Route path="employee" element={<Employee />}>
             <Route index element={<EmployeeList />} />
             <Route path="add-employee" element={<AddEmployee />} />
+            <Route
+              path="add-bank-details"
+              element={<AddEmployeeBankDetails />}
+            />
+            <Route path="details/:id" element={<EmployeeDetail />} />
           </Route>
+          <Route path="user-profile" element={<UserProfile />} />
         </Route>
 
         {/* Auth Routes */}

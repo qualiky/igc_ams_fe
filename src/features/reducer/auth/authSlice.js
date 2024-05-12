@@ -44,6 +44,11 @@ export const authSlice = createSlice({
         state.isAuthenticated = true;
         state.user = action?.payload?.user;
         state.token = action?.payload?.jwt;
+        try {
+          localStorage.setItem("user-token", action.payload.jwt);
+        } catch (error) {
+          console.error("Error storing token in local storage:", error);
+        }
       })
       .addCase(loginUser.rejected, (state) => {
         state.isError = true;
@@ -64,4 +69,6 @@ export const authSlice = createSlice({
   },
 });
 
-export default authSlice.reducer;
+const authReducer = authSlice.reducer;
+
+export default authReducer;
