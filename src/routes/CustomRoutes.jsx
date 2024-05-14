@@ -12,6 +12,7 @@ import Employee from "../pages/Employees";
 import UserProfile from "../pages/profile/user-profile";
 import EmployeeDetail from "../pages/Employees/_sections/employee-detail";
 import AddEmployeeBankDetails from "../pages/Employees/_sections/add-bank-details";
+import AddEducation from "../pages/Employees/_sections/add-education";
 
 const CustomRoutes = () => {
   return (
@@ -23,11 +24,19 @@ const CustomRoutes = () => {
           <Route path="employee" element={<Employee />}>
             <Route index element={<EmployeeList />} />
             <Route path="add-employee" element={<AddEmployee />} />
+            <Route path="details/:id" element={<EmployeeDetail />} />
+
             <Route
               path="add-bank-details"
               element={<AddEmployeeBankDetails />}
             />
-            <Route path="details/:id" element={<EmployeeDetail />} />
+
+            <Route
+              path="edit-bank-details/:id"
+              element={<AddEmployeeBankDetails />}
+            />
+
+            <Route path="add-education" element={<AddEducation />} />
           </Route>
           <Route path="user-profile" element={<UserProfile />} />
         </Route>

@@ -86,11 +86,7 @@ const EmployeeDataTable = () => {
       sortable: true,
       width: "200px",
     },
-    {
-      name: "Status",
-      selector: (row) => row.status,
-      sortable: true,
-    },
+
     {
       name: "Actions",
       cell: (row) => (

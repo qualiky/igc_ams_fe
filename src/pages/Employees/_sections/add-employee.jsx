@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import CustomInputs from "../../../components/inputs/custom-inputs";
 import CustomSelect from "../../../components/inputs/custom-select";
 import { addEmployee } from "../../../features/reducer/employee/employeeSlice";
+import { useNavigate } from "react-router-dom";
 
 const employeeSchema = yup.object().shape({
   firstName: yup.string().required("Firstname is Required"),
@@ -20,6 +21,8 @@ const employeeSchema = yup.object().shape({
 
 const AddEmployee = () => {
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const {
     control,
@@ -60,12 +63,14 @@ const AddEmployee = () => {
                 control={control}
                 name="firstName"
                 type="text"
+                label="First Name"
                 errors={errors}
               />
               <CustomInputs
                 control={control}
                 name="middleName"
                 type="text"
+                label="Middle Name"
                 errors={errors}
               />
 
@@ -73,18 +78,21 @@ const AddEmployee = () => {
                 control={control}
                 name="lastName"
                 type="text"
+                label="Last Name"
                 errors={errors}
               />
               <CustomInputs
                 control={control}
                 name="primaryEmail"
                 type="email"
+                label="Email"
                 errors={errors}
               />
               <CustomInputs
                 control={control}
                 name="userName"
                 type="text"
+                label="Username"
                 errors={errors}
               />
 
@@ -105,6 +113,7 @@ const AddEmployee = () => {
                 control={control}
                 name="dateOfBirth"
                 type="date"
+                label="Date of Birth"
                 errors={errors}
               />
 
@@ -134,7 +143,10 @@ const AddEmployee = () => {
                 errors={errors}
               />
               <div className="flex gap-3">
-                <button className="btn xl:py-[0.719rem] py-2.5 xl:px-[1.563rem] px-4 duration-300 xl:text-[15px] text-[13px] font-medium rounded text-danger bg-danger-light leading-5 inline-block border border-danger-light btn-danger light hover:text-white hover:bg-danger offcanvas-close">
+                <button
+                  onClick={() => navigate(-1)}
+                  className="btn xl:py-[0.719rem] py-2.5 xl:px-[1.563rem] px-4 duration-300 xl:text-[15px] text-[13px] font-medium rounded text-danger bg-danger-light leading-5 inline-block border border-danger-light btn-danger light hover:text-white hover:bg-danger offcanvas-close"
+                >
                   Cancel
                 </button>
                 <button

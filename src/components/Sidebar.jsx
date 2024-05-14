@@ -82,7 +82,7 @@ const Sidebar = () => {
               </ul>
             </li>
             <li>
-              <a href="finance.html">
+              <Link to="finance">
                 <div className="menu-icon">
                   <Icon
                     icon="lets-icons:home-light"
@@ -90,7 +90,7 @@ const Sidebar = () => {
                   />
                 </div>
                 <span className="nav-text">Finance</span>
-              </a>
+              </Link>
             </li>
             <li>
               <a className="has-arrow ">

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const LoginSidebar = () => {
   return (
@@ -6,20 +7,13 @@ const LoginSidebar = () => {
       <div className="lg:w-1/2 w-full">
         <div className="pages-left h-full bg-white dark:bg-[#242424]">
           <div className="login-content text-center lg:pt-[70px] lg:pl-[70px] sm:pt-10 sm:pl-[51px] pt-[14px] pl-[14px]">
-            <a href="index-2.html">
+            <Link className="">
               <img
-                src="/assets/images/logo-full.png"
-                className="mb-4 inline-block dark:hidden logo-dark"
+                src="/assets/logo/logo.svg"
+                className="mb-4 inline-block size-[70%] logo-dark"
                 alt=""
               />
-            </a>
-            <a href="index-2.html">
-              <img
-                src="/assets/images/logi-white.png"
-                className="mb-4 hidden dark:inline-block logo-light"
-                alt=""
-              />
-            </a>
+            </Link>
           </div>
           <div className="login-media text-center sm:mt-20 mt-5">
             <img

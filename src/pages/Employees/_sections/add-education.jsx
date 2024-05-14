@@ -11,20 +11,16 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { getBankDetail, getLoginData } from "../../../selectors/selectors";
-import CustomSelect from "../../../components/inputs/custom-select";
-import { bankList } from "../../../_mock/bank-list";
 
-const bankSchema = yup.object().shape({
-  bankAccountNumber: yup.string().required("Firstname is Required"),
-  bankAccountLabel: yup.string().required(),
-  bankAccountHolderName: yup.string().required(),
-  bankName: yup.string().required(),
-  branchName: yup.string().required(),
-  bankAccountType: yup.string().required(),
-  employee: yup.string(),
+const educationSchema = yup.object().shape({
+  programName: yup.string().required(),
+  facultyName: yup.string().required(),
+  level: yup.string().required(),
+  schoolUniName: yup.string().required(),
+  employee: yup.string().required(),
 });
 
-const AddEmployeeBankDetails = () => {
+const AddEducation = () => {
   const dispatch = useDispatch();
 
   const { id } = useParams();
@@ -44,32 +40,23 @@ const AddEmployeeBankDetails = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(bankSchema),
+    resolver: yupResolver(educationSchema),
     defaultValues: {
-      bankAccountNumber: singleBankDetail?.attributes?.bankAccountNumber || "",
-      bankAccountLabel: singleBankDetail?.attributes?.bankAccountLabel || "",
-      bankAccountHolderName:
-        singleBankDetail?.attributes?.bankAccountHolderName || "",
-      bankName: singleBankDetail?.attributes?.bankName || "",
-      branchName: singleBankDetail?.attributes?.branchName || "",
-      bankAccountType: "",
+      programName: singleBankDetail?.attributes?.bankAccountNumber || "",
+      facultyName: singleBankDetail?.attributes?.bankAccountLabel || "",
+      level: singleBankDetail?.attributes?.bankAccountHolderName || "",
+      schoolUniName: singleBankDetail?.attributes?.bankName || "",
       employee: "1",
     },
   });
 
   const onSubmit = (data) => {
     if (Object.keys(singleBankDetail).length !== 0) {
-      // If singleBankDetail exists and is not an empty object, dispatch updateBankDetails
       dispatch(updateBankDetails({ id: singleBankDetail.id, data }));
     } else {
-      // If singleBankDetail doesn't exist or is an empty object, dispatch addBankDetails
       dispatch(addBankDetails({ data }));
     }
   };
-
-  // const handleGoBack = () => {
-  //   navigate(-1)
-  // };
 
   return (
     <>
@@ -77,61 +64,34 @@ const AddEmployeeBankDetails = () => {
         <div className="container-fluid px-[15px] py-0">
           <div>
             <form onSubmit={handleSubmit(onSubmit)} className="row pt-5">
-              {/* <CustomFileUpload
-                name="profileImage"
-                control={control}
-                errors={errors}
-              /> */}
-
               <CustomInputs
                 control={control}
-                name="bankAccountNumber"
+                name="programName"
                 type="text"
-                label="Bank Account Number"
+                label="Program Name"
                 errors={errors}
               />
               <CustomInputs
                 control={control}
-                name="bankAccountLabel"
+                name="facultyName"
                 type="text"
-                label="Bank Account Label"
+                label="Faculty Name"
                 errors={errors}
               />
 
               <CustomInputs
                 control={control}
-                name="bankAccountHolderName"
+                name="level"
                 type="text"
-                label="Account Holder Name"
-                errors={errors}
-              />
-              <CustomSelect
-                label="Select Bank"
-                options={bankList.map((bank) => ({
-                  label: bank.label,
-                  value: bank.value,
-                }))}
-                name="bankName"
-                control={control}
+                label="Level"
                 errors={errors}
               />
 
               <CustomInputs
                 control={control}
-                name="branchName"
+                name="schoolUniName"
                 type="text"
-                label="Branch Name"
-                errors={errors}
-              />
-
-              <CustomSelect
-                label="Select Type"
-                options={[
-                  { label: "Primary", value: "Primary" },
-                  { label: "Secondary", value: "Secondary" },
-                ]}
-                name="bankAccountType"
-                control={control}
+                label="School Name"
                 errors={errors}
               />
 
@@ -157,4 +117,4 @@ const AddEmployeeBankDetails = () => {
   );
 };
 
-export default AddEmployeeBankDetails;
+export default AddEducation;

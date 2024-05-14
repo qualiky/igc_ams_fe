@@ -36,7 +36,6 @@ const getSingleEmployee = async (id) => {
 const addEmployee = async ({ data }) => {
   try {
     const config = await getConfigWithToken();
-    console.log(data);
     const response = await axios.post(`${base_url}employees`, data, config);
     if (response.status === 200) {
       toast.success(response?.message || "Employee Added Successfully");
