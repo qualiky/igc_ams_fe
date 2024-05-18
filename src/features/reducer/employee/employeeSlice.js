@@ -45,6 +45,17 @@ export const addEmployee = createAsyncThunk(
   }
 );
 
+export const updateEmployee = createAsyncThunk(
+  "update_employee",
+  async ({ id, data }, thunkAPI) => {
+    try {
+      return await employeeService.updateEmployee(id, data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 //Reset State
 export const resetState = createAction("Reset_all_employee_state");
 
@@ -97,6 +108,20 @@ export const employeeSlice = createSlice({
         state.isSuccess = true;
       })
       .addCase(addEmployee.rejected, (state) => {
+        state.isError = true;
+        state.isLoading = false;
+        state.isSuccess = false;
+      })
+
+      .addCase(updateEmployee.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateEmployee.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+      })
+      .addCase(updateEmployee.rejected, (state) => {
         state.isError = true;
         state.isLoading = false;
         state.isSuccess = false;

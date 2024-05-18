@@ -36,7 +36,7 @@ const getSingleBankDetails = async (id) => {
 // Update Bank Detail
 const updateBankDetails = async (id, data) => {
   const config = await getConfigWithToken();
-  console.log(id, data);
+
   try {
     const response = await axios.put(
       `${base_url}bank-details/${id}`,

@@ -8,7 +8,7 @@ const getAllEducation = async () => {
   const config = await getConfigWithToken();
   try {
     const response = await axios.get(
-      `${base_url}educations?populate=*`,
+      `${base_url}educational-qualifications?populate=*`,
       config
     );
     return response.data;
@@ -23,7 +23,7 @@ const getSingleEducation = async (id) => {
   const config = await getConfigWithToken();
   try {
     const response = await axios.get(
-      `${base_url}educations/${id}?populate=*`,
+      `${base_url}educational-qualifications/${id}?populate=*`,
       config
     );
     return response.data;
@@ -36,10 +36,10 @@ const getSingleEducation = async (id) => {
 // Update Bank Detail
 const updateEducation = async (id, data) => {
   const config = await getConfigWithToken();
-  console.log(id, data);
+
   try {
     const response = await axios.put(
-      `${base_url}educations/${id}`,
+      `${base_url}educational-qualifications/${id}`,
       { data },
       config
     );
@@ -60,7 +60,7 @@ const deleteEducation = async (id) => {
   const config = await getConfigWithToken();
   try {
     const response = await axios.delete(
-      `${base_url}bank-details/${id}`,
+      `${base_url}educational-qualifications/${id}`,
       config
     );
     return response.data;

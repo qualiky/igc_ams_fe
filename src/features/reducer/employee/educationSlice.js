@@ -96,7 +96,7 @@ export const educationSlice = createSlice({
         state.allEducation = [];
       })
 
-      // -----------------Single Bank----------------
+      // -----------------Single Education----------------
 
       .addCase(getSingleEducation.pending, (state) => {
         state.isLoading = true;
@@ -115,7 +115,7 @@ export const educationSlice = createSlice({
         state.singleEducation = {};
       })
 
-      // -----------------Delete Bank----------------
+      // -----------------Delete Education----------------
       .addCase(deleteEducation.pending, (state) => {
         state.isLoading = true;
       })
@@ -134,7 +134,7 @@ export const educationSlice = createSlice({
         state.isSuccess = false;
       })
 
-      // -----------------Update Bank----------------
+      // -----------------Update Education----------------
       .addCase(updateEducation.pending, (state) => {
         state.isLoading = true;
       })
@@ -150,7 +150,7 @@ export const educationSlice = createSlice({
         state.isSuccess = false;
       })
 
-      // -----------------Add Bank----------------
+      // -----------------Add Education----------------
 
       .addCase(addEducation.pending, (state) => {
         state.isLoading = true;

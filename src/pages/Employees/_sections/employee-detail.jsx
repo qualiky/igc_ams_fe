@@ -17,7 +17,6 @@ const EmployeeDetail = () => {
 
   useEffect(() => {
     dispatch(getSingleEmployee(id));
-    // dispatch(getBankDetails());
   }, [dispatch, id]);
 
   const handleDeleteBankDetail = (id) => {
@@ -78,7 +77,10 @@ const EmployeeDetail = () => {
                 <h1 className="text-3xl font-[500]  mb-3 ">
                   Personal Information
                 </h1>
-                <Link className="btn btn-primary py-[5px] cursor-pointer px-5 text-[13px] rounded text-white bg-primary leading-5 inline-block border border-primary font-medium">
+                <Link
+                  to={`/employee/edit-employee/${employeeDetail?.id}`}
+                  className="btn btn-primary py-[5px] cursor-pointer px-5 text-[13px] rounded text-white bg-primary leading-5 inline-block border border-primary font-medium"
+                >
                   Edit
                 </Link>
               </div>
@@ -125,16 +127,10 @@ const EmployeeDetail = () => {
                   <dl className="text-gray-900 divide-y divide-gray-200 dark:text-white dark:divide-gray-700">
                     <div className="flex flex-col pb-3">
                       <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
-                        Location
+                        Username
                       </dt>
                       <dd className="text-lg font-semibold">
-                        {employeeDetail?.attributes?.perma_address_detail?.data
-                          ?.attributes?.city || "-"}
-                        ,{" "}
-                        {
-                          employeeDetail?.attributes?.perma_address_detail?.data
-                            ?.attributes?.province
-                        }
+                        {employeeDetail?.attributes?.userName || "-"}
                       </dd>
                     </div>
                     <div className="flex flex-col py-3">
@@ -169,57 +165,59 @@ const EmployeeDetail = () => {
                 </Link>
               </div>
 
-              {employeeDetail?.attributes?.bankDetails?.length > 0 ? (
-                employeeDetail?.attributes?.bankDetails.map((item, index) => (
-                  <div
-                    key={index}
-                    className="p-6 my-1 rounded-lg custom-box-shadow"
-                  >
-                    <div className="flex justify-between">
-                      <h2 className="mb-2 font-bold text-2xl text-gray-600 tracking-wider">
-                        {item?.attributes?.bankName}
-                      </h2>
-                      <div className="flex gap-2 sm:gap-4">
-                        <Link
-                          to={`/employee/edit-bank-details/${item?.id}`}
-                          className="text-blue-500"
-                        >
-                          Edit
-                        </Link>
-                        <Link
-                          onClick={() => handleDeleteBankDetail(item?.id)}
-                          className="text-red-500"
-                        >
-                          Delete
-                        </Link>
+              {employeeDetail?.attributes?.bankDetails?.data?.length > 0 ? (
+                employeeDetail?.attributes?.bankDetails?.data?.map(
+                  (item, index) => (
+                    <div
+                      key={index}
+                      className="p-6 my-1 rounded-lg custom-box-shadow"
+                    >
+                      <div className="flex justify-between">
+                        <h2 className="mb-2 font-bold text-2xl text-gray-600 tracking-wider">
+                          {item?.attributes?.bankName}
+                        </h2>
+                        <div className="flex gap-2 sm:gap-4">
+                          <Link
+                            to={`/employee/edit-bank-details/${item?.id}`}
+                            className="text-blue-500"
+                          >
+                            Edit
+                          </Link>
+                          <Link
+                            onClick={() => handleDeleteBankDetail(item?.id)}
+                            className="text-red-500"
+                          >
+                            Delete
+                          </Link>
+                        </div>
                       </div>
+                      <p className="text-gray-500 tracking-widest">
+                        <span className="font-bold tracking-wide">
+                          Account holder :{" "}
+                        </span>{" "}
+                        {item?.attributes?.bankAccountHolderName}
+                      </p>
+                      <p className="text-gray-500 tracking-widest">
+                        <span className="font-bold tracking-wide">
+                          Account number :{" "}
+                        </span>{" "}
+                        {item?.attributes?.bankAccountNumber}
+                      </p>
+                      <p className="text-gray-500 tracking-widest">
+                        <span className="font-bold tracking-wide">
+                          Branch name :{" "}
+                        </span>{" "}
+                        {item?.attributes?.branchName}
+                      </p>
                     </div>
-                    <p className="text-gray-500 tracking-widest">
-                      <span className="font-bold tracking-wide">
-                        Account holder :{" "}
-                      </span>{" "}
-                      {item?.attributes?.bankAccountHolderName}
-                    </p>
-                    <p className="text-gray-500 tracking-widest">
-                      <span className="font-bold tracking-wide">
-                        Account number :{" "}
-                      </span>{" "}
-                      {item?.attributes?.bankAccountNumber}
-                    </p>
-                    <p className="text-gray-500 tracking-widest">
-                      <span className="font-bold tracking-wide">
-                        Branch name :{" "}
-                      </span>{" "}
-                      {item?.attributes?.branchName}
-                    </p>
-                  </div>
-                ))
+                  )
+                )
               ) : (
                 <p>No data</p>
               )}
 
               {/* Education Detail */}
-              <div className="flex flex-row items-center justify-between mt-10 ">
+              <div className="flex flex-row items-center justify-between mt-10 mb-5">
                 <h1 className="text-3xl font-[500]  mb-3 ">Education</h1>
                 <Link
                   to="/employee/add-education"
@@ -228,25 +226,49 @@ const EmployeeDetail = () => {
                   Add
                 </Link>
               </div>
-              <div className="flex gap-4 border-slate-300 rounded-2xl border-s-8 p-6 custom-box-shadow-low">
-                <div className="flex-none mr-4 h-full ">
-                  <Icon
-                    icon="ion:school-outline"
-                    className="text-[#888888] text-6xl font-regular"
-                  />
-                </div>
-                <div className="flex-grow flex justify-between">
-                  <div className="mb-2">
-                    <h2 className="text-lg font-semibold">Education Title</h2>
-                    <p className="text-sm text-gray-500">This is subtitle</p>
-                    <p className="text-sm text-gray-500">2021-01-02</p>
-                  </div>
-                  <div className=" flex gap-4">
-                    <Link className="text-blue-500">Edit</Link>
-                    <Link className="text-red-500">Delete</Link>
-                  </div>
-                </div>
-              </div>
+              {employeeDetail?.attributes?.educationalQualifications?.data
+                .length > 0 &&
+                employeeDetail?.attributes?.educationalQualifications?.data.map(
+                  (item, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className="flex mb-5 gap-4 border-slate-300 rounded-2xl border-s-8 p-6 custom-box-shadow-low"
+                      >
+                        <div className="flex-none mr-4 h-full ">
+                          <Icon
+                            icon="ion:school-outline"
+                            className="text-[#888888] text-6xl font-regular"
+                          />
+                        </div>
+                        <div className="flex-grow flex justify-between">
+                          <div className="mb-2">
+                            <h2 className="text-2xl font-semibold">
+                              {item?.attributes?.programName}
+                            </h2>
+                            <p className="text-lg text-[#000000]">
+                              {item?.attributes?.schoolUniName} (
+                              {item?.attributes?.facultyName})
+                            </p>
+                            <p className="text-sm text-gray-500">
+                              ({item?.attributes?.startYear} to{" "}
+                              {item?.attributes?.endYear})
+                            </p>
+                          </div>
+                          <div className="flex gap-4">
+                            <Link
+                              to={`/employee/edit-education/${item?.id}`}
+                              className="text-blue-500"
+                            >
+                              Edit
+                            </Link>
+                            <Link className="text-red-500">Delete</Link>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  }
+                )}
             </div>
 
             {/* <!-- Social Links --> */}

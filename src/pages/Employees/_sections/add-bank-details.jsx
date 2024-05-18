@@ -5,17 +5,17 @@ import { useForm } from "react-hook-form";
 import CustomInputs from "../../../components/inputs/custom-inputs";
 import {
   addBankDetails,
-  getSingleBankDetails,
   updateBankDetails,
 } from "../../../features/reducer/employee/bankSlice";
-import { useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { getBankDetail, getLoginData } from "../../../selectors/selectors";
 import CustomSelect from "../../../components/inputs/custom-select";
 import { bankList } from "../../../_mock/bank-list";
+import PropTypes from "prop-types";
+import { useEffect } from "react";
 
 const bankSchema = yup.object().shape({
-  bankAccountNumber: yup.string().required("Firstname is Required"),
+  bankAccountNumber: yup.string().required(),
   bankAccountLabel: yup.string().required(),
   bankAccountHolderName: yup.string().required(),
   bankName: yup.string().required(),
@@ -24,52 +24,54 @@ const bankSchema = yup.object().shape({
   employee: yup.string(),
 });
 
-const AddEmployeeBankDetails = () => {
+const AddEmployeeBankDetails = ({ currentBankAccount }) => {
   const dispatch = useDispatch();
-
-  const { id } = useParams();
 
   const navigate = useNavigate();
 
-  const { singleBankDetail } = useSelector(getBankDetail);
-
   const { user } = useSelector(getLoginData);
-
-  useEffect(() => {
-    dispatch(getSingleBankDetails(id));
-  }, [dispatch, id]);
 
   const {
     control,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(bankSchema),
     defaultValues: {
-      bankAccountNumber: singleBankDetail?.attributes?.bankAccountNumber || "",
-      bankAccountLabel: singleBankDetail?.attributes?.bankAccountLabel || "",
-      bankAccountHolderName:
-        singleBankDetail?.attributes?.bankAccountHolderName || "",
-      bankName: singleBankDetail?.attributes?.bankName || "",
-      branchName: singleBankDetail?.attributes?.branchName || "",
+      bankAccountNumber: "",
+      bankAccountLabel: "",
+      bankAccountHolderName: "",
+      bankName: "",
+      branchName: "",
       bankAccountType: "",
-      employee: "1",
+      employee: "",
     },
   });
 
+  useEffect(() => {
+    if (currentBankAccount) {
+      reset({
+        bankAccountNumber:
+          currentBankAccount.attributes?.bankAccountNumber || "",
+        bankAccountLabel: currentBankAccount.attributes?.bankAccountLabel || "",
+        bankAccountHolderName:
+          currentBankAccount.attributes?.bankAccountHolderName || "",
+        bankName: currentBankAccount.attributes?.bankName || "",
+        branchName: currentBankAccount.attributes?.branchName || "",
+        bankAccountType: currentBankAccount.attributes?.bankAccountType || "",
+        employee: "1",
+      });
+    }
+  }, [currentBankAccount, reset]);
+
   const onSubmit = (data) => {
-    if (Object.keys(singleBankDetail).length !== 0) {
-      // If singleBankDetail exists and is not an empty object, dispatch updateBankDetails
-      dispatch(updateBankDetails({ id: singleBankDetail.id, data }));
+    if (!!currentBankAccount) {
+      dispatch(updateBankDetails({ id: currentBankAccount?.id, data }));
     } else {
-      // If singleBankDetail doesn't exist or is an empty object, dispatch addBankDetails
       dispatch(addBankDetails({ data }));
     }
   };
-
-  // const handleGoBack = () => {
-  //   navigate(-1)
-  // };
 
   return (
     <>
@@ -136,12 +138,12 @@ const AddEmployeeBankDetails = () => {
               />
 
               <div className="flex gap-3">
-                <button
+                <Link
                   onClick={() => navigate(-1)}
                   className="btn xl:py-[0.719rem] py-2.5 xl:px-[1.563rem] px-4 duration-300 xl:text-[15px] text-[13px] font-medium rounded text-danger bg-danger-light leading-5 inline-block border border-danger-light btn-danger light hover:text-white hover:bg-danger offcanvas-close"
                 >
                   Cancel
-                </button>
+                </Link>
                 <button
                   type="submit"
                   className="btn btn-primary xl:py-[0.719rem] py-2.5 xl:px-[1.563rem] px-4 duration-300 xl:text-[15px] text-[13px] font-medium rounded text-white bg-primary leading-5 inline-block border border-primary hover:bg-hover-primary offcanvas-close"
@@ -155,6 +157,10 @@ const AddEmployeeBankDetails = () => {
       </div>
     </>
   );
+};
+
+AddEmployeeBankDetails.proptypes = {
+  currentBankAccount: PropTypes.object,
 };
 
 export default AddEmployeeBankDetails;

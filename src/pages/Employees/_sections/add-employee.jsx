@@ -1,14 +1,19 @@
 import * as yup from "yup";
 import { useDispatch } from "react-redux";
+import PropTypes from "prop-types";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import CustomInputs from "../../../components/inputs/custom-inputs";
 import CustomSelect from "../../../components/inputs/custom-select";
-import { addEmployee } from "../../../features/reducer/employee/employeeSlice";
-import { useNavigate } from "react-router-dom";
+import {
+  addEmployee,
+  updateEmployee,
+} from "../../../features/reducer/employee/employeeSlice";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const employeeSchema = yup.object().shape({
-  firstName: yup.string().required("Firstname is Required"),
+  firstName: yup.string().required(),
   lastName: yup.string().required(),
   userName: yup.string().required(),
   gender: yup.string().required(),
@@ -19,13 +24,15 @@ const employeeSchema = yup.object().shape({
   middleName: yup.string(),
 });
 
-const AddEmployee = () => {
+const AddEmployee = ({ currentUser }) => {
+  console.log(currentUser);
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
   const {
     control,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm({
@@ -43,8 +50,27 @@ const AddEmployee = () => {
     },
   });
 
+  useEffect(() => {
+    if (currentUser) {
+      reset({
+        firstName: currentUser?.attributes?.firstName || "",
+        lastName: currentUser?.attributes?.lastName || "",
+        userName: currentUser?.attributes?.userName || "",
+        gender: currentUser?.attributes?.gender || "",
+        dateOfBirth: currentUser?.attributes?.dateOfBirth || "",
+        bloodGroup: currentUser?.attributes?.bloodGroup || "",
+        maritalStatus: currentUser?.attributes?.maritalStatus || "",
+        primaryEmail: currentUser?.attributes?.primaryEmail || "",
+      });
+    }
+  }, [currentUser, reset]);
+
   const onSubmit = (data) => {
-    dispatch(addEmployee({ data: data }));
+    if (Object.keys(currentUser).length !== 0) {
+      dispatch(updateEmployee({ id: currentUser.id, data }));
+    } else {
+      dispatch(addEmployee({ data: data }));
+    }
   };
 
   return (
@@ -143,12 +169,12 @@ const AddEmployee = () => {
                 errors={errors}
               />
               <div className="flex gap-3">
-                <button
+                <Link
                   onClick={() => navigate(-1)}
                   className="btn xl:py-[0.719rem] py-2.5 xl:px-[1.563rem] px-4 duration-300 xl:text-[15px] text-[13px] font-medium rounded text-danger bg-danger-light leading-5 inline-block border border-danger-light btn-danger light hover:text-white hover:bg-danger offcanvas-close"
                 >
                   Cancel
-                </button>
+                </Link>
                 <button
                   type="submit"
                   className="btn btn-primary xl:py-[0.719rem] py-2.5 xl:px-[1.563rem] px-4 duration-300 xl:text-[15px] text-[13px] font-medium rounded text-white bg-primary leading-5 inline-block border border-primary hover:bg-hover-primary offcanvas-close"
@@ -165,3 +191,7 @@ const AddEmployee = () => {
 };
 
 export default AddEmployee;
+
+AddEmployee.prototypes = {
+  currentUser: PropTypes.object,
+};

@@ -13,38 +13,62 @@ import UserProfile from "../pages/profile/user-profile";
 import EmployeeDetail from "../pages/Employees/_sections/employee-detail";
 import AddEmployeeBankDetails from "../pages/Employees/_sections/add-bank-details";
 import AddEducation from "../pages/Employees/_sections/add-education";
+import ProtectedRoute from "./PrivateRoutes";
+import EditBankView from "../pages/Employees/_views/edit-bank-view";
+import EditAccountInfo from "../pages/Employees/_views/edit-account-view";
+import EditEducationView from "../pages/Employees/_views/edit-education-view";
 
 const CustomRoutes = () => {
   return (
     <div id="main-wrapper">
       <Routes>
-        {/* Main Layout */}
-        <Route path="/" element={<LayoutMain />}>
-          <Route index element={<Home />} />
-          <Route path="employee" element={<Employee />}>
-            <Route index element={<EmployeeList />} />
-            <Route path="add-employee" element={<AddEmployee />} />
-            <Route path="details/:id" element={<EmployeeDetail />} />
-
-            <Route
-              path="add-bank-details"
-              element={<AddEmployeeBankDetails />}
-            />
-
-            <Route
-              path="edit-bank-details/:id"
-              element={<AddEmployeeBankDetails />}
-            />
-
-            <Route path="add-education" element={<AddEducation />} />
-          </Route>
-          <Route path="user-profile" element={<UserProfile />} />
-        </Route>
-
         {/* Auth Routes */}
         <Route path="/auth/*" element={<LayoutAuth />}>
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+        </Route>
+
+        {/* Main Layout - Protected Routes */}
+        <Route path="/" element={<LayoutMain />}>
+          <Route index element={<ProtectedRoute element={Home} />} />
+          <Route
+            path="employee"
+            element={<ProtectedRoute element={Employee} />}
+          >
+            <Route index element={<ProtectedRoute element={EmployeeList} />} />
+            <Route
+              path="add-employee"
+              element={<ProtectedRoute element={AddEmployee} />}
+            />
+            <Route
+              path="edit-employee/:id"
+              element={<ProtectedRoute element={EditAccountInfo} />}
+            />
+            <Route
+              path="details/:id"
+              element={<ProtectedRoute element={EmployeeDetail} />}
+            />
+            <Route
+              path="add-bank-details"
+              element={<ProtectedRoute element={AddEmployeeBankDetails} />}
+            />
+            <Route
+              path="edit-bank-details/:id"
+              element={<ProtectedRoute element={EditBankView} />}
+            />
+            <Route
+              path="add-education"
+              element={<ProtectedRoute element={AddEducation} />}
+            />
+            <Route
+              path="edit-education/:id"
+              element={<ProtectedRoute element={EditEducationView} />}
+            />
+          </Route>
+          <Route
+            path="user-profile"
+            element={<ProtectedRoute element={UserProfile} />}
+          />
         </Route>
 
         <Route path="/Loading" element={<PreLoader />} />

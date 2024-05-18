@@ -49,8 +49,30 @@ const addEmployee = async ({ data }) => {
   }
 };
 
+// Post Employee
+const updateEmployee = async (id, data) => {
+  try {
+    const config = await getConfigWithToken();
+    const response = await axios.put(
+      `${base_url}employees/${id}`,
+      { data },
+      config
+    );
+    if (response.status === 200) {
+      toast.success(response?.message || "Employee Updated Successfully");
+    } else {
+      toast.error(response?.error?.message);
+    }
+    return response.data;
+  } catch (error) {
+    toast.error(error?.response?.data?.error?.message);
+    throw error;
+  }
+};
+
 export const employeeService = {
   getAllEmployee,
   getSingleEmployee,
   addEmployee,
+  updateEmployee,
 };
