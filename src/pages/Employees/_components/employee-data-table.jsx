@@ -100,7 +100,7 @@ const EmployeeDataTable = () => {
         </>
       ),
       ignoreRowClick: true,
-      allowOverflow: true,
+      // allowOverflow: true,
       button: true,
     },
   ];

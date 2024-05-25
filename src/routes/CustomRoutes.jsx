@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { useRoutes } from "react-router-dom";
 import Home from "../pages/home/Home";
 import LayoutMain from "../layout/main/LayoutMain";
 import PreLoader from "../components/PreLoader";
@@ -17,65 +17,52 @@ import ProtectedRoute from "./PrivateRoutes";
 import EditBankView from "../pages/Employees/_views/edit-bank-view";
 import EditAccountInfo from "../pages/Employees/_views/edit-account-view";
 import EditEducationView from "../pages/Employees/_views/edit-education-view";
+import CoreHr from "../pages/core-hr";
+import HrView from "../pages/core-hr/_views/HrView";
 
 const CustomRoutes = () => {
-  return (
-    <div id="main-wrapper">
-      <Routes>
-        {/* Auth Routes */}
-        <Route path="/auth/*" element={<LayoutAuth />}>
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
-        </Route>
+  const routes = useRoutes([
+    {
+      path: "/auth/*",
+      element: <LayoutAuth />,
+      children: [
+        { path: "login", element: <Login /> },
+        { path: "register", element: <Register /> },
+      ],
+    },
+    {
+      path: "/",
+      element: <LayoutMain />,
+      children: [
+        { path: "/", element: <ProtectedRoute element={Home} /> },
+        {
+          path: "employee",
+          element: <ProtectedRoute element={Employee} />,
+          children: [
+            { path: "", element: <EmployeeList /> },
+            { path: "add-employee", element: <AddEmployee /> },
+            { path: "edit-employee/:id", element: <EditAccountInfo /> },
+            { path: "details/:id", element: <EmployeeDetail /> },
+            { path: "add-bank-details", element: <AddEmployeeBankDetails /> },
+            { path: "edit-bank-details/:id", element: <EditBankView /> },
+            { path: "add-education", element: <AddEducation /> },
+            { path: "edit-education/:id", element: <EditEducationView /> },
+          ],
+        },
+        {
+          path: "core-hr",
+          element: <ProtectedRoute element={CoreHr} />,
+          children: [{ path: "", element: <HrView /> }],
+        },
 
-        {/* Main Layout - Protected Routes */}
-        <Route path="/" element={<LayoutMain />}>
-          <Route index element={<ProtectedRoute element={Home} />} />
-          <Route
-            path="employee"
-            element={<ProtectedRoute element={Employee} />}
-          >
-            <Route index element={<ProtectedRoute element={EmployeeList} />} />
-            <Route
-              path="add-employee"
-              element={<ProtectedRoute element={AddEmployee} />}
-            />
-            <Route
-              path="edit-employee/:id"
-              element={<ProtectedRoute element={EditAccountInfo} />}
-            />
-            <Route
-              path="details/:id"
-              element={<ProtectedRoute element={EmployeeDetail} />}
-            />
-            <Route
-              path="add-bank-details"
-              element={<ProtectedRoute element={AddEmployeeBankDetails} />}
-            />
-            <Route
-              path="edit-bank-details/:id"
-              element={<ProtectedRoute element={EditBankView} />}
-            />
-            <Route
-              path="add-education"
-              element={<ProtectedRoute element={AddEducation} />}
-            />
-            <Route
-              path="edit-education/:id"
-              element={<ProtectedRoute element={EditEducationView} />}
-            />
-          </Route>
-          <Route
-            path="user-profile"
-            element={<ProtectedRoute element={UserProfile} />}
-          />
-        </Route>
+        { path: "user-profile", element: <UserProfile /> },
+      ],
+    },
+    { path: "/Loading", element: <PreLoader /> },
+    { path: "*", element: <Error403 /> },
+  ]);
 
-        <Route path="/Loading" element={<PreLoader />} />
-        <Route path="*" element={<Error403 />} />
-      </Routes>
-    </div>
-  );
+  return routes;
 };
 
 export default CustomRoutes;

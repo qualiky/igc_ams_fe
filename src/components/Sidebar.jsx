@@ -56,14 +56,14 @@ const Sidebar = () => {
               </ul>
             </li>
             <li>
-              <Link to="finance">
+              <Link to="core-hr">
                 <div className="menu-icon">
                   <Icon
                     icon="lets-icons:home-light"
                     className="text-[#888888] text-2xl font-regular"
                   />
                 </div>
-                <span className="nav-text">Finance</span>
+                <span className="nav-text">Core HR</span>
               </Link>
             </li>
             <li>

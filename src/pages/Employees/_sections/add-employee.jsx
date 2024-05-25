@@ -25,7 +25,6 @@ const employeeSchema = yup.object().shape({
 });
 
 const AddEmployee = ({ currentUser }) => {
-  console.log(currentUser);
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -66,7 +65,7 @@ const AddEmployee = ({ currentUser }) => {
   }, [currentUser, reset]);
 
   const onSubmit = (data) => {
-    if (Object.keys(currentUser).length !== 0) {
+    if (!!currentUser) {
       dispatch(updateEmployee({ id: currentUser.id, data }));
     } else {
       dispatch(addEmployee({ data: data }));

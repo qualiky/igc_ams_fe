@@ -26,7 +26,6 @@ const educationSchema = yup.object().shape({
 
 const AddEducation = ({ currentEducation }) => {
   const dispatch = useDispatch();
-  console.log(currentEducation);
   const navigate = useNavigate();
 
   const {
@@ -45,7 +44,6 @@ const AddEducation = ({ currentEducation }) => {
   });
 
   useEffect(() => {
-    console.log("Hello I am use Effect");
     if (currentEducation) {
       reset({
         programName: currentEducation?.attributes?.programName || "",
@@ -57,6 +55,7 @@ const AddEducation = ({ currentEducation }) => {
   }, [currentEducation, reset]);
 
   const onSubmit = (data) => {
+    // eslint-disable-next-line no-extra-boolean-cast
     if (!!currentEducation) {
       dispatch(updateEducation({ id: currentEducation?.id, data }));
     } else {
@@ -126,5 +125,5 @@ const AddEducation = ({ currentEducation }) => {
 export default AddEducation;
 
 AddEducation.prototypes = {
-  currentEducation: PropTypes.object,
+  currentEducation: PropTypes.object.isRequired,
 };

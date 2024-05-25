@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-const AvatarByName = ({ firstname, lastname, size, textColor }) => {
+const AvatarCoreHr = ({ firstname, lastname }) => {
   // Function to generate a random color
   const getRandomColor = () => {
     const letters = "0123456789ABCDEF";
@@ -23,18 +23,16 @@ const AvatarByName = ({ firstname, lastname, size, textColor }) => {
   return (
     <div
       style={{ background: backgroundColor }}
-      className={`m-1 mr-2 h-20 w-20 relative flex justify-center items-center rounded-full text-2xl text-white uppercase`}
+      className={`inline-block mr-2.5 w-[2.813rem] min-w-[2.813rem] h-[2.813rem] rounded-md relative object-cover avatar-md flex justify-center items-center text-2xl text-white uppercase`}
     >
       {firstname && lastname ? getInitials() : "Unknown"}
     </div>
   );
 };
 
-AvatarByName.propTypes = {
+AvatarCoreHr.propTypes = {
   firstname: PropTypes.string,
   lastname: PropTypes.string,
-  size: PropTypes.number, // Size in pixels
-  textColor: PropTypes.string, // Text color class name
 };
 
-export default AvatarByName;
+export default AvatarCoreHr;

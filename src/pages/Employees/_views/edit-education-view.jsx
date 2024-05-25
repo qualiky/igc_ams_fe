@@ -10,6 +10,7 @@ import {
 
 const EditEducationView = () => {
   const [educationData, setEducationData] = useState({});
+
   const dispatch = useDispatch();
 
   const params = useParams();
@@ -19,8 +20,6 @@ const EditEducationView = () => {
   }, [params?.id, dispatch]);
 
   const { singleEducation } = useSelector(getSingleEducationDetail);
-
-  console.log(singleEducation);
 
   useEffect(() => {
     setEducationData(singleEducation);
