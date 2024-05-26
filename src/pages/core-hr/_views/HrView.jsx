@@ -4,8 +4,6 @@ import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getAllEmployeeData } from "../../../selectors/selectors";
 import { base_img_url } from "../../../utils/base_img_url";
-import RectAvatarByName from "../../Employees/_components/rect-avatar-by-name";
-import AvatarByName from "../../Employees/_components/avatar-by-name";
 import AvatarCoreHr from "../_components/AvatarCoreHr";
 
 const HrView = () => {
@@ -13,7 +11,6 @@ const HrView = () => {
 
   const { employeeData } = useSelector(getAllEmployeeData);
 
-  console.log(employeeData);
   useEffect(() => {
     dispatch(getAllEmployees());
   }, [dispatch]);
@@ -64,10 +61,10 @@ const HrView = () => {
                             Gender
                           </th>
                           <th className="text-[13px] py-2.5 px-4 bg-[#F0F4F9] text-[#374557] capitalize font-medium bg-none whitespace-nowrap text-left sorting">
-                            Location
+                            Blood Group
                           </th>
                           <th className="text-[13px] py-2.5 px-4 bg-[#F0F4F9] text-[#374557] capitalize font-medium bg-none whitespace-nowrap text-right sorting">
-                            Status
+                            Action
                           </th>
                         </tr>
                       </thead>
@@ -128,7 +125,7 @@ const HrView = () => {
                               </td>
                               <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-2.5 px-4 font-normal whitespace-nowrap">
                                 <span className="text-body-color dark:text-white text-[13px]">
-                                  Delhi
+                                  {item?.attributes?.bloodGroup || "-"}
                                 </span>
                               </td>
                               <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-2.5 px-4 font-normal whitespace-nowrap text-right">
@@ -136,7 +133,7 @@ const HrView = () => {
                                   onClick={() => handleView(item?.id)}
                                   className="text-xs py-[5px] px-3 rounded font-medium text-success bg-[#56f080]-light hover:bg-[#bae3c1] hover:text-black cursor-pointer"
                                 >
-                                  Active
+                                  View
                                 </span>
                               </td>
                             </tr>

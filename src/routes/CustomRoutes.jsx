@@ -19,6 +19,8 @@ import EditAccountInfo from "../pages/Employees/_views/edit-account-view";
 import EditEducationView from "../pages/Employees/_views/edit-education-view";
 import CoreHr from "../pages/core-hr";
 import HrView from "../pages/core-hr/_views/HrView";
+import AddPersonalIdentification from "../pages/Employees/_sections/add-personal-information";
+import EditPersonalInfoView from "../pages/Employees/_views/edit-personal-info-view";
 
 const CustomRoutes = () => {
   const routes = useRoutes([
@@ -47,6 +49,14 @@ const CustomRoutes = () => {
             { path: "edit-bank-details/:id", element: <EditBankView /> },
             { path: "add-education", element: <AddEducation /> },
             { path: "edit-education/:id", element: <EditEducationView /> },
+            {
+              path: "add-identification-information",
+              element: <AddPersonalIdentification />,
+            },
+            {
+              path: "edit-identification-information/:id",
+              element: <EditPersonalInfoView />,
+            },
           ],
         },
         {

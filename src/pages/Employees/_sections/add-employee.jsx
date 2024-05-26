@@ -65,6 +65,7 @@ const AddEmployee = ({ currentUser }) => {
   }, [currentUser, reset]);
 
   const onSubmit = (data) => {
+    // eslint-disable-next-line no-extra-boolean-cast
     if (!!currentUser) {
       dispatch(updateEmployee({ id: currentUser.id, data }));
     } else {
@@ -191,6 +192,6 @@ const AddEmployee = ({ currentUser }) => {
 
 export default AddEmployee;
 
-AddEmployee.prototypes = {
+AddEmployee.propTypes = {
   currentUser: PropTypes.object,
 };

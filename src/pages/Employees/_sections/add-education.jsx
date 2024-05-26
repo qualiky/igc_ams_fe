@@ -1,16 +1,12 @@
 import * as yup from "yup";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import CustomInputs from "../../../components/inputs/custom-inputs";
-import {
-  addBankDetails,
-  getSingleBankDetails,
-  updateBankDetails,
-} from "../../../features/reducer/employee/bankSlice";
-import { Link, useNavigate, useParams } from "react-router-dom";
+
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import {
   addEducation,
@@ -124,6 +120,6 @@ const AddEducation = ({ currentEducation }) => {
 
 export default AddEducation;
 
-AddEducation.prototypes = {
+AddEducation.propTypes = {
   currentEducation: PropTypes.object.isRequired,
 };

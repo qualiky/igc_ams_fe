@@ -21,7 +21,7 @@ const getSingleEmployee = async (id) => {
     const config = await getConfigWithToken();
 
     const response = await axios.get(
-      `${base_url}employees/${id}?populate=*`,
+      `${base_url}employees/${id}?populate=deep`,
       config
     );
 

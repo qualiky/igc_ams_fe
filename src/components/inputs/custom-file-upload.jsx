@@ -1,6 +1,8 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
+import { Controller } from "react-hook-form";
 
-const CustomFileUpload = () => {
+const CustomFileUpload = ({ control, name, label, errors }) => {
   const [files, setFiles] = useState(null);
 
   const handleFileChange = (event) => {
@@ -14,15 +16,26 @@ const CustomFileUpload = () => {
         id="FileUpload"
         className="block w-full py-2 px-3 relative bg-white appearance-none border-2 border-gray-300 border-solid rounded-md hover:shadow-outline-gray"
       >
-        <input
-          type="file"
-          multiple
-          className="absolute inset-0 z-50 m-0 p-0 w-full h-full outline-none opacity-0"
-          onChange={handleFileChange}
-          onDragOver={(e) => e.target.classList.add("active")}
-          onDragLeave={(e) => e.target.classList.remove("active")}
-          onDrop={(e) => e.target.classList.remove("active")}
+        <Controller
+          name={name}
+          control={control}
+          render={({ field }) => (
+            <input
+              {...field}
+              type="file"
+              multiple
+              id={name}
+              className="absolute inset-0 z-50 m-0 p-0 w-full h-full outline-none opacity-0"
+              onChange={handleFileChange}
+              onDragOver={(e) => e.target.classList.add("active")}
+              onDragLeave={(e) => e.target.classList.remove("active")}
+              onDrop={(e) => e.target.classList.remove("active")}
+            />
+          )}
         />
+        {errors[name] && (
+          <span className="text-danger text-[10px]">{label} is required</span>
+        )}
         {files !== null ? (
           <div className="flex flex-col space-y-1">
             {Array.from({ length: files.length }).map((_, index) => (
@@ -63,6 +76,13 @@ const CustomFileUpload = () => {
       </div>
     </div>
   );
+};
+
+CustomFileUpload.propTypes = {
+  name: PropTypes.string.isRequired,
+  control: PropTypes.object.isRequired,
+  label: PropTypes.string.isRequired,
+  errors: PropTypes.object.isRequired,
 };
 
 export default CustomFileUpload;
