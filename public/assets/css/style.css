@@ -14375,6 +14375,10 @@ pre code.hljs {
     width: 25% !important;
   }
 
+  .xl\:w-1\/5 {
+    width: 20% !important;
+  }
+
   .xl\:w-1\/6 {
     width: 16.666667% !important;
   }

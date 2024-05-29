@@ -121,5 +121,5 @@ const AddEducation = ({ currentEducation }) => {
 export default AddEducation;
 
 AddEducation.propTypes = {
-  currentEducation: PropTypes.object.isRequired,
+  currentEducation: PropTypes.object,
 };

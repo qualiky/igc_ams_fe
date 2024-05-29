@@ -199,7 +199,7 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <div className="2xl:w-1/4 w-full t-earn">
+            {/* <div className="2xl:w-1/4 w-full t-earn">
               <div className="card overflow-hidden relative flex flex-col">
                 <div className="card-header flex justify-between items-center bg-transparent px-5 pt-6 relative z-[2]">
                   <h4 className="heading">Total Earning</h4>
@@ -270,7 +270,7 @@ const Home = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
             <div className="2xl:w-1/2 w-full active-p">
               <div className="card">
                 <div className="card-body p-0">

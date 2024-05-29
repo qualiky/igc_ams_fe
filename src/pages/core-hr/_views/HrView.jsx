@@ -1,18 +1,33 @@
+import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllEmployees } from "../../../features/reducer/employee/employeeSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getAllEmployeeData } from "../../../selectors/selectors";
 import { base_img_url } from "../../../utils/base_img_url";
 import AvatarCoreHr from "../_components/AvatarCoreHr";
+import AnalyticsCoreHr from "../_sections/analytics";
+import { getAttendence } from "../../../features/reducer/core-hr/attendenceSlice";
+
+const attendenceSchema = yup.object().shape({
+  inTime: yup.string().required(),
+  outTime: yup.string().required(),
+  date: yup.string().required(),
+  attendanceStatus: yup.string().required(),
+  didArriveLate: yup.string().required(),
+  didArriveEarly: yup.string().required(),
+  employee: yup.string(),
+});
 
 const HrView = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+
   const dispatch = useDispatch();
 
   const { employeeData } = useSelector(getAllEmployeeData);
 
   useEffect(() => {
-    dispatch(getAllEmployees());
+    dispatch(getAttendence());
   }, [dispatch]);
 
   const navigate = useNavigate();
@@ -23,132 +38,13 @@ const HrView = () => {
   return (
     <div className="container-fluid">
       <div className="row">
-        <div className="xl:w-9/12 col-xxl-8">
+        <div className="w-full">
           <div className="row">
             <div className="w-full">
+              <AnalyticsCoreHr />
               <div className="card flex flex-col">
                 <div className="card-body p-0">
-                  <div className="tbl-caption flex justify-between items-center flex-wrap p-5 relative z-[2]">
-                    <h4 className="max-sm:mb-2.5 font-bold text-xl">
-                      Employees
-                    </h4>
-                    <div className="flex gap-2">
-                      <Link
-                        to="/employee/add-employee"
-                        className="py-[5px] px-3 cursor-pointer text-[13px] rounded text-white bg-primary leading-[18px] inline-block border border-primary btn-sm duration-500 hover:bg-hover-primary "
-                      >
-                        + Add Employee
-                      </Link>
-                    </div>
-                  </div>
-                  <div className="overflow-x-auto active-projects style-1">
-                    <table id="empoloyees-tbl" className="table">
-                      <thead>
-                        <tr>
-                          <th className="text-[13px] py-2.5 pl-4 pr-0 bg-[#F0F4F9] text-[#374557] capitalize font-medium bg-none whitespace-nowrap text-left">
-                            ID
-                          </th>
-                          <th className="text-[13px] py-2.5 px-4 bg-[#F0F4F9] text-[#374557] capitalize font-medium bg-none whitespace-nowrap text-left sorting">
-                            Employee Name
-                          </th>
-                          <th className="text-[13px] py-2.5 px-4 bg-[#F0F4F9] text-[#374557] capitalize font-medium bg-none whitespace-nowrap text-left sorting">
-                            Email Address
-                          </th>
-                          <th className="text-[13px] py-2.5 px-4 bg-[#F0F4F9] text-[#374557] capitalize font-medium bg-none whitespace-nowrap text-left sorting">
-                            DOB
-                          </th>
-                          <th className="text-[13px] py-2.5 px-4 bg-[#F0F4F9] text-[#374557] capitalize font-medium bg-none whitespace-nowrap text-left sorting">
-                            Gender
-                          </th>
-                          <th className="text-[13px] py-2.5 px-4 bg-[#F0F4F9] text-[#374557] capitalize font-medium bg-none whitespace-nowrap text-left sorting">
-                            Blood Group
-                          </th>
-                          <th className="text-[13px] py-2.5 px-4 bg-[#F0F4F9] text-[#374557] capitalize font-medium bg-none whitespace-nowrap text-right sorting">
-                            Action
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {employeeData?.map((item, index) => {
-                          return (
-                            <tr key={index}>
-                              <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-2.5 pl-4 pr-0 font-normal whitespace-nowrap">
-                                <span className="text-body-color dark:text-white text-[13px]">
-                                  {item?.id}
-                                </span>
-                              </td>
-                              <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-2.5 px-4 font-normal whitespace-nowrap">
-                                <div className="products flex items-center">
-                                  {item?.attributes?.profileImage?.data !=
-                                  null ? (
-                                    <img
-                                      src={
-                                        base_img_url +
-                                        item?.attributes?.profileImage?.data
-                                          ?.attributes?.url
-                                      }
-                                      className="inline-block mr-2.5 w-[2.813rem] min-w-[2.813rem] h-[2.813rem] rounded-md relative object-cover avatar-md"
-                                      alt=""
-                                    />
-                                  ) : (
-                                    <AvatarCoreHr
-                                      firstname={item?.attributes?.firstName}
-                                      lastname={item?.attributes?.lastName}
-                                    />
-                                  )}
-
-                                  <div>
-                                    <h6 className="text-sm whitespace-nowrap hover:font-bold cursor-pointer">
-                                      {item?.attributes?.firstName}{" "}
-                                      {item?.attributes?.lastName}
-                                    </h6>
-                                    <span className="text-body-color dark:text-white text-xs">
-                                      {item?.attributes?.userName}
-                                    </span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-2.5 px-4 font-normal whitespace-nowrap">
-                                <span className="text-[13px] text-primary">
-                                  {item?.attributes?.primaryEmail || "-"}
-                                </span>
-                              </td>
-                              <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-2.5 px-4 font-normal whitespace-nowrap">
-                                <span className="text-body-color dark:text-white text-[13px]">
-                                  {item?.attributes?.dateOfBirth || "-"}
-                                </span>
-                              </td>
-                              <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-2.5 px-4 font-normal whitespace-nowrap">
-                                <span className="text-body-color dark:text-white text-[13px]">
-                                  {item?.attributes?.gender || "-"}
-                                </span>
-                              </td>
-                              <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-2.5 px-4 font-normal whitespace-nowrap">
-                                <span className="text-body-color dark:text-white text-[13px]">
-                                  {item?.attributes?.bloodGroup || "-"}
-                                </span>
-                              </td>
-                              <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-2.5 px-4 font-normal whitespace-nowrap text-right">
-                                <span
-                                  onClick={() => handleView(item?.id)}
-                                  className="text-xs py-[5px] px-3 rounded font-medium text-success bg-[#56f080]-light hover:bg-[#bae3c1] hover:text-black cursor-pointer"
-                                >
-                                  View
-                                </span>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="w-full">
-              <div className="card flex flex-col">
-                <div className="card-body p-0">
-                  <div className="overflow-x-auto active-projects style-1 attendance-tbl">
+                  <div className="overflow-x-auto active-projects style-1 attendance-tbl ">
                     <div className="tbl-caption flex justify-between items-center flex-wrap p-5 relative z-[2]">
                       <h4 className="max-sm:mb-2.5">Attendance</h4>
                       <div>
@@ -156,13 +52,13 @@ const HrView = () => {
                         <button
                           type="button"
                           className="py-[5px] px-3 text-[13px] rounded text-white bg-primary leading-[18px] inline-block border border-primary btn-sm duration-500 hover:bg-hover-primary dz-modal-btn"
-                          data-dz-modal="exampleModal1"
+                          onClick={() => setModalOpen(true)}
                         >
                           + Mark Attendance
                         </button>
                       </div>
                     </div>
-                    <table id="attendance-tbl" className="table">
+                    <table id="attendance-tbl" className="table w-full">
                       <thead>
                         <tr>
                           <th className="text-[13px] py-2.5 pl-4 pr-0 bg-[#F0F4F9] text-[#374557] capitalize font-medium bg-none whitespace-nowrap text-left style-1">
@@ -298,2147 +194,299 @@ const HrView = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-1.5 px-5 font-normal whitespace-nowrap">
-                            <div className="products flex items-center">
-                              <img
-                                src="assets/images/contacts/pic2.jpg"
-                                className="inline-block mr-2.5 w-[2.813rem] min-w-[2.813rem] h-[2.813rem] rounded-md relative object-cover avatar-md"
-                                alt=""
-                              />
-                              <div>
-                                <h6 className="text-sm">Moni Antony</h6>
-                                <span className="text-xs">Web Designer</span>
+                        {Array.from({ length: 20 }, (_, index) => (
+                          <tr key={index}>
+                            <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-1.5 px-5 font-normal whitespace-nowrap">
+                              <div className="products flex items-center">
+                                <img
+                                  src="assets/images/contacts/pic2.jpg"
+                                  className="inline-block mr-2.5 w-[2.813rem] min-w-[2.813rem] h-[2.813rem] rounded-md relative object-cover avatar-md"
+                                  alt=""
+                                />
+                                <div>
+                                  <h6 className="text-sm">Moni Antony</h6>
+                                  <span className="text-xs">Web Designer</span>
+                                </div>
                               </div>
-                            </div>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="text-center border-b border-[#E6E6E6] dark:border-[#444444] py-[15px] pr-[7px] pl-[25px]">
-                            <span className="text-body-color dark:text-white text-[13px]">
-                              28/31
-                            </span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-1.5 px-5 font-normal whitespace-nowrap">
-                            <div className="products flex items-center">
-                              <img
-                                src="assets/images/contacts/pic1.jpg"
-                                className="inline-block mr-2.5 w-[2.813rem] min-w-[2.813rem] h-[2.813rem] rounded-md relative object-cover avatar-md"
-                                alt=""
-                              />
-                              <div>
-                                <h6 className="text-sm">Joney Antony</h6>
-                                <span className="text-xs">Web Designer</span>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="text-center border-b border-[#E6E6E6] dark:border-[#444444] py-[15px] pr-[7px] pl-[25px]">
-                            <span className="text-body-color dark:text-white text-[13px]">
-                              28/31
-                            </span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-1.5 px-5 font-normal whitespace-nowrap">
-                            <div className="products flex items-center">
-                              <img
-                                src="assets/images/contacts/pic3.jpg"
-                                className="inline-block mr-2.5 w-[2.813rem] min-w-[2.813rem] h-[2.813rem] rounded-md relative object-cover avatar-md"
-                                alt=""
-                              />
-                              <div>
-                                <h6 className="text-sm">Peter Oliver</h6>
-                                <span className="text-xs">Web Designer</span>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="text-center border-b border-[#E6E6E6] dark:border-[#444444] py-[15px] pr-[7px] pl-[25px]">
-                            <span className="text-body-color dark:text-white text-[13px]">
-                              28/31
-                            </span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-1.5 px-5 font-normal whitespace-nowrap">
-                            <div className="products flex items-center">
-                              <img
-                                src="assets/images/contacts/pic2.jpg"
-                                className="inline-block mr-2.5 w-[2.813rem] min-w-[2.813rem] h-[2.813rem] rounded-md relative object-cover avatar-md"
-                                alt=""
-                              />
-                              <div>
-                                <h6 className="text-sm">Ricky Antony</h6>
-                                <span className="text-xs">Web Designer</span>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="text-center border-b border-[#E6E6E6] dark:border-[#444444] py-[15px] pr-[7px] pl-[25px]">
-                            <span className="text-body-color dark:text-white text-[13px]">
-                              28/31
-                            </span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-1.5 px-5 font-normal whitespace-nowrap">
-                            <div className="products flex items-center">
-                              <img
-                                src="assets/images/contacts/pic2.jpg"
-                                className="inline-block mr-2.5 w-[2.813rem] min-w-[2.813rem] h-[2.813rem] rounded-md relative object-cover avatar-md"
-                                alt=""
-                              />
-                              <div>
-                                <h6 className="text-sm">Elijah James</h6>
-                                <span className="text-xs">Web Designer</span>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="text-center border-b border-[#E6E6E6] dark:border-[#444444] py-[15px] pr-[7px] pl-[25px]">
-                            <span className="text-body-color dark:text-white text-[13px]">
-                              28/31
-                            </span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-1.5 px-5 font-normal whitespace-nowrap">
-                            <div className="products flex items-center">
-                              <img
-                                src="assets/images/contacts/pic1.jpg"
-                                className="inline-block mr-2.5 w-[2.813rem] min-w-[2.813rem] h-[2.813rem] rounded-md relative object-cover avatar-md"
-                                alt=""
-                              />
-                              <div>
-                                <h6 className="text-sm">Ricky Antony</h6>
-                                <span className="text-xs">Web Designer</span>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="text-center border-b border-[#E6E6E6] dark:border-[#444444] py-[15px] pr-[7px] pl-[25px]">
-                            <span className="text-body-color dark:text-white text-[13px]">
-                              28/31
-                            </span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-1.5 px-5 font-normal whitespace-nowrap">
-                            <div className="products flex items-center">
-                              <img
-                                src="assets/images/contacts/pic3.jpg"
-                                className="inline-block mr-2.5 w-[2.813rem] min-w-[2.813rem] h-[2.813rem] rounded-md relative object-cover avatar-md"
-                                alt=""
-                              />
-                              <div>
-                                <h6 className="text-sm">Ricky James</h6>
-                                <span className="text-xs">Web Designer</span>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="text-center border-b border-[#E6E6E6] dark:border-[#444444] py-[15px] pr-[7px] pl-[25px]">
-                            <span className="text-body-color dark:text-white text-[13px]">
-                              28/31
-                            </span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-1.5 px-5 font-normal whitespace-nowrap">
-                            <div className="products flex items-center">
-                              <img
-                                src="assets/images/contacts/pic2.jpg"
-                                className="inline-block mr-2.5 w-[2.813rem] min-w-[2.813rem] h-[2.813rem] rounded-md relative object-cover avatar-md"
-                                alt=""
-                              />
-                              <div>
-                                <h6 className="text-sm">Ricky Antony</h6>
-                                <span className="text-xs">Web Designer</span>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="text-center border-b border-[#E6E6E6] dark:border-[#444444] py-[15px] pr-[7px] pl-[25px]">
-                            <span className="text-body-color dark:text-white text-[13px]">
-                              28/31
-                            </span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-1.5 px-5 font-normal whitespace-nowrap">
-                            <div className="products flex items-center">
-                              <img
-                                src="assets/images/contacts/pic1.jpg"
-                                className="inline-block mr-2.5 w-[2.813rem] min-w-[2.813rem] h-[2.813rem] rounded-md relative object-cover avatar-md"
-                                alt=""
-                              />
-                              <div>
-                                <h6 className="text-sm">Ricky Antony</h6>
-                                <span className="text-xs">Web Designer</span>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="text-center border-b border-[#E6E6E6] dark:border-[#444444] py-[15px] pr-[7px] pl-[25px]">
-                            <span className="text-body-color dark:text-white text-[13px]">
-                              28/31
-                            </span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-1.5 px-5 font-normal whitespace-nowrap">
-                            <div className="products flex items-center">
-                              <img
-                                src="assets/images/contacts/pic3.jpg"
-                                className="inline-block mr-2.5 w-[2.813rem] min-w-[2.813rem] h-[2.813rem] rounded-md relative object-cover avatar-md"
-                                alt=""
-                              />
-                              <div>
-                                <h6 className="text-sm">James Antony</h6>
-                                <span className="text-xs">Web Designer</span>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="text-center border-b border-[#E6E6E6] dark:border-[#444444] py-[15px] pr-[7px] pl-[25px]">
-                            <span className="text-body-color dark:text-white text-[13px]">
-                              28/31
-                            </span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-1.5 px-5 font-normal whitespace-nowrap">
-                            <div className="products flex items-center">
-                              <img
-                                src="assets/images/contacts/pic2.jpg"
-                                className="inline-block mr-2.5 w-[2.813rem] min-w-[2.813rem] h-[2.813rem] rounded-md relative object-cover avatar-md"
-                                alt=""
-                              />
-                              <div>
-                                <h6 className="text-sm">Ricky Antony</h6>
-                                <span className="text-xs">Web Designer</span>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-danger">
-                              <i className="fa-regular fa-xmark font-black"></i>
-                            </span>
-                          </td>
-                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
-                            <span className="text-success">
-                              <i className="fa-solid fa-check"></i>
-                            </span>
-                          </td>
-                          <td className="text-center border-b border-[#E6E6E6] dark:border-[#444444] py-[15px] pr-[7px] pl-[25px]">
-                            <span className="text-body-color dark:text-white text-[13px]">
-                              28/31
-                            </span>
-                          </td>
-                        </tr>
+                            </td>
+                            <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
+                              <span className="text-success">
+                                <i className="fa-solid fa-check"></i>
+                              </span>
+                            </td>
+                            <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
+                              <span className="text-success">
+                                <i className="fa-solid fa-check"></i>
+                              </span>
+                            </td>
+                            <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
+                              <span className="text-success">
+                                <i className="fa-solid fa-check"></i>
+                              </span>
+                            </td>
+                            <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
+                              <span className="text-success">
+                                <i className="fa-solid fa-check"></i>
+                              </span>
+                            </td>
+                            <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
+                              <span className="text-success">
+                                <i className="fa-solid fa-check"></i>
+                              </span>
+                            </td>
+                            <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
+                              <span className="text-danger">
+                                <i className="fa-regular fa-xmark font-black"></i>
+                              </span>
+                            </td>
+                            <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
+                              <span className="text-success">
+                                <i className="fa-solid fa-check"></i>
+                              </span>
+                            </td>
+                            <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
+                              <span className="text-success">
+                                <i className="fa-solid fa-check"></i>
+                              </span>
+                            </td>
+                            <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
+                              <span className="text-success">
+                                <i className="fa-solid fa-check"></i>
+                              </span>
+                            </td>
+                            <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
+                              <span className="text-success">
+                                <i className="fa-solid fa-check"></i>
+                              </span>
+                            </td>
+                            <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
+                              <span className="text-danger">
+                                <i className="fa-regular fa-xmark font-black"></i>
+                              </span>
+                            </td>
+                            <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
+                              <span className="text-success">
+                                <i className="fa-solid fa-check"></i>
+                              </span>
+                            </td>
+                            <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
+                              <span className="text-success">
+                                <i className="fa-solid fa-check"></i>
+                              </span>
+                            </td>
+                            <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
+                              <span className="text-success">
+                                <i className="fa-solid fa-check"></i>
+                              </span>
+                            </td>
+                            <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
+                              <span className="text-success">
+                                <i className="fa-solid fa-check"></i>
+                              </span>
+                            </td>
+                            <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
+                              <span className="text-danger">
+                                <i className="fa-regular fa-xmark font-black"></i>
+                              </span>
+                            </td>
+                            <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
+                              <span className="text-success">
+                                <i className="fa-solid fa-check"></i>
+                              </span>
+                            </td>
+                            <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
+                              <span className="text-success">
+                                <i className="fa-solid fa-check"></i>
+                              </span>
+                            </td>
+                            <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
+                              <span className="text-success">
+                                <i className="fa-solid fa-check"></i>
+                              </span>
+                            </td>
+                            <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
+                              <span className="text-success">
+                                <i className="fa-solid fa-check"></i>
+                              </span>
+                            </td>
+                            <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
+                              <span className="text-success">
+                                <i className="fa-solid fa-check"></i>
+                              </span>
+                            </td>
+                            <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
+                              <span className="text-success">
+                                <i className="fa-solid fa-check"></i>
+                              </span>
+                            </td>
+                            <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
+                              <span className="text-danger">
+                                <i className="fa-regular fa-xmark font-black"></i>
+                              </span>
+                            </td>
+                            <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
+                              <span className="text-success">
+                                <i className="fa-solid fa-check"></i>
+                              </span>
+                            </td>
+                            <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
+                              <span className="text-danger">
+                                <i className="fa-regular fa-xmark font-black"></i>
+                              </span>
+                            </td>
+                            <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
+                              <span className="text-success">
+                                <i className="fa-solid fa-check"></i>
+                              </span>
+                            </td>
+                            <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
+                              <span className="text-success">
+                                <i className="fa-solid fa-check"></i>
+                              </span>
+                            </td>
+                            <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
+                              <span className="text-success">
+                                <i className="fa-solid fa-check"></i>
+                              </span>
+                            </td>
+                            <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
+                              <span className="text-success">
+                                <i className="fa-solid fa-check"></i>
+                              </span>
+                            </td>
+                            <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
+                              <span className="text-success">
+                                <i className="fa-solid fa-check"></i>
+                              </span>
+                            </td>
+                            <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap">
+                              <span className="text-success">
+                                <i className="fa-solid fa-check"></i>
+                              </span>
+                            </td>
+                            <td className="text-center border-b border-[#E6E6E6] dark:border-[#444444] py-[15px] pr-[7px] pl-[25px]">
+                              <span className="text-body-color dark:text-white text-[13px]">
+                                28/31
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-        <div className="xl:w-1/4 col-xxl-4">
-          <div className="row">
-            <div className="xl:w-full md:w-1/2 w-full">
-              <div className="card flex flex-col">
-                <div className="card-header flex justify-between items-center px-5 pt-6 relative z-[2]">
-                  <h4 className="max-sm:mb-2.5">Attendance</h4>
-                  <select className="nice-select text-primary px-2.5 bg-transparent border-0 text-[13px] font-medium-normal outline-none relative focus:ring-0">
-                    <option value="All Time">All Time</option>
-                    <option value="Week">Week</option>
-                    <option value="Month">Month</option>
-                  </select>
-                </div>
-                <div className="card-body p-5">
-                  <div
-                    id="projectChart"
-                    className="project-chart flex justify-center"
-                  ></div>
-                  <div className="project-date">
-                    <div className="project-media flex items-center justify-between py-2.5">
-                      <p className="text-secondary dark:text-body-color leading-[1.8]">
-                        <svg
-                          className="mr-2 inline-block"
-                          width="12"
-                          height="13"
-                          viewBox="0 0 12 13"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <rect
-                            y="0.5"
-                            width="12"
-                            height="12"
-                            rx="3"
-                            fill="var(--primary)"
-                          />
-                        </svg>
-                        Completed Projects
-                      </p>
-                      <span className="text-body-color dark:text-white text-sm">
-                        125 Projects
-                      </span>
+
+              {/* ----------------------Modal------------------------- */}
+
+              <div
+                className="modal fade fixed top-0 right-0 overflow-y-auto overflow-x-hidden dz-scroll w-full h-full z-[1055] translate-y-[-50px] dz-modal-box model-close"
+                id="exampleModal1"
+                style={{ display: modalOpen ? "block" : "none" }}
+              >
+                <div className="modal-dialog modal-dialog-center max-w-[500px] mx-auto my-[1.75rem] w-auto relative pointer-events-none">
+                  <div className="modal-content mx-[10px] flex flex-col relative rounded-md bg-white dark:bg-[#242424] w-full pointer-events-auto">
+                    <div className="modal-header flex justify-between items-center flex-wrap py-4 px-[1.875rem] relative z-[2] border-b border-b-color">
+                      <h1 className="modal-title text-lg">Add Attendance</h1>
+                      <button
+                        type="button"
+                        className="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                        onClick={() => setModalOpen(false)}
+                      ></button>
                     </div>
-                    <div className="project-media flex items-center justify-between py-2.5">
-                      <p className="text-secondary dark:text-body-color leading-[1.8]">
-                        <svg
-                          className="mr-2 inline-block"
-                          width="12"
-                          height="13"
-                          viewBox="0 0 12 13"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <rect
-                            y="0.5"
-                            width="12"
-                            height="12"
-                            rx="3"
-                            fill="#3AC977"
+                    <div className="modal-body relative p-[1.875rem]">
+                      <div className="row">
+                        <div className="xl:w-1/2 w-full">
+                          <label className="text-body-color mt-4">
+                            In Time<span className="text-danger">*</span>
+                          </label>
+                          <div className="flex items-stretch flex-wrap relative w-full">
+                            <input
+                              type="time"
+                              className="w-full relative bg-transparent text-[13px] h-[2.813rem] border border-b-color text-body-color block rounded-md py-1.5 px-3 duration-500 focus:border-primary dark:hover:border-b-color outline-none"
+                              value="09:30"
+                            />
+                          </div>
+                        </div>
+                        <div className="xl:w-1/2 w-full">
+                          <label className="text-body-color mt-4">
+                            Out Time<span className="text-danger">*</span>
+                          </label>
+                          <div className="flex items-stretch flex-wrap relative w-full">
+                            <input
+                              type="time"
+                              className="w-full relative bg-transparent text-[13px] h-[2.813rem] border border-b-color text-body-color block rounded-md py-1.5 px-3 duration-500 focus:border-primary dark:hover:border-b-color outline-none"
+                              value="09:30"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="row mt-4">
+                        <div className="w-full">
+                          <label className="text-body-color dark:text-white">
+                            Employee<span className="text-danger">*</span>
+                          </label>
+
+                          <div
+                            className="nice-select style-1 py-1.5 px-3 bg-transparent text-[13px] font-normal outline-none relative focus:ring-0 border border-b-color text-[#a5a5a5] h-[2.813rem] leading-[1.813rem]"
+                            tabIndex="0"
+                          >
+                            <span className="current">Select</span>
+                            <ul className="list">
+                              <li
+                                data-value="Please select"
+                                data-display="Select"
+                                className="option selected"
+                              >
+                                Please select
+                              </li>
+                              <li data-value="html" className="option">
+                                Julia Koch
+                              </li>
+                              <li data-value="css" className="option">
+                                Gina Reinhart
+                              </li>
+                              <li data-value="javascript" className="option">
+                                Yang Huiyan
+                              </li>
+                            </ul>
+                          </div>
+                          <label className="text-body-color mt-4">
+                            Attendance Date
+                            <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            className="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 focus:border-primary dark:hover:border-b-color outline-none w-full"
+                            type="date"
                           />
-                        </svg>
-                        Progress Projects
-                      </p>
-                      <span className="text-body-color dark:text-white text-sm">
-                        125 Projects
-                      </span>
+                        </div>
+                      </div>
                     </div>
-                    <div className="project-media flex items-center justify-between py-2.5">
-                      <p className="text-secondary dark:text-body-color leading-[1.8]">
-                        <svg
-                          className="mr-2 inline-block"
-                          width="12"
-                          height="13"
-                          viewBox="0 0 12 13"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <rect
-                            y="0.5"
-                            width="12"
-                            height="12"
-                            rx="3"
-                            fill="#FF5E5E"
-                          />
-                        </svg>
-                        Cancelled
-                      </p>
-                      <span className="text-body-color dark:text-white text-sm">
-                        125 Projects
-                      </span>
-                    </div>
-                    <div className="project-media flex items-center justify-between py-2.5">
-                      <p className="text-secondary dark:text-body-color leading-[1.8]">
-                        <svg
-                          className="mr-2 inline-block"
-                          width="12"
-                          height="13"
-                          viewBox="0 0 12 13"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <rect
-                            y="0.5"
-                            width="12"
-                            height="12"
-                            rx="3"
-                            fill="#FF9F00"
-                          />
-                        </svg>
-                        Yet to Start
-                      </p>
-                      <span className="text-body-color dark:text-white text-sm">
-                        125 Projects
-                      </span>
+                    <div className="modal-footer flex items-center justify-end flex-wrap py-4 px-[1.875rem] border-t border-b-color">
+                      <button
+                        type="button"
+                        className="close-btn btn xl:py-[0.719rem] py-2.5 xl:px-[1.563rem] px-4 m-1 duration-300 xl:text-[15px] text-[13px] font-medium rounded text-danger bg-danger-light leading-5 inline-block border border-danger-light btn-danger light hover:text-white hover:bg-danger"
+                        onClick={() => setModalOpen(false)}
+                      >
+                        Close
+                      </button>
+                      <button
+                        type="button"
+                        className="save-btn btn btn-primary xl:py-[0.719rem] py-2.5 xl:px-[1.563rem] px-4 m-1 duration-300 xl:text-[15px] text-[13px] font-medium rounded text-white bg-primary leading-5 inline-block border border-primary hover:bg-hover-primary"
+                      >
+                        Save changes
+                      </button>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="xl:w-full md:w-1/2 w-full">
-              <div className="card flex flex-col">
-                <div className="card-header flex justify-between px-5 pt-6 relative z-[2] pb-1">
-                  <h4 className="heading">Upcoming Schedules</h4>
-                </div>
-                <div className="card-body schedules-cal p-2">
-                  <input
-                    type="text"
-                    className="form-control hidden"
-                    id="datetimepicker1"
-                  />
-                  <div className="calendar-container"></div>
-                  <div className="events">
-                    <h6 className="text-sm uppercase border-t border-[#E6E6E6] dark:border-transparent text-primary px-5 py-[9px]">
-                      events
-                    </h6>
-                    <div className="dz-scroll event-scroll overflow-x-hidden overflow-y-auto relative h-[144px] px-5">
-                      <div className="event-media flex items-center justify-between py-2.5 border-b border-[#E6E6E6] dark:border-transparent">
-                        <div className="flex items-center">
-                          <div className="event-box bg-primary-light h-[55px] w-[55px] py-1 text-center rounded-md leading-[9px]">
-                            <h5 className="text-xl font-semibold text-primary">
-                              20
-                            </h5>
-                            <span className="text-body-color dark:text-white text-[13px]">
-                              Mon
-                            </span>
-                          </div>
-                          <div className="event-data ml-2">
-                            <h5 className="mb-0">
-                              <a href="javascript:void(0)">
-                                Development planning
-                              </a>
-                            </h5>
-                            <span className="text-body-color text-[13px]">
-                              w3it Technologies
-                            </span>
-                          </div>
-                        </div>
-                        <span className="text-secondary text-sm">12:05 PM</span>
-                      </div>
-                      <div className="event-media flex items-center justify-between py-2.5 border-b border-[#E6E6E6] dark:border-transparent">
-                        <div className="flex items-center">
-                          <div className="event-box bg-primary-light h-[55px] w-[55px] py-1 text-center rounded-md leading-[9px]">
-                            <h5 className="text-xl font-semibold text-primary">
-                              20
-                            </h5>
-                            <span className="text-body-color dark:text-white text-[13px]">
-                              Mon
-                            </span>
-                          </div>
-                          <div className="event-data ml-2">
-                            <h5 className="text-[15px]">
-                              <a href="javascript:void(0)">
-                                Development planning
-                              </a>
-                            </h5>
-                            <span className="text-body-color text-[13px]">
-                              w3it Technologies
-                            </span>
-                          </div>
-                        </div>
-                        <span className="text-secondary text-sm">12:05 PM</span>
-                      </div>
-                      <div className="event-media flex items-center justify-between py-2.5 border-b border-[#E6E6E6] dark:border-transparent">
-                        <div className="flex items-center">
-                          <div className="event-box bg-primary-light h-[55px] w-[55px] py-1 text-center rounded-md leading-[9px]">
-                            <h5 className="text-xl font-semibold text-primary">
-                              20
-                            </h5>
-                            <span className="text-body-color dark:text-white text-[13px]">
-                              Mon
-                            </span>
-                          </div>
-                          <div className="event-data ml-2">
-                            <h5 className="text-[15px]">
-                              <a href="javascript:void(0)">
-                                Development planning
-                              </a>
-                            </h5>
-                            <span className="text-body-color text-[13px]">
-                              w3it Technologies
-                            </span>
-                          </div>
-                        </div>
-                        <span className="text-secondary text-sm">12:05 PM</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <div
+                className="modal-backdrop"
+                style={{ display: modalOpen ? "" : "none" }}
+              ></div>
+              {/* ----------------------Modal Ends------------------------- */}
             </div>
           </div>
         </div>

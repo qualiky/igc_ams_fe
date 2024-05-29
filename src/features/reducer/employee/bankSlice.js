@@ -138,6 +138,7 @@ export const bankSlice = createSlice({
       .addCase(updateBankDetails.pending, (state) => {
         state.isLoading = true;
       })
+      // eslint-disable-next-line no-unused-vars
       .addCase(updateBankDetails.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
@@ -155,6 +156,7 @@ export const bankSlice = createSlice({
       .addCase(addBankDetails.pending, (state) => {
         state.isLoading = true;
       })
+      // eslint-disable-next-line no-unused-vars
       .addCase(addBankDetails.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
