@@ -1,9 +1,4 @@
-import {
-  createSlice,
-  createAsyncThunk,
-  createAction,
-  current,
-} from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import { salesService } from "../../api-service/sales-action/salesAction";
 
 const initialState = {

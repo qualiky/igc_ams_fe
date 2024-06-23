@@ -15,7 +15,7 @@ const LayoutMain = () => {
       <Sidebar />
       <Outlet />
       {/* <OffCanvas /> */}
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };
