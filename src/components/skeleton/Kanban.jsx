@@ -1,5 +1,3 @@
-import React from "react";
-
 const KanbanSkeletonLoader = () => {
   return (
     <div className="flex space-x-4 p-4 gap-4">

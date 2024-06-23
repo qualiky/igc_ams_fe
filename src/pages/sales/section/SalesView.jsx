@@ -49,7 +49,11 @@ const SalesView = () => {
 
   useEffect(() => {
     setColumns(resultFormatted);
-  }, [resultFormatted]);
+  }, [salesLead]);
+
+  // useEffect(() => {
+  //   dispatch(getSalesLead());
+  // }, [dispatch]);
 
   const handleAddTask = (taskData) => {
     const newBoard = { ...columns };
@@ -58,7 +62,7 @@ const SalesView = () => {
   };
 
   return (
-    <div className=" mx-5 w-full h-full overflow-y-auto">
+    <div className=" pr-[20px] pt-[70px] mx-5 w-full h-full overflow-y-auto">
       {/* ----------------------------------------------Board------------------------------------------------ */}
       <h1 className="text-3xl ml-5 py-5 font-medium">Sales Kanban View</h1>
       <DragDropContext
