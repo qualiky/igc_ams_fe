@@ -66,24 +66,17 @@ const Sidebar = () => {
                 <span className="nav-text">Core HR</span>
               </Link>
             </li>
+
             <li>
-              <a className="has-arrow ">
+              <Link to="sales">
                 <div className="menu-icon">
                   <Icon
                     icon="lets-icons:home-light"
                     className="text-[#888888] text-2xl font-regular"
                   />
                 </div>
-                <span className="nav-text">Core HR</span>
-              </a>
-              <ul className="sub-menu">
-                <li>
-                  <a href="task.html">Tasks</a>
-                </li>
-                <li>
-                  <a href="task-summary.html">Task Summary</a>
-                </li>
-              </ul>
+                <span className="nav-text">Sales</span>
+              </Link>
             </li>
           </ul>
           <div className="help-desk py-3 px-[1.5rem]">

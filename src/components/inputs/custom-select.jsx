@@ -1,12 +1,18 @@
-import React from "react";
 import { Controller } from "react-hook-form";
 import PropTypes from "prop-types";
 
-const CustomSelect = ({ label, options, name, control, errors }) => {
+const CustomSelect = ({
+  label,
+  options,
+  width = "w-1/2",
+  name,
+  control,
+  errors,
+}) => {
   return (
     <>
-      <div className="xl:w-1/2 mb-4 flex flex-col">
-        <label className="form-label">
+      <div className={`xl:${width} mb-4 flex flex-col`}>
+        <label className="text-body-color form-label">
           {label}
           <span className="text-danger">*</span>
         </label>
@@ -17,10 +23,9 @@ const CustomSelect = ({ label, options, name, control, errors }) => {
             <select
               {...field}
               className="style-1 py-1.5 px-3 bg-transparent text-[13px] font-normal outline-none relative focus:ring-0 border border-b-color text-[#a5a5a5] h-[2.813rem] leading-[1.813rem]"
+              defaultValue="defaultValue"
             >
-              <option value="" disabled>
-                Please select
-              </option>
+              <option value="defaultValue">Please select</option>
               {options.map((option, index) => (
                 <option key={index} value={option.value}>
                   {option.label}
@@ -48,6 +53,7 @@ CustomSelect.propTypes = {
     })
   ).isRequired,
   name: PropTypes.string.isRequired,
+  width: PropTypes.string,
   control: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
 };

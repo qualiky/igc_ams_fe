@@ -44,9 +44,11 @@ const Login = () => {
         <div className="lg:w-1/2 w-full mx-auto self-center">
           <div className="login-form mx-auto max-w-[600px] lg:px-[50px] lg:py-0 sm:p-[25px] p-[14px]">
             <div className="text-center">
-              <h3 className="title mb-2">Sign In</h3>
+              <h3 className="title mb-2 text-3xl font-semibold">Sign In</h3>
               <p className="mb-4">
-                Sign in to your account to start using W3CRM
+                Sign in to your account to start using{" "}
+                <span className="text-xl font-semibold">Pirus</span>{" "}
+                <span className="text-xl font-normal text-blue-400">Dash</span>
               </p>
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -55,7 +57,7 @@ const Login = () => {
                 <Controller
                   name="identifier"
                   control={control}
-                  defaultValue=""
+                  defaultValue="roshan.nyaupane@apexcollege.edu.np"
                   render={({ field }) => (
                     <input
                       {...field}
@@ -74,7 +76,7 @@ const Login = () => {
                 <Controller
                   name="password"
                   control={control}
-                  defaultValue=""
+                  defaultValue="123456"
                   render={({ field }) => (
                     <input
                       {...field}
@@ -90,7 +92,7 @@ const Login = () => {
               </div>
               <div className="form-row flex justify-between mt-6 mb-2">
                 <div className="mb-6">
-                  <label className="leading-normal block min-h-[1.3125rem] pl-[1.5em] custom-checkbox mb-4 whitespace-nowrap">
+                  <label className="leading-normal min-h-[1.3125rem] pl-[1.5em] flex items-center custom-checkbox mb-4 whitespace-nowrap">
                     {/* <Controller
                       name="identifier"
                       control={control}
@@ -102,10 +104,7 @@ const Login = () => {
                       className="form-check-input ml-[-1.5em]"
                       id="customCheckBox1"
                     />
-                    {/* )}
-                    /> */}
-
-                    <span className="mt-[5px] text-body-color ml-[0.3125rem]">
+                    <span className="mt-[5px] text-body-color ml-[0.7125rem]">
                       Remember my preference
                     </span>
                   </label>

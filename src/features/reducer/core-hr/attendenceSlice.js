@@ -41,7 +41,7 @@ export const addAttendence = createAsyncThunk(
 );
 
 export const attendenceSlice = createSlice({
-  name: "bank",
+  name: "attendence",
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -52,14 +52,14 @@ export const attendenceSlice = createSlice({
       })
       .addCase(getAttendence.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.bankDetails = action?.payload?.data;
+        state.allAttendence = action?.payload?.data;
       })
       .addCase(getAttendence.rejected, (state) => {
         state.isLoading = false;
-        state.bankDetails = [];
+        state.allAttendence = [];
       })
 
-      // -----------------Single Bank----------------
+      // -----------------Single Attendence----------------
 
       .addCase(getSingleAttendence.pending, (state) => {
         state.isLoading = true;
@@ -74,7 +74,7 @@ export const attendenceSlice = createSlice({
         state.singleAttendence = {};
       })
 
-      // -----------------Add Bank----------------
+      // -----------------Add Attendence----------------
 
       .addCase(addAttendence.pending, (state) => {
         state.isLoading = true;

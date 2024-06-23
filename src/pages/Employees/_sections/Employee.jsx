@@ -8,7 +8,7 @@ const EmployeeList = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllEmployees());
+    dispatch(getAllEmployees({ populate: null }));
   }, [dispatch]);
 
   return (

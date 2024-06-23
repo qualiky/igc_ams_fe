@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import CustomInputs from "../../../components/inputs/custom-inputs";
@@ -8,7 +8,6 @@ import {
   updateBankDetails,
 } from "../../../features/reducer/employee/bankSlice";
 import { Link, useNavigate } from "react-router-dom";
-import { getBankDetail, getLoginData } from "../../../selectors/selectors";
 import CustomSelect from "../../../components/inputs/custom-select";
 import { bankList } from "../../../_mock/bank-list";
 import PropTypes from "prop-types";
@@ -28,8 +27,6 @@ const AddEmployeeBankDetails = ({ currentBankAccount }) => {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
-
-  const { user } = useSelector(getLoginData);
 
   const {
     control,
@@ -66,6 +63,7 @@ const AddEmployeeBankDetails = ({ currentBankAccount }) => {
   }, [currentBankAccount, reset]);
 
   const onSubmit = (data) => {
+    // eslint-disable-next-line no-extra-boolean-cast
     if (!!currentBankAccount) {
       dispatch(updateBankDetails({ id: currentBankAccount?.id, data }));
     } else {
@@ -159,7 +157,7 @@ const AddEmployeeBankDetails = ({ currentBankAccount }) => {
   );
 };
 
-AddEmployeeBankDetails.proptypes = {
+AddEmployeeBankDetails.propTypes = {
   currentBankAccount: PropTypes.object,
 };
 

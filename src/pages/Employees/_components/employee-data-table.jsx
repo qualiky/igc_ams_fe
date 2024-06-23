@@ -54,7 +54,10 @@ const EmployeeDataTable = () => {
             alt={row.name}
           />
         ) : (
-          <AvatarByName firstname="Roshan" lastname="Nyaupane" />
+          <AvatarByName
+            firstname={row?.attributes?.firstName}
+            lastname={row?.attributes?.lastName}
+          />
         ),
       width: "150px",
     },

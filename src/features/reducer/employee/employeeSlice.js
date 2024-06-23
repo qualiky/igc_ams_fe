@@ -14,9 +14,9 @@ const initialState = {
 
 export const getAllEmployees = createAsyncThunk(
   "get_all_employee",
-  async (thunkAPI) => {
+  async ({ populate }, thunkAPI) => {
     try {
-      return await employeeService.getAllEmployee();
+      return await employeeService.getAllEmployee({ populate });
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }

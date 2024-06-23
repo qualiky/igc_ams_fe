@@ -9,3 +9,9 @@ export const getSingleBankDetail = (state) => state?.bank;
 
 // Education
 export const getSingleEducationDetail = (state) => state.education;
+
+// Attendence
+export const getALlAttendence = (state) => state.attendence;
+
+//Sales Lead
+export const getAllSalesLead = (state) => state.sales;

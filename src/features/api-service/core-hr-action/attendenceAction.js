@@ -8,7 +8,7 @@ const getAllAttendence = async () => {
   const config = await getConfigWithToken();
   try {
     const response = await axios.get(
-      `${base_url}attendance-infos?populate=deep`,
+      `${base_url}attendance-infos?populate=*`,
       config
     );
     return response.data;

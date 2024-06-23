@@ -21,6 +21,7 @@ import CoreHr from "../pages/core-hr";
 import HrView from "../pages/core-hr/_views/HrView";
 import AddPersonalIdentification from "../pages/Employees/_sections/add-personal-information";
 import EditPersonalInfoView from "../pages/Employees/_views/edit-personal-info-view";
+import Sales from "../pages/sales/Sales";
 
 const CustomRoutes = () => {
   const routes = useRoutes([
@@ -63,6 +64,12 @@ const CustomRoutes = () => {
           path: "core-hr",
           element: <ProtectedRoute element={CoreHr} />,
           children: [{ path: "", element: <HrView /> }],
+        },
+
+        {
+          path: "sales",
+          element: <ProtectedRoute element={Sales} />,
+          children: [{ path: "", element: <Sales /> }],
         },
 
         { path: "user-profile", element: <UserProfile /> },

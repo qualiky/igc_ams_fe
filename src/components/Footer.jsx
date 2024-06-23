@@ -12,8 +12,8 @@ const Footer = () => {
               target="_blank"
               className="text-primary"
             >
-              Roshan Nyaupane
-            </a>{" "}
+              Pirus Dev Team{" "}
+            </a>
             2024
           </p>
         </div>
