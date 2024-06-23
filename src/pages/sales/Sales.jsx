@@ -8,15 +8,13 @@ import Breadcumb from "../../components/Breadcumb";
 import KanbanSkeletonLoader from "../../components/skeleton/Kanban";
 
 const Sales = () => {
-  // const { isLoading } = useSelector(getAllSalesLead);
+  const { isLoading } = useSelector(getAllSalesLead);
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getSalesLead());
   }, [dispatch]);
 
-  const isLoading = true;
-  console.log(isLoading);
   return (
     <>
       <div className="content-body">
