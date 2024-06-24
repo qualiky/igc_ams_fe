@@ -17,6 +17,7 @@ import {
   getALlAttendence,
   getAllEmployeeData,
 } from "../../../selectors/selectors";
+import TableSkeletonLoader from "../../../components/skeleton/Table";
 
 const attendenceSchema = yup.object().shape({
   inTime: yup.string(),
@@ -39,7 +40,7 @@ const HrView = () => {
 
   const navigate = useNavigate();
 
-  const { employeeData } = useSelector(getAllEmployeeData);
+  const { employeeData, isLoading } = useSelector(getAllEmployeeData);
 
   const { allAttendence } = useSelector(getALlAttendence);
 
@@ -80,7 +81,6 @@ const HrView = () => {
 
     dispatch(addAttendence({ data: modifiedData }));
 
-    console.log(modifiedData);
     reset();
   };
 
@@ -169,65 +169,69 @@ const HrView = () => {
                           </th> */}
                         </tr>
                       </thead>
-                      <tbody>
-                        {employeeData?.map((item, index) => {
-                          return (
-                            <tr key={index}>
-                              <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-1.5 px-5 font-normal whitespace-nowrap">
-                                <div className="products flex items-center">
-                                  <img
-                                    src="assets/images/contacts/pic2.jpg"
-                                    className="inline-block mr-2.5 w-[2.813rem] min-w-[2.813rem] h-[2.813rem] rounded-md relative object-cover avatar-md"
-                                    alt=""
-                                  />
-                                  <div>
-                                    <h6 className="text-sm">
-                                      {item?.attributes?.firstName}{" "}
-                                      {item?.attributes?.lastName}
-                                    </h6>
-                                    <span className="text-xs">
-                                      {item?.attributes?.primaryEmail}
-                                    </span>
+                      {isLoading ? (
+                        <TableSkeletonLoader />
+                      ) : (
+                        <tbody>
+                          {employeeData?.map((item, index) => {
+                            return (
+                              <tr key={index}>
+                                <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-1.5 px-5 font-normal whitespace-nowrap">
+                                  <div className="products flex items-center">
+                                    <img
+                                      src="assets/images/contacts/pic2.jpg"
+                                      className="inline-block mr-2.5 w-[2.813rem] min-w-[2.813rem] h-[2.813rem] rounded-md relative object-cover avatar-md"
+                                      alt=""
+                                    />
+                                    <div>
+                                      <h6 className="text-sm">
+                                        {item?.attributes?.firstName}{" "}
+                                        {item?.attributes?.lastName}
+                                      </h6>
+                                      <span className="text-xs">
+                                        {item?.attributes?.primaryEmail}
+                                      </span>
+                                    </div>
                                   </div>
-                                </div>
-                              </td>
-                              {item?.attributes?.attendanceInfos?.data?.map(
-                                (attendance, indexNew) => {
-                                  return (
-                                    <>
-                                      {attendance?.attributes
-                                        ?.attendanceStatus === "Present" ? (
-                                        <td
-                                          key={indexNew}
-                                          className="border-b text-center border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap"
-                                        >
-                                          <span className="text-success">
-                                            <i className="fa-solid fa-check"></i>
-                                          </span>
-                                        </td>
-                                      ) : (
-                                        <td
-                                          key={index}
-                                          className="border-b text-center border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap"
-                                        >
-                                          <span className="text-danger">
-                                            <i className="fa-regular fa-xmark font-black"></i>
-                                          </span>
-                                        </td>
-                                      )}
-                                    </>
-                                  );
-                                }
-                              )}
-                              {/* <td className="text-center border-b border-[#E6E6E6] dark:border-[#444444] py-[15px] pr-[7px] pl-[25px]">
+                                </td>
+                                {item?.attributes?.attendanceInfos?.data?.map(
+                                  (attendance, indexNew) => {
+                                    return (
+                                      <>
+                                        {attendance?.attributes
+                                          ?.attendanceStatus === "Present" ? (
+                                          <td
+                                            key={indexNew}
+                                            className="border-b text-center border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap"
+                                          >
+                                            <span className="text-success">
+                                              <i className="fa-solid fa-check"></i>
+                                            </span>
+                                          </td>
+                                        ) : (
+                                          <td
+                                            key={index}
+                                            className="border-b text-center border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[15px] px-[7px] font-normal whitespace-nowrap"
+                                          >
+                                            <span className="text-danger">
+                                              <i className="fa-regular fa-xmark font-black"></i>
+                                            </span>
+                                          </td>
+                                        )}
+                                      </>
+                                    );
+                                  }
+                                )}
+                                {/* <td className="text-center border-b border-[#E6E6E6] dark:border-[#444444] py-[15px] pr-[7px] pl-[25px]">
                                 <span className="text-body-color dark:text-white text-[13px]">
                                   28/31
                                 </span>
                               </td> */}
-                            </tr>
-                          );
-                        })}
-                      </tbody>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      )}
                     </table>
                   </div>
                 </div>

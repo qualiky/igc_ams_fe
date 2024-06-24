@@ -4,7 +4,7 @@ import Chatbox from "../../components/Chatbox";
 import Header from "../../components/Header";
 import Sidebar from "../../components/Sidebar";
 // import OffCanvas from "../../components/OffCanvas";
-import Footer from "../../components/Footer";
+// import Footer from "../../components/Footer";
 
 const LayoutMain = () => {
   return (

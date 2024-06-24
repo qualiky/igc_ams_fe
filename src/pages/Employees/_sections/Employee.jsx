@@ -3,6 +3,8 @@ import EmployeeDataTable from "../_components/employee-data-table";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getAllEmployees } from "../../../features/reducer/employee/employeeSlice";
+import { getAllEmployeeData } from "../../../selectors/selectors";
+import { useSelector } from "react-redux";
 
 const EmployeeList = () => {
   const dispatch = useDispatch();
@@ -10,6 +12,8 @@ const EmployeeList = () => {
   useEffect(() => {
     dispatch(getAllEmployees({ populate: null }));
   }, [dispatch]);
+
+  const { isLoading } = useSelector(getAllEmployeeData);
 
   return (
     <>
@@ -37,7 +41,22 @@ const EmployeeList = () => {
                     </div>
                   </div>
 
-                  <EmployeeDataTable />
+                  {!isLoading ? (
+                    <EmployeeDataTable />
+                  ) : (
+                    <div className="h-[350px] w-full bg-white">
+                      <div className="animate-pulse px-5">
+                        {Array.from({ length: 10 }).map((_, index) => (
+                          <div
+                            key={index}
+                            className={`h-4 ${
+                              index % 2 === 0 ? "bg-gray-200" : "bg-gray-300"
+                            } mb-6 rounded ${index === 0 ? "mt-3" : ""}`}
+                          ></div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

@@ -130,7 +130,7 @@ export const bankSlice = createSlice({
 
       // -----------------Update Sales----------------
       .addCase(updateSalesLead.pending, (state) => {
-        state.isLoading = true;
+        state.isLoading = false;
       })
       // eslint-disable-next-line no-unused-vars
       .addCase(updateSalesLead.fulfilled, (state, action) => {

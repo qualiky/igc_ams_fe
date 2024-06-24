@@ -6,6 +6,7 @@ const Sidebar = () => {
   const [activeMenu, setActiveMenu] = useState("");
   let location = useLocation();
 
+  console.log(activeMenu);
   useEffect(() => {
     const parts = location.pathname.split("/");
     setActiveMenu(parts[1] || "");
@@ -16,37 +17,53 @@ const Sidebar = () => {
       <div className="deznav">
         <div className="deznav-scroll">
           <ul className="metismenu" id="menu">
-            <li className="menu-title">YOUR COMPANY</li>
+            <li className="menu-title"></li>
 
             <li
               className={`${
-                activeMenu !== "employee" && activeMenu === ""
-                  ? "mm-active"
-                  : ""
+                activeMenu === "" ? "mm-active" : ""
               } cursor-pointer`}
             >
               <Link to="/">
                 <div className="menu-icon">
                   <Icon
                     icon="lets-icons:home-light"
-                    className="text-[#888888] text-2xl font-regular"
+                    className={`text-${
+                      activeMenu == "" ? "[#0D99FF] " : "[#888888] "
+                    } text-2xl `}
                   />
                 </div>
                 <span className="nav-text">Home</span>
               </Link>
             </li>
 
-            <li>
-              <a className="has-arrow ">
+            <li
+              className={`${
+                activeMenu == "employee" ? "mm-active" : ""
+              } cursor-pointer`}
+            >
+              <a
+                className={`has-arrow ${
+                  activeMenu == "employee" ? "" : "bg-white"
+                }`}
+              >
                 <div className="menu-icon">
                   <Icon
-                    icon="lets-icons:home-light"
-                    className="text-[#888888] text-2xl font-regular"
+                    icon="ph:user-thin"
+                    className={`text-${
+                      activeMenu == "employee" ? "[#0D99FF] " : "[#888888] "
+                    } text-2xl `}
                   />
                 </div>
-                <span className="nav-text">Employee</span>
+                <span
+                  className={`nav-text ${
+                    activeMenu == "employee" ? "" : "text-black"
+                  }`}
+                >
+                  Employee
+                </span>
               </a>
-              <ul className="sub-menu">
+              <ul className="sub-menu pl-3">
                 <li>
                   <Link to="/employee">List</Link>
                 </li>
@@ -55,27 +72,40 @@ const Sidebar = () => {
                 </li>
               </ul>
             </li>
-            <li>
-              <Link to="core-hr">
-                <div className="menu-icon">
-                  <Icon
-                    icon="lets-icons:home-light"
-                    className="text-[#888888] text-2xl font-regular"
-                  />
-                </div>
-                <span className="nav-text">Core HR</span>
-              </Link>
-            </li>
 
-            <li>
+            <li
+              className={`${
+                activeMenu == "sales" ? "mm-active" : ""
+              } cursor-pointer`}
+            >
               <Link to="sales">
                 <div className="menu-icon">
                   <Icon
-                    icon="lets-icons:home-light"
-                    className="text-[#888888] text-2xl font-regular"
+                    icon="arcticons:moneytracker"
+                    className={`text-${
+                      activeMenu == "sales" ? "[#0D99FF] " : "[#888888] "
+                    } text-2xl `}
                   />
                 </div>
                 <span className="nav-text">Sales</span>
+              </Link>
+            </li>
+
+            <li
+              className={`${
+                activeMenu == "core-hr" ? "mm-active" : ""
+              } cursor-pointer`}
+            >
+              <Link to="core-hr">
+                <div className="menu-icon">
+                  <Icon
+                    icon="ph:users-thin"
+                    className={`text-${
+                      activeMenu == "core-hr" ? "[#0D99FF] " : "[#888888] "
+                    } text-2xl `}
+                  />
+                </div>
+                <span className="nav-text">Core HR</span>
               </Link>
             </li>
           </ul>

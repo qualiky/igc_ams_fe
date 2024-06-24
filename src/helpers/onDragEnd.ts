@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const onDragEnd = (result: any, columns: any, setColumns: any) => {
+export const onDragEnd = (result: any, columns: any, setColumns: any,handleDrag: any) => {
 	if (!result.destination) return;
 
 	const { source, destination } = result;
@@ -11,6 +11,10 @@ export const onDragEnd = (result: any, columns: any, setColumns: any) => {
 		const destItems = [...destColumn.items];
 		const [removed] = sourceItems.splice(source.index, 1);
 		destItems.splice(destination.index, 0, removed);
+
+		// console.log(removed)
+		// console.log(destColumn)
+		handleDrag(removed,destColumn)
 		setColumns({
 			...columns,
 			[source.droppableId]: {
@@ -24,7 +28,7 @@ export const onDragEnd = (result: any, columns: any, setColumns: any) => {
 		});
 	} else {
 		const column = columns[source.droppableId];
-		const copiedItems = [...columns.items];
+		const copiedItems = [...columns?.items];
 		const [removed] = copiedItems.splice(source.index, 1);
 		copiedItems.splice(destination.index, 0, removed);
 		setColumns({
