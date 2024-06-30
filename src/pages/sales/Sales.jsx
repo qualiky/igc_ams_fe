@@ -17,21 +17,21 @@ const Sales = () => {
 
   return (
     <>
-      <div className="content-body">
-        <Breadcumb title="Home" subtitle="Sales" />
+      {/* <div className="content-body"> */}
+      <Breadcumb title="Home" subtitle="Sales" />
 
-        <div className="container-fluid p-0">
-          <div className="row">
-            <div className="w-full">
-              <div className="row">
-                <div className="w-full">
-                  {isLoading ? <KanbanSkeletonLoader /> : <SalesView />}
-                </div>
+      <div className="container-fluid p-0">
+        <div className="row">
+          <div className="w-full">
+            <div className="row">
+              <div className="w-full">
+                {isLoading ? <KanbanSkeletonLoader /> : <SalesView />}
               </div>
             </div>
           </div>
         </div>
       </div>
+      {/* </div> */}
     </>
   );
 };

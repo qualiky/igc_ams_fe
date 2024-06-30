@@ -1,12 +1,12 @@
 import { Link, useLocation } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import { useEffect, useState } from "react";
+import { paths } from "../routes/path";
 
 const Sidebar = () => {
   const [activeMenu, setActiveMenu] = useState("");
   let location = useLocation();
 
-  console.log(activeMenu);
   useEffect(() => {
     const parts = location.pathname.split("/");
     setActiveMenu(parts[1] || "");
@@ -24,10 +24,10 @@ const Sidebar = () => {
                 activeMenu === "" ? "mm-active" : ""
               } cursor-pointer`}
             >
-              <Link to="/">
+              <Link to={paths.dashboard.root}>
                 <div className="menu-icon">
                   <Icon
-                    icon="lets-icons:home-light"
+                    icon="solar:home-angle-2-bold-duotone"
                     className={`text-${
                       activeMenu == "" ? "[#0D99FF] " : "[#888888] "
                     } text-2xl `}
@@ -49,7 +49,7 @@ const Sidebar = () => {
               >
                 <div className="menu-icon">
                   <Icon
-                    icon="ph:user-thin"
+                    icon="uim:user-nurse"
                     className={`text-${
                       activeMenu == "employee" ? "[#0D99FF] " : "[#888888] "
                     } text-2xl `}
@@ -65,10 +65,12 @@ const Sidebar = () => {
               </a>
               <ul className="sub-menu pl-3">
                 <li>
-                  <Link to="/employee">List</Link>
+                  <Link to={paths.dashboard.employee.employee}>List</Link>
                 </li>
                 <li>
-                  <Link to="/employee/add-employee">Add Employee</Link>
+                  <Link to={paths.dashboard.employee.addEmployee}>
+                    Add Employee
+                  </Link>
                 </li>
               </ul>
             </li>
@@ -78,10 +80,10 @@ const Sidebar = () => {
                 activeMenu == "sales" ? "mm-active" : ""
               } cursor-pointer`}
             >
-              <Link to="sales">
+              <Link to={paths.dashboard.sales.root}>
                 <div className="menu-icon">
                   <Icon
-                    icon="arcticons:moneytracker"
+                    icon="solar:dollar-bold-duotone"
                     className={`text-${
                       activeMenu == "sales" ? "[#0D99FF] " : "[#888888] "
                     } text-2xl `}
@@ -96,16 +98,33 @@ const Sidebar = () => {
                 activeMenu == "core-hr" ? "mm-active" : ""
               } cursor-pointer`}
             >
-              <Link to="core-hr">
+              <Link to={paths.dashboard.coreHr}>
                 <div className="menu-icon">
                   <Icon
-                    icon="ph:users-thin"
+                    icon="solar:users-group-rounded-bold-duotone"
                     className={`text-${
                       activeMenu == "core-hr" ? "[#0D99FF] " : "[#888888] "
                     } text-2xl `}
                   />
                 </div>
                 <span className="nav-text">Core HR</span>
+              </Link>
+            </li>
+            <li
+              className={`${
+                activeMenu == "leave" ? "mm-active" : ""
+              } cursor-pointer`}
+            >
+              <Link to={paths.dashboard.leave.leave}>
+                <div className="menu-icon">
+                  <Icon
+                    icon="uim:calender"
+                    className={`text-${
+                      activeMenu == "leave" ? "[#0D99FF] " : "[#888888] "
+                    } text-2xl `}
+                  />
+                </div>
+                <span className="nav-text">Leave</span>
               </Link>
             </li>
           </ul>

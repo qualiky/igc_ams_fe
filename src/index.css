@@ -6,6 +6,11 @@
   overflow-y: hidden;
 }
 
+.nav-text {
+  font-size: 0.99rem !important;
+  padding-left: 10px;
+}
+
 /* ----------------------------------Nice Select----------------------- */
 .nice-select {
   -webkit-tap-highlight-color: transparent;
@@ -196,4 +201,18 @@
 
 .custom-box-shadow-low {
   box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgb(209, 213, 219) 0px 0px 0px 1px inset;
+}
+
+/* -------------------Toastify--------------------------------- */
+.Toastify__toast-theme--colored.Toastify__toast--info {
+  background: #0D99FF !important;
+}
+
+.Toastify__toast-theme--colored.Toastify__toast--success {
+  background: #3AC977 !important;
+}
+
+.Toastify__toast-theme--colored.Toastify__toast--error {
+  background: #FF5E5E !important;
+
 }

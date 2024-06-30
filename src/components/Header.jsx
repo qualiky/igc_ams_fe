@@ -2,9 +2,15 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { logoutUser } from "../features/reducer/auth/authSlice";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { getLoginData } from "../selectors/selectors";
+import { paths } from "../routes/path";
 
 const Header = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
+
+  const { user } = useSelector(getLoginData);
 
   const dispatch = useDispatch();
 
@@ -12,8 +18,11 @@ const Header = () => {
 
   const handleLogout = (e) => {
     e.preventDefault();
-    dispatch(logoutUser());
-    navigate("/auth/login");
+    setTimeout(() => {
+      dispatch(logoutUser());
+      toast.info("Logout Successfully");
+      navigate("/auth/login");
+    }, 1500);
   };
 
   return (
@@ -534,21 +543,32 @@ const Header = () => {
                       role="button"
                       data-bs-toggle="dropdown"
                       onClick={() => setOpenDrawer(!openDrawer)}
+                      to={paths.dashboard.employee.details.employeeDetails(
+                        user?.id
+                      )}
                     >
                       <div className="header-info2 flex items-center">
-                        <div className="header-media mr-[7px] h-[1.875rem] w-[1.875rem]">
-                          <img
-                            src="assets/images/tab/1.jpg"
-                            alt=""
-                            className="w-full rounded-full"
-                          />
+                        <div className="header-media mr-[7px] h-[2.2rem] w-[2.2rem]">
+                          {user?.profileImage ? (
+                            <img
+                              src="/assets/images/tab/1.jpg"
+                              alt=""
+                              className="w-full rounded-full"
+                            />
+                          ) : (
+                            <img
+                              src="/assets/logo/default-user.jpg"
+                              alt=""
+                              className="w-full rounded-full"
+                            />
+                          )}
                         </div>
                         <div className="header-info text-white max-sm:hidden">
                           <h6 className="lg:text-[13px] text-xs mb-1 font-semibold text-white leading-[1]">
                             Roshan Nyaupane
                           </h6>
                           <p className="text-xs leading-[1] text-[#E1E1E1] mb-1">
-                            roshan@gmail.com
+                            {user?.email}
                           </p>
                         </div>
                       </div>
@@ -561,23 +581,31 @@ const Header = () => {
                     >
                       <div className="card border-0 mb-0">
                         <div className="card-header relative flex items-center justify-between bg-transparent py-2 sm:px-[1.25rem] px-4 border-b border-[#E6E6E6] dark:border-[#444444]">
-                          <div className="flex items-center">
+                          <Link
+                            to={paths.dashboard.employee.details.employeeDetails(
+                              user?.id
+                            )}
+                            onClick={() => setOpenDrawer(!openDrawer)}
+                            className="flex items-center"
+                          >
                             <img
-                              src="assets/images/tab/1.jpg"
+                              src="/assets/logo/default-user.jpg"
                               className="avatar avatar-md mr-2.5 h-[2.813rem] w-[2.813rem] inline-block object-cover rounded-md"
                               alt=""
                             />
                             <div>
                               <h6 className="text-sm">Roshan Nyaupane</h6>
                               <span className="text-xs text-body-color">
-                                Web Designer
+                                {user?.username}
                               </span>
                             </div>
-                          </div>
+                          </Link>
                         </div>
                         <div className="card-body sm:py-2 border-b border-[#E6E6E6] dark:border-[#444444]">
                           <Link
-                            to="/user-profile"
+                            to={paths.dashboard.employee.details.employeeDetails(
+                              user?.id
+                            )}
                             className="dropdown-item py-[0.6rem] px-[1.25rem] block w-full ai-icon hover:bg-primary-light group"
                           >
                             <svg
@@ -739,10 +767,9 @@ const Header = () => {
                               Settings{" "}
                             </span>
                           </a>
-                          <Link
-                            to="auth/login"
+                          <a
                             onClick={(e) => handleLogout(e)}
-                            className="dropdown-item py-[0.6rem] px-[1.25rem] text-base block w-full ai-icon"
+                            className="cursor-pointer dropdown-item py-[0.6rem] px-[1.25rem] text-base block w-full ai-icon"
                           >
                             <svg
                               className="profle-logout inline-block"
@@ -763,7 +790,7 @@ const Header = () => {
                             <span className="ml-2 text-danger text-[13px]">
                               Logout
                             </span>
-                          </Link>
+                          </a>
                         </div>
                       </div>
                     </div>

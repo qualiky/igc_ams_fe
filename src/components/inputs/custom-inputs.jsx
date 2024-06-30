@@ -9,6 +9,7 @@ const CustomInputs = ({
   label,
   errors,
   value,
+  disabled = false,
 }) => {
   return (
     <>
@@ -26,6 +27,7 @@ const CustomInputs = ({
               type={type}
               className="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 focus:border-primary dark:hover:border-b-color outline-none w-full"
               id={name}
+              disabled={disabled}
               placeholder={`Enter ${label}`}
               defaultValue={value}
             />
@@ -47,6 +49,7 @@ CustomInputs.propTypes = {
   errors: PropTypes.object.isRequired,
   width: PropTypes.string,
   value: PropTypes.string,
+  disabled: PropTypes?.bool,
 };
 
 export default CustomInputs;

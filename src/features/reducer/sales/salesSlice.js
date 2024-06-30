@@ -6,7 +6,7 @@ const initialState = {
   singleSalesLead: {},
   isError: false,
   isSuccess: false,
-  isLoading: false,
+  isLoading: true,
 };
 
 export const getSalesLead = createAsyncThunk(

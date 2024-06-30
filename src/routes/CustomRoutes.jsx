@@ -9,7 +9,6 @@ import Error403 from "../pages/error/Error403";
 import AddEmployee from "../pages/Employees/_sections/add-employee";
 import EmployeeList from "../pages/Employees/_sections/Employee";
 import Employee from "../pages/Employees";
-import UserProfile from "../pages/profile/user-profile";
 import EmployeeDetail from "../pages/Employees/_sections/employee-detail";
 import AddEmployeeBankDetails from "../pages/Employees/_sections/add-bank-details";
 import AddEducation from "../pages/Employees/_sections/add-education";
@@ -22,6 +21,11 @@ import HrView from "../pages/core-hr/_views/HrView";
 import AddPersonalIdentification from "../pages/Employees/_sections/add-personal-information";
 import EditPersonalInfoView from "../pages/Employees/_views/edit-personal-info-view";
 import Sales from "../pages/sales/Sales";
+import Leave from "../pages/leave/index";
+import LeadDetail from "../pages/sales/section/LeadDetailView";
+import SalesPage from "../pages/sales";
+import LeaveDetails from "../pages/leave/_sections/LeaveDetails";
+import LeaveView from "../pages/leave/_sections/LeaveView";
 
 const CustomRoutes = () => {
   const routes = useRoutes([
@@ -37,7 +41,7 @@ const CustomRoutes = () => {
       path: "/",
       element: <LayoutMain />,
       children: [
-        { path: "/", element: <ProtectedRoute element={Home} /> },
+        { path: "", element: <ProtectedRoute element={Home} /> },
         {
           path: "employee",
           element: <ProtectedRoute element={Employee} />,
@@ -68,11 +72,20 @@ const CustomRoutes = () => {
 
         {
           path: "sales",
-          element: <ProtectedRoute element={Sales} />,
-          children: [{ path: "", element: <Sales /> }],
+          element: <ProtectedRoute element={SalesPage} />,
+          children: [
+            { path: "", element: <Sales /> },
+            { path: "details/:id", element: <LeadDetail /> },
+          ],
         },
-
-        { path: "user-profile", element: <UserProfile /> },
+        {
+          path: "leave",
+          element: <ProtectedRoute element={Leave} />,
+          children: [
+            { path: "", element: <LeaveView /> },
+            { path: "details/:id", element: <LeaveDetails /> },
+          ],
+        },
       ],
     },
     { path: "/Loading", element: <PreLoader /> },

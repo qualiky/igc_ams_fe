@@ -18,6 +18,7 @@ import {
   getAllEmployeeData,
 } from "../../../selectors/selectors";
 import TableSkeletonLoader from "../../../components/skeleton/Table";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 const attendenceSchema = yup.object().shape({
   inTime: yup.string(),
@@ -117,6 +118,10 @@ const HrView = () => {
     navigate(`/employee/details/${id}`);
   };
 
+  const handleReload = () => {
+    dispatch(getAllEmployees({ populate: null }));
+  };
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -130,8 +135,7 @@ const HrView = () => {
                     <h4 className="max-sm:mb-2.5 font-medium text-xl">
                       Attendance
                     </h4>
-                    <div>
-                      {/* <!-- Button trigger modal --> */}
+                    <div className="flex gap-2">
                       <button
                         type="button"
                         className="py-[5px] px-3 text-[13px] rounded text-white bg-primary leading-[18px] inline-block border border-primary btn-sm duration-500 hover:bg-hover-primary dz-modal-btn"
@@ -139,6 +143,13 @@ const HrView = () => {
                       >
                         + Add Attendance
                       </button>
+                      <a
+                        className="btn btn-secondary flex cursor-pointer items-center gap-2 py-[5px] px-3 text-[13px] rounded text-white bg-secondary  border border-secondary btn-sm "
+                        onClick={handleReload}
+                      >
+                        <Icon icon="uim:process" />
+                        Refresh
+                      </a>
                     </div>
                   </div>
                   <div className="overflow-x-auto active-projects style-1 attendance-tbl ">

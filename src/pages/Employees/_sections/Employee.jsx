@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { getAllEmployees } from "../../../features/reducer/employee/employeeSlice";
 import { getAllEmployeeData } from "../../../selectors/selectors";
 import { useSelector } from "react-redux";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 const EmployeeList = () => {
   const dispatch = useDispatch();
@@ -15,6 +16,9 @@ const EmployeeList = () => {
 
   const { isLoading } = useSelector(getAllEmployeeData);
 
+  const handleReload = () => {
+    dispatch(getAllEmployees({ populate: null }));
+  };
   return (
     <>
       <div className="container-fluid">
@@ -24,7 +28,9 @@ const EmployeeList = () => {
               <div className="card-body p-0">
                 <div className="overflow-x-auto active-projects style-1">
                   <div className="tbl-caption flex justify-between items-center flex-wrap p-5 relative z-[2]">
-                    <h4 className="max-sm:mb-2.5">Employees</h4>
+                    <h4 className="max-sm:mb-2.5 text-xl font-medium">
+                      Employees
+                    </h4>
                     <div className="flex gap-2">
                       <Link
                         to="/employee/add-employee"
@@ -32,12 +38,13 @@ const EmployeeList = () => {
                       >
                         + Add Employee
                       </Link>
-                      <Link
-                        to="/employee/invite-employee"
-                        className="btn btn-secondary py-[5px] px-3 text-[13px] rounded text-white bg-secondary leading-[18px] inline-block border border-secondary btn-sm "
+                      <a
+                        className="btn btn-secondary flex cursor-pointer items-center gap-2 py-[5px] px-3 text-[13px] rounded text-white bg-secondary  border border-secondary btn-sm "
+                        onClick={handleReload}
                       >
-                        + Invite Employee
-                      </Link>
+                        <Icon icon="uim:process" />
+                        Refresh
+                      </a>
                     </div>
                   </div>
 

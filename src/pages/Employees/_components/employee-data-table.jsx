@@ -25,11 +25,11 @@ const EmployeeDataTable = () => {
   const { employeeData } = useSelector(getAllEmployeeData);
 
   const handleChange = ({ selectedRows }) => {
-    // You can set state or dispatch with something like Redux so we can use the retrieved data
     console.log("Selected Rows: ", selectedRows);
   };
 
   const navigate = useNavigate();
+
   const handleView = (id) => {
     navigate(`/employee/details/${id}`);
   };
@@ -46,7 +46,7 @@ const EmployeeDataTable = () => {
       cell: (row) =>
         row?.attributes?.profileImage?.data?.attributes?.url ? (
           <img
-            className="h-20 w-20 rounded-full m-1 mr-2 object-cover"
+            className="h-14 w-14 rounded-full m-1 mr-2 object-cover"
             src={
               base_img_url +
               row?.attributes?.profileImage?.data?.attributes?.url
@@ -95,7 +95,7 @@ const EmployeeDataTable = () => {
       cell: (row) => (
         <>
           <button
-            className="bg-slate-200 hover:bg-slate-300 text-black font-bold py-2 px-4 rounded"
+            className="bg-slate-200 hover:bg-slate-300 text-black font-bold py-1 px-4 rounded"
             onClick={() => handleView(row?.id)}
           >
             View

@@ -81,9 +81,9 @@ const SalesView = () => {
         >
           {Object.entries(columns).map(([columnId, column]) => (
             <div
-              className="w-full flex flex-col gap-5"
+              className="w-full flex flex-col gap-5 rounded-xl"
               key={columnId}
-              style={{ background: "#DEEBFF", padding: "10px" }}
+              style={{ background: "#ffffff", padding: "10px" }}
             >
               <Droppable droppableId={columnId} key={columnId}>
                 {(provided) => (
@@ -92,7 +92,7 @@ const SalesView = () => {
                     {...provided.droppableProps}
                     className="flex flex-col md:w-[290px] w-[250px] gap-3 items-center py-5"
                   >
-                    <div className="flex items-center justify-center py-[10px] w-full bg-white rounded-lg shadow-sm text-[#555] font-medium text-[15px]">
+                    <div className="flex items-center justify-center py-[10px] w-full bg-[#F1F2F4] shadow-md rounded-lg border border-stone-200 uppercase text-[#393939] font-semibold tracking-wider text-[15px]">
                       {column?.name}
                     </div>
                     {column?.items?.map((task, index) => (
@@ -114,7 +114,7 @@ const SalesView = () => {
               </Droppable>
               <div
                 onClick={() => openModal(column?.id)}
-                className="flex cursor-pointer items-center justify-center gap-1 py-[10px] md:w-[90%] w-full opacity-90 bg-white rounded-lg shadow-sm text-[#555] font-medium text-[15px]"
+                className="flex cursor-pointer bg-[#F1F2F4] items-center justify-center gap-1 py-[10px] md:w-[90%] w-full opacity-90 border border-stone-200 rounded-xl shadow text-[#555] font-medium text-[15px]"
               >
                 {/* <AddOutline color={"#555"} /> */}
                 Add Lead

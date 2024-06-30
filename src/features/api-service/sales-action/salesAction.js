@@ -23,7 +23,7 @@ const getSingleSalesLead = async (id) => {
   const config = await getConfigWithToken();
   try {
     const response = await axios.get(
-      `${base_url}lead-stages/${id}?populate=*`,
+      `${base_url}lead-companies/${id}?populate=*`,
       config
     );
     return response.data;

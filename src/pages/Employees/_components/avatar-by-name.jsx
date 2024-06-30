@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-const AvatarByName = ({ firstname, lastname, size, textColor }) => {
+const AvatarByName = ({ firstname, lastname, size = 14, textColor }) => {
   // Function to generate a random color
   const getRandomColor = () => {
     const letters = "0123456789ABCDEF";
@@ -17,15 +17,15 @@ const AvatarByName = ({ firstname, lastname, size, textColor }) => {
 
   // Function to get the first letter of the first and last name
   const getInitials = () => {
-    return `${firstname.charAt(0)}${lastname.charAt(0)}`;
+    return `${firstname?.charAt(0)}${lastname?.charAt(0) || ""}`;
   };
 
   return (
     <div
       style={{ background: backgroundColor }}
-      className={`m-1 mr-2 h-20 w-20 relative flex justify-center items-center rounded-full text-2xl text-white uppercase`}
+      className={`m-1 mr-2 h-${size} w-${size} relative flex justify-center items-center rounded-full text-2xl text-white uppercase`}
     >
-      {firstname && lastname ? getInitials() : "Unknown"}
+      {firstname || lastname ? getInitials() : "Unknown"}
     </div>
   );
 };
@@ -33,8 +33,8 @@ const AvatarByName = ({ firstname, lastname, size, textColor }) => {
 AvatarByName.propTypes = {
   firstname: PropTypes.string,
   lastname: PropTypes.string,
-  size: PropTypes.number, // Size in pixels
-  textColor: PropTypes.string, // Text color class name
+  size: PropTypes.number,
+  textColor: PropTypes.string,
 };
 
 export default AvatarByName;

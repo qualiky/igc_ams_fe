@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { TaskT } from "../../const/index";
+import { Link } from "react-router-dom";
+import { paths } from "../../routes/path";
 
 interface TaskProps {
   task: TaskT;
@@ -20,14 +22,12 @@ const Task = ({ task, provided }: TaskProps) => {
     nextStep,
   } = task?.attributes;
 
-  // console.log(task);
-
   return (
     <div
       ref={provided.innerRef}
       {...provided.draggableProps}
       {...provided.dragHandleProps}
-      className="w-auto min-w-[290px] cursor-grab bg-[#fff] flex flex-col justify-between gap-3 items-start shadow-sm rounded-xl px-3 py-4"
+      className="w-auto min-w-[290px]  cursor-grab bg-[#F1F2F4] flex flex-col justify-between gap-3 my-2 items-start shadow-sm border border-stone-200 rounded-xl px-3 py-4"
     >
       {/* {image && alt && (
         <img src={image} alt={alt} className="w-full h-[170px] rounded-lg" />
@@ -44,9 +44,11 @@ const Task = ({ task, provided }: TaskProps) => {
         ))}
       </div>  */}
       <div className="w-full flex items-start flex-col gap-0">
-        <span className="text-[15.5px] font-medium text-[#555]">
-          {leadCompanyName}
-        </span>
+        <Link to={paths.dashboard.sales.details(task?.id)}>
+          <span className="text-[15.5px] font-medium text-[#555]">
+            {leadCompanyName}
+          </span>
+        </Link>
         <span className="text-[13.5px] text-gray-500">{leadContactEmail}</span>
       </div>
       <div className="w-full border border-dashed"></div>
