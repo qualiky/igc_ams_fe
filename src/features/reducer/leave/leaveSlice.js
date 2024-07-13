@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
-import { leaveService } from "../../api-service/profile-action/leaveAction";
+import { leaveService } from "../../api-service/leave-action/leaveAction";
 
 const initialState = {
   leaveData: [],

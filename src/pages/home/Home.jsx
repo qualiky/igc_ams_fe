@@ -1,6 +1,6 @@
 import Breadcumb from "../../components/Breadcumb";
 
-import "../../../public/assets/vendor/apexchart/apexchart.min.js";
+// import "../../../public/assets/vendor/apexchart/apexchart.min.js";
 import HomeAnalytics from "./_sections/HomeAnalytics.jsx";
 import { useSelector } from "react-redux";
 import { getAllEmployeeData } from "../../selectors/selectors.js";
@@ -10,8 +10,6 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   const { employeeData } = useSelector(getAllEmployeeData);
-
-  console.log(employeeData);
 
   return (
     <>

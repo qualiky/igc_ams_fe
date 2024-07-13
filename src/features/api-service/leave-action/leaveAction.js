@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import axios from "axios";
 import { toast } from "react-toastify";
 import base_url from "../../../utils/base_url";
@@ -8,12 +9,6 @@ const getAllLeave = async ({ populate }) => {
   const config = await getConfigWithToken();
 
   try {
-    // const response = await axios.get(
-    //   `${base_url}leave-details?${
-    //     populate ? `populate[0]=${populate}` : "populate=*"
-    //   }`,
-    //   config
-    // );
     const response = await axios.get(
       `${base_url}leave-details?sort[0]=leaveStartDay:desc&populate[applyingEmployee][fields][0]=firstName&populate[applyingEmployee][fields][1]=lastName&populate[applyingEmployee][fields][2]=profileImage&populate[applyingEmployee][populate][profileImage][fields][0]=url&fields[0]=leaveType&fields[1]=leaveStartDay&fields[2]=leaveEndDay&fields[3]=approvalStatus&pagination[pageSize]=10&pagination[page]=1`,
       config

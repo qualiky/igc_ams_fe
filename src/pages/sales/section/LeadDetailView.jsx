@@ -6,6 +6,7 @@ import { getSingleSalesLead } from "../../../features/reducer/sales/salesSlice";
 import { useSelector } from "react-redux";
 import { getSingleLead } from "../../../selectors/selectors";
 import AvatarByName from "../../Employees/_components/avatar-by-name";
+import NotFound from "../../../components/NotFound";
 
 const LeadDetailView = () => {
   const { id } = useParams();
@@ -199,101 +200,36 @@ const LeadDetailView = () => {
                       id="DZ_W_TimeLine"
                       className="widget-timeline dz-scroll overflow-y-scroll overflow-x-hidden h-[23.125rem] my-6 px-6"
                     >
-                      <ul className="timeline relative">
-                        {singleSalesLead?.attributes?.leadLogs?.map(
-                          (item, index) => (
-                            <li className="relative mb-[0.9375rem]" key={index}>
-                              <div
-                                className={`timeline-badge rounded-[50%] h-[1.275rem] absolute top-[0.625rem] w-[1.275rem] bg-white border-[0.125rem] border-primary-light p-1 ${
-                                  index % 2 === 0 ? "warning" : "success"
-                                }`}
-                              ></div>
-                              <a className="timeline-panel text-muted">
-                                <span className="text-xs block mb-[0.3125rem] opacity-80 tracking-[0.0625rem] text-body-color">
-                                  {item?.activityDateTime ?? index * 8} days ago
-                                </span>
-                                <h6 className="text-[13px]">
-                                  {item?.activityDescription}
-                                  {/* <strong className="text-primary">$500</strong>. */}
-                                </h6>
-                              </a>
-                            </li>
+                      <ul className="timeline relative w-full h-full">
+                        {singleSalesLead?.attributes?.leadLogs?.length > 0 ? (
+                          singleSalesLead?.attributes?.leadLogs.map(
+                            (item, index) => (
+                              <li
+                                className="relative mb-[0.9375rem]"
+                                key={index}
+                              >
+                                <div
+                                  className={`timeline-badge rounded-[50%] h-[1.275rem] absolute top-[0.625rem] w-[1.275rem] bg-white border-[0.125rem] border-primary-light p-1 ${
+                                    index % 2 === 0 ? "warning" : "success"
+                                  }`}
+                                ></div>
+                                <a className="timeline-panel text-muted">
+                                  <span className="text-xs block mb-[0.3125rem] opacity-80 tracking-[0.0625rem] text-body-color">
+                                    {item?.activityDateTime ?? index * 8} days
+                                    ago
+                                  </span>
+                                  <h6 className="text-[13px]">
+                                    {item?.activityDescription}
+                                  </h6>
+                                </a>
+                              </li>
+                            )
                           )
+                        ) : (
+                          <div className="w-full h-full">
+                            <NotFound />
+                          </div>
                         )}
-
-                        {/* <li className="relative mb-[0.9375rem]">
-                        <div className="timeline-badge rounded-[50%] h-[1.275rem] absolute top-[0.625rem] w-[1.275rem] bg-white border-[0.125rem] border-primary-light p-1 info"></div>
-                        <a className="timeline-panel text-muted">
-                          <span className="text-xs block mb-[0.3125rem] opacity-80 tracking-[0.0625rem] text-body-color">
-                            20 minutes ago
-                          </span>
-                          <h6 className="text-[13px]">
-                            New order placed{" "}
-                            <strong className="text-info">#XF-2356.</strong>
-                          </h6>
-                          <p className="text-xs leading-[1.125rem]">
-                            Quisque a consequat ante Sit amet magna at
-                            volutapt...
-                          </p>
-                        </a>
-                      </li>
-                      <li className="relative mb-[0.9375rem]">
-                        <div className="timeline-badge rounded-[50%] h-[1.275rem] absolute top-[0.625rem] w-[1.275rem] bg-white border-[0.125rem] border-primary-light p-1 danger"></div>
-                        <a
-                          className="timeline-panel text-muted"
-                          href="javascript:void(0);"
-                        >
-                          <span className="text-xs block mb-[0.3125rem] opacity-80 tracking-[0.0625rem] text-body-color">
-                            30 minutes ago
-                          </span>
-                          <h6 className="text-[13px]">
-                            john just buy your product{" "}
-                            <strong className="text-warning">Sell $250</strong>
-                          </h6>
-                        </a>
-                      </li>
-                      <li className="relative mb-[0.9375rem]">
-                        <div className="timeline-badge rounded-[50%] h-[1.275rem] absolute top-[0.625rem] w-[1.275rem] bg-white border-[0.125rem] border-primary-light p-1 success"></div>
-                        <a
-                          className="timeline-panel text-muted"
-                          href="javascript:void(0);"
-                        >
-                          <span className="text-xs block mb-[0.3125rem] opacity-80 tracking-[0.0625rem] text-body-color">
-                            15 minutes ago
-                          </span>
-                          <h6 className="text-[13px]">
-                            StumbleUpon is acquired by eBay.{" "}
-                          </h6>
-                        </a>
-                      </li>
-                      <li className="relative mb-[0.9375rem]">
-                        <div className="timeline-badge rounded-[50%] h-[1.275rem] absolute top-[0.625rem] w-[1.275rem] bg-white border-[0.125rem] border-primary-light p-1 warning"></div>
-                        <a
-                          className="timeline-panel text-muted"
-                          href="javascript:void(0);"
-                        >
-                          <span className="text-xs block mb-[0.3125rem] opacity-80 tracking-[0.0625rem] text-body-color">
-                            20 minutes ago
-                          </span>
-                          <h6 className="text-[13px]">
-                            Mashable, a news website and blog, goes live.
-                          </h6>
-                        </a>
-                      </li>
-                      <li className="relative mb-[0.9375rem]">
-                        <div className="timeline-badge rounded-[50%] h-[1.275rem] absolute top-[0.625rem] w-[1.275rem] bg-white border-[0.125rem] border-primary-light p-1 dark"></div>
-                        <a
-                          className="timeline-panel text-muted"
-                          href="javascript:void(0);"
-                        >
-                          <span className="text-xs block mb-[0.3125rem] opacity-80 tracking-[0.0625rem] text-body-color">
-                            20 minutes ago
-                          </span>
-                          <h6 className="text-[13px]">
-                            Mashable, a news website and blog, goes live.
-                          </h6>
-                        </a>
-                      </li> */}
                       </ul>
                     </div>
                   </div>

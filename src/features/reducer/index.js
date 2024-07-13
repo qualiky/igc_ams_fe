@@ -7,6 +7,8 @@ import attendenceReducer from "./core-hr/attendenceSlice";
 import userReducer from "./profile/userProfileSlice";
 import salesReducer from "./sales/salesSlice";
 import leaveReducer from "./leave/leaveSlice";
+import projectReducer from "./project/projectSlice";
+import projectDetailReducer from "./project/projectDetailSlice";
 
 export const rootReducer = combineReducers({
   auth: authReducer,
@@ -17,4 +19,6 @@ export const rootReducer = combineReducers({
   attendence: attendenceReducer,
   sales: salesReducer,
   leave: leaveReducer,
+  project: projectReducer,
+  projectDetail: projectDetailReducer,
 });

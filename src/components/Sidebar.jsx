@@ -2,9 +2,35 @@ import { Link, useLocation } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import { useEffect, useState } from "react";
 import { paths } from "../routes/path";
+import PropTypes from "prop-types";
+
+const MenuItem = ({ to, icon, text, activeMenu, name }) => (
+  <li className={`${activeMenu == name ? "mm-active" : ""} cursor-pointer`}>
+    <Link to={to}>
+      <div className="menu-icon">
+        <Icon
+          icon={icon}
+          className={`text-${
+            activeMenu == to ? "[#0D99FF]" : "[#888888]"
+          } text-2xl`}
+        />
+      </div>
+      <span className="nav-text">{text}</span>
+    </Link>
+  </li>
+);
+
+MenuItem.propTypes = {
+  to: PropTypes.string,
+  icon: PropTypes.string,
+  text: PropTypes.string,
+  activeMenu: PropTypes.string,
+  name: PropTypes.string,
+};
 
 const Sidebar = () => {
   const [activeMenu, setActiveMenu] = useState("");
+
   let location = useLocation();
 
   useEffect(() => {
@@ -13,129 +39,92 @@ const Sidebar = () => {
   }, [location]);
 
   return (
-    <>
-      <div className="deznav">
-        <div className="deznav-scroll">
-          <ul className="metismenu" id="menu">
-            <li className="menu-title"></li>
+    <div className="deznav">
+      <div className="deznav-scroll">
+        <ul className="metismenu" id="menu">
+          <li className="menu-title"></li>
 
-            <li
-              className={`${
-                activeMenu === "" ? "mm-active" : ""
-              } cursor-pointer`}
+          <MenuItem
+            to="/"
+            icon="solar:home-angle-2-bold-duotone"
+            text="Home"
+            activeMenu={activeMenu}
+            name=""
+          />
+          <li
+            className={`${
+              activeMenu === "employee" ? "mm-active" : ""
+            } cursor-pointer`}
+          >
+            <a
+              className={`has-arrow ${
+                activeMenu === "employee" ? "" : "bg-white"
+              }`}
             >
-              <Link to={paths.dashboard.root}>
-                <div className="menu-icon">
-                  <Icon
-                    icon="solar:home-angle-2-bold-duotone"
-                    className={`text-${
-                      activeMenu == "" ? "[#0D99FF] " : "[#888888] "
-                    } text-2xl `}
-                  />
-                </div>
-                <span className="nav-text">Home</span>
-              </Link>
-            </li>
-
-            <li
-              className={`${
-                activeMenu == "employee" ? "mm-active" : ""
-              } cursor-pointer`}
-            >
-              <a
-                className={`has-arrow ${
-                  activeMenu == "employee" ? "" : "bg-white"
+              <div className="menu-icon">
+                <Icon
+                  icon="uim:user-nurse"
+                  className={`text-${
+                    activeMenu === "employee" ? "[#0D99FF]" : "[#888888]"
+                  } text-2xl`}
+                />
+              </div>
+              <span
+                className={`nav-text ${
+                  activeMenu === "employee" ? "" : "text-black"
                 }`}
               >
-                <div className="menu-icon">
-                  <Icon
-                    icon="uim:user-nurse"
-                    className={`text-${
-                      activeMenu == "employee" ? "[#0D99FF] " : "[#888888] "
-                    } text-2xl `}
-                  />
-                </div>
-                <span
-                  className={`nav-text ${
-                    activeMenu == "employee" ? "" : "text-black"
-                  }`}
-                >
-                  Employee
-                </span>
-              </a>
-              <ul className="sub-menu pl-3">
-                <li>
-                  <Link to={paths.dashboard.employee.employee}>List</Link>
-                </li>
-                <li>
-                  <Link to={paths.dashboard.employee.addEmployee}>
-                    Add Employee
-                  </Link>
-                </li>
-              </ul>
-            </li>
-
-            <li
-              className={`${
-                activeMenu == "sales" ? "mm-active" : ""
-              } cursor-pointer`}
-            >
-              <Link to={paths.dashboard.sales.root}>
-                <div className="menu-icon">
-                  <Icon
-                    icon="solar:dollar-bold-duotone"
-                    className={`text-${
-                      activeMenu == "sales" ? "[#0D99FF] " : "[#888888] "
-                    } text-2xl `}
-                  />
-                </div>
-                <span className="nav-text">Sales</span>
-              </Link>
-            </li>
-
-            <li
-              className={`${
-                activeMenu == "core-hr" ? "mm-active" : ""
-              } cursor-pointer`}
-            >
-              <Link to={paths.dashboard.coreHr}>
-                <div className="menu-icon">
-                  <Icon
-                    icon="solar:users-group-rounded-bold-duotone"
-                    className={`text-${
-                      activeMenu == "core-hr" ? "[#0D99FF] " : "[#888888] "
-                    } text-2xl `}
-                  />
-                </div>
-                <span className="nav-text">Core HR</span>
-              </Link>
-            </li>
-            <li
-              className={`${
-                activeMenu == "leave" ? "mm-active" : ""
-              } cursor-pointer`}
-            >
-              <Link to={paths.dashboard.leave.leave}>
-                <div className="menu-icon">
-                  <Icon
-                    icon="uim:calender"
-                    className={`text-${
-                      activeMenu == "leave" ? "[#0D99FF] " : "[#888888] "
-                    } text-2xl `}
-                  />
-                </div>
-                <span className="nav-text">Leave</span>
-              </Link>
-            </li>
-          </ul>
-          <div className="help-desk py-3 px-[1.5rem]">
-            <a className="btn btn-primary py-[5px] cursor-pointer px-3 text-[13px] rounded text-white bg-primary leading-5 inline-block border border-primary font-medium">
-              Contact
+                Employee
+              </span>
             </a>
-          </div>
+            <ul className="sub-menu pl-3">
+              <li>
+                <Link to={paths.dashboard.employee.employee}>List</Link>
+              </li>
+              <li>
+                <Link to={paths.dashboard.employee.addEmployee}>
+                  Add Employee
+                </Link>
+              </li>
+            </ul>
+          </li>
+
+          <MenuItem
+            to="sales"
+            icon="solar:dollar-bold-duotone"
+            text="Sales"
+            name="sales"
+            activeMenu={activeMenu}
+          />
+          <MenuItem
+            to={paths.dashboard.coreHr}
+            name="core-hr"
+            icon="solar:users-group-rounded-bold-duotone"
+            text="Core HR"
+            activeMenu={activeMenu}
+          />
+          <MenuItem
+            to={paths.dashboard.leave.leave}
+            icon="uim:calender"
+            text="Leave"
+            activeMenu={activeMenu}
+            name="leave"
+          />
+          <MenuItem
+            to={paths.dashboard.project.project}
+            name="project"
+            icon="fluent:tasks-app-28-filled"
+            text="Project"
+            activeMenu={activeMenu}
+          />
+        </ul>
+        <div className="help-desk py-3 px-[1.5rem]">
+          <a className="btn btn-primary py-[5px] cursor-pointer px-3 text-[13px] rounded text-white bg-primary leading-5 inline-block border border-primary font-medium">
+            Contact
+          </a>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
