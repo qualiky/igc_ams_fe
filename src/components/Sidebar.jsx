@@ -127,6 +127,25 @@ const Sidebar = () => {
                 <span className="nav-text">Leave</span>
               </Link>
             </li>
+
+            {/* Finance  */}
+            <li
+              className={`${
+                activeMenu == "leave" ? "mm-active" : ""
+              } cursor-pointer`}
+            >
+              <Link to={paths.dashboard.finance.finance}>
+                <div className="menu-icon">
+                  <Icon
+                    icon="uim:calender"
+                    className={`text-${
+                      activeMenu == "finance" ? "[#0D99FF] " : "[#888888] "
+                    } text-2xl `}
+                  />
+                </div>
+                <span className="nav-text">Finance</span>
+              </Link>
+            </li>
           </ul>
           <div className="help-desk py-3 px-[1.5rem]">
             <a className="btn btn-primary py-[5px] cursor-pointer px-3 text-[13px] rounded text-white bg-primary leading-5 inline-block border border-primary font-medium">

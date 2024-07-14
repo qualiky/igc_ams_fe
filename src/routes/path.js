@@ -31,5 +31,9 @@ export const paths = {
       leave: `${ROOTS.DASHBOARD}leave`,
       details: (id) => `${ROOTS.DASHBOARD}leave/details/${id}`,
     },
+    finance: {
+      finance: `${ROOTS.DASHBOARD}finance`,
+      details: (id) => `${ROOTS.DASHBOARD}finance/details/${id}`,
+    },
   },
 };

@@ -26,6 +26,9 @@ import LeadDetail from "../pages/sales/section/LeadDetailView";
 import SalesPage from "../pages/sales";
 import LeaveDetails from "../pages/leave/_sections/LeaveDetails";
 import LeaveView from "../pages/leave/_sections/LeaveView";
+import FinanceView from "../pages/finance/_sections/FinanceView";
+import Finance from "../pages/finance";
+import AddFinance from "../pages/finance/_sections/add-finance";
 
 const CustomRoutes = () => {
   const routes = useRoutes([
@@ -84,6 +87,14 @@ const CustomRoutes = () => {
           children: [
             { path: "", element: <LeaveView /> },
             { path: "details/:id", element: <LeaveDetails /> },
+          ],
+        },
+        {
+          path: "finance",
+          element: <ProtectedRoute element={Finance} />,
+          children: [
+            { path: "", element: <FinanceView /> },
+            { path: "add-finance", element: <AddFinance /> },
           ],
         },
       ],
