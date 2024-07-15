@@ -26,16 +26,18 @@ interface AddModalProps {
 }
 
 const leadCompanySchema = yup.object().shape({
-  leadCompanyName: yup.string().required(),
-  leadApproachSource: yup.string().required(),
-  leadContactPersonName: yup.string().required(),
-  leadContactPhoneNumber: yup.string().required(),
-  leadContactEmail: yup.string().email().required(),
-  leadStatus: yup.string(),
-  leadStage: yup.string().required(),
+  taskTitle: yup.string().required(),
+  tags: yup.string().required(),
+  startDate: yup.string().required(),
+  endDate: yup.string().required(),
+  priority: yup.string().required(),
+  teamMembers: yup.string().required(),
+  comments: yup.string(),
+  taskDescription: yup.string().required(),
+  projectStage: yup.string().required(),
 });
 
-const AddModal = ({
+const AddProjectModal = ({
   isOpen,
   onClose,
   setOpen,
@@ -75,13 +77,13 @@ const AddModal = ({
   } = useForm({
     resolver: yupResolver(leadCompanySchema),
     defaultValues: {
-      leadCompanyName: "",
-      leadApproachSource: "",
-      leadContactPersonName: "",
-      leadContactPhoneNumber: "",
-      leadContactEmail: "",
-      leadStatus: "",
-      leadStage: "",
+      taskTitle: "",
+      tags: "",
+      startDate: "",
+      endDate: "",
+      priority: "",
+      comments: "",
+      taskDescription: "",
     },
   });
 
@@ -300,4 +302,4 @@ const AddModal = ({
   );
 };
 
-export default AddModal;
+export default AddProjectModal;

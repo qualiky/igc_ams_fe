@@ -1,19 +1,50 @@
-import $ from "jquery";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getProjectStages } from "../../../features/reducer/project/projectDetailSlice";
+import { useSelector } from "react-redux";
+import { getProjectStage } from "../../../selectors/selectors";
 
 const ProjectDetail = () => {
-  const location = useLocation();
+  const [projectStage, setProjectStage] = useState([]);
 
   const params = useParams();
 
   const dispatch = useDispatch();
 
+  const projectStages = useSelector(getProjectStage);
+
   useEffect(() => {
-    dispatch(getProjectStages(params?.id));
-  }, [params?.id]);
+    setProjectStage([...projectStages]);
+  }, [projectStages]);
+
+  const name = [
+    {
+      id: 1,
+      attributes: {
+        projectStageName: "Roshan",
+      },
+    },
+    {
+      id: 3,
+      attributes: {
+        projectStageName: "Mohan",
+      },
+    },
+    {
+      id: 2,
+      attributes: {
+        projectStageName: "SOhan",
+      },
+    },
+  ];
+
+  console.log(projectStage);
+  // console.log(name);
+
+  useEffect(() => {
+    dispatch(getProjectStages({ id: params?.id }));
+  }, [dispatch, params]);
 
   return (
     <div className="container-fluid">
@@ -21,7 +52,6 @@ const ProjectDetail = () => {
         <h5 className="mb-0">Tasks Summary</h5>
         <div className="flex items-center">
           <a
-            href="javascript:void(0)"
             className="btn btn-primary duration-500 hover:bg-hover-primary py-[5px] px-3 text-[13px] rounded text-white bg-primary leading-[18px] inline-block border border-primary ml-2 dz-modal-btn"
             data-dz-modal="Addtask"
           >
@@ -30,7 +60,7 @@ const ProjectDetail = () => {
         </div>
       </div>
       <div className="row m-0 flex w-full overflow-x-auto flex-nowrap dz-scroll max-md:block max-md:w-auto">
-        {[...Array(3)].map((_, index) => (
+        {projectStage?.map((item, index) => (
           <div
             key={index}
             className="md:w-[322px] md:min-w-[322px] pl-0 flex-[1_0_0%]"
@@ -40,7 +70,9 @@ const ProjectDetail = () => {
                 <div className="mb-5 py-[0.938rem] px-[0.938rem] shadow-[0px_0px_13px_0px_rgba(82,63,105,0.05)] border rounded-md bg-white dark:bg-[#242424] border-primary">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h5 className="mb-0">Not Started</h5>
+                      <h5 className="mb-0">
+                        {item?.attributes?.projectStageName}
+                      </h5>
                       <span className="text-body-color text-sm">
                         Tasks assigned to me: 18
                       </span>

@@ -31,7 +31,7 @@ const EmployeeDetail = () => {
   return (
     <>
       <section className="w-full overflow-hidden dark:bg-gray-900 p-5">
-        <div className="flex flex-col md:flex-row m-5 bg-white">
+        <div className="flex flex-col md:flex-row m-5 bg-white dark:bg-[#1E1E1E]">
           {/* <!-- Cover Image --> */}
           <img
             src="https://images.unsplash.com/photo-1606189933558-71f9b4747578?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -324,7 +324,7 @@ const EmployeeDetail = () => {
                   </h1>
                   <Link
                     to="/employee/add-identification-information"
-                    className="btn btn-primary py-[5px] cursor-pointer px-5 text-[13px] rounded text-white bg-primary leading-5 inline-block border border-primary font-medium"
+                    className="btn btn-primary py-[5px] cursor-pointer px-5 text-[13px] rounded text-white  bg-primary leading-5 inline-block border border-primary font-medium"
                   >
                     Add
                   </Link>
@@ -332,8 +332,8 @@ const EmployeeDetail = () => {
                 {employeeDetail?.attributes?.personalIdentificationInfo.data !==
                 null ? (
                   <>
-                    <div className="bg-white rounded-lg shadow-lg  w-full">
-                      <div className="bg-gray-100 text-2xl py-3 px-8 font-extrabold text-center">
+                    <div className="bg-white dark:bg-[#242424] rounded-lg shadow-lg  w-full">
+                      <div className="bg-gray-100 dark:bg-[#242424] text-2xl py-3 px-8 font-extrabold text-center">
                         <h2>Citizenship Information</h2>
                       </div>
                       <div className="w-full flex gap-3">
@@ -425,13 +425,13 @@ const EmployeeDetail = () => {
                         </div>
                       </div>
 
-                      <footer className="bg-gray-100 rounded-b-lg text-right py-3 px-8 text-xs text-gray-500">
+                      <footer className="bg-gray-100 dark:bg-[#242424] rounded-b-lg text-right py-3 px-8 text-xs text-gray-500">
                         Updated 3 day ago
                       </footer>
                     </div>
 
-                    <div className="bg-white rounded-lg shadow-lg  w-full mt-10">
-                      <div className="bg-gray-100 text-2xl py-3 px-8 font-extrabold text-center">
+                    <div className="bg-white dark:bg-[#242424] rounded-lg shadow-lg  w-full mt-10">
+                      <div className="bg-gray-100 dark:bg-[#242424] text-2xl py-3 px-8 font-extrabold text-center">
                         <h2>PAN Details</h2>
                       </div>
                       <div className="w-full flex gap-3">
@@ -512,7 +512,7 @@ const EmployeeDetail = () => {
                         </div>
                       </div>
 
-                      <footer className="bg-gray-100 rounded-b-lg text-right py-3 px-8 text-xs text-gray-500">
+                      <footer className="bg-gray-100 dark:bg-[#1E1E1E] rounded-b-lg text-right py-3 px-8 text-xs text-gray-500">
                         Updated 3 day ago
                       </footer>
                     </div>

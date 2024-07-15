@@ -6,13 +6,20 @@ import { onDragEnd } from "../../../helpers/onDragEnd";
 import Task from "../../../components/Task/index";
 import AddModal from "../../../components/modal/AddModal";
 import { useSelector } from "react-redux";
-import { getAllSalesLead } from "../../../selectors/selectors";
+import { getAllSalesLead, getProjectStage } from "../../../selectors/selectors";
 import { useDispatch } from "react-redux";
 import { updateSalesLead } from "../../../features/reducer/sales/salesSlice";
+import { getProjectStages } from "../../../features/reducer/project/projectDetailSlice";
+import { useParams } from "react-router-dom";
+import TaskProject from "../../../components/Task/indexTask";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import AddProjectModal from "../../../components/modal/AddProjectTaskModal";
 
-const SalesView = () => {
+const ProjectViewNew = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedColumn, setSelectedColumn] = useState("");
+
+  const params = useParams();
 
   const openModal = (columnId) => {
     setSelectedColumn(columnId);
@@ -24,15 +31,18 @@ const SalesView = () => {
   };
 
   const { salesLead } = useSelector(getAllSalesLead);
+  const projectStages = useSelector(getProjectStage);
+
+  console.log(salesLead, projectStages);
 
   const dispatch = useDispatch();
 
   const [columns, setColumns] = useState({});
 
-  const resultFormatted = salesLead?.reduce((acc, column) => {
-    const stageName = column?.attributes?.leadStageName?.toLowerCase();
+  const resultFormatted = projectStages?.reduce((acc, column) => {
+    const stageName = column?.attributes?.projectStageName?.toLowerCase();
     const stageId = column?.id;
-    const itemsWithStringId = column?.attributes?.leadCompanies?.data?.map(
+    const itemsWithStringId = column?.attributes?.projectTasks?.data?.map(
       (item) => ({
         ...item,
         id: item?.id.toString(),
@@ -50,6 +60,10 @@ const SalesView = () => {
     setColumns(resultFormatted);
   }, [salesLead]);
 
+  useEffect(() => {
+    dispatch(getProjectStages({ id: params?.id }));
+  }, [dispatch, params]);
+
   const handleAddTask = (taskData) => {
     const newBoard = { ...columns };
     newBoard[selectedColumn].items.push(taskData);
@@ -63,13 +77,14 @@ const SalesView = () => {
       leadStage: `${destColumn?.id}`,
     };
 
-    dispatch(updateSalesLead({ id: item?.id, data }));
+    // dispatch(updateSalesLead({ id: item?.id, data }));
   };
 
   return (
     <div className=" pr-[20px] pt-10  w-full h-full overflow-y-auto">
       {/* ----------------------------------------------Board------------------------------------------------ */}
       {/* <h1 className="text-3xl ml-5 py-5 font-medium">Sales Kanban View</h1> */}
+
       <DragDropContext
         onDragEnd={(result) =>
           onDragEnd(result, columns, setColumns, handleDrag)
@@ -81,9 +96,9 @@ const SalesView = () => {
         >
           {Object.entries(columns).map(([columnId, column]) => (
             <div
-              className="w-full flex flex-col gap-5 rounded-xl dark:bg-[#242424]"
+              className="w-full flex flex-col gap-5 rounded-xl  bg-white dark:bg-[#242424]"
               key={columnId}
-              style={{ background: "#ffffff", padding: "10px" }}
+              style={{ padding: "10px" }}
             >
               <Droppable droppableId={columnId} key={columnId}>
                 {(provided) => (
@@ -103,7 +118,7 @@ const SalesView = () => {
                       >
                         {(provided) => (
                           <>
-                            <Task provided={provided} task={task} />
+                            <TaskProject provided={provided} task={task} />
                           </>
                         )}
                       </Draggable>
@@ -117,13 +132,20 @@ const SalesView = () => {
                 className="flex cursor-pointer bg-[#F1F2F4] dark:bg-[#1E1E1E] dark:text-white items-center justify-center gap-1 py-[10px] md:w-[90%] w-full opacity-90 border border-stone-200 rounded-xl shadow text-[#555] font-medium text-[15px]"
               >
                 {/* <AddOutline color={"#555"} /> */}
-                Add Lead
+                Add Task
               </div>
             </div>
           ))}
+          <button
+            type="button"
+            className=" min-w-56 mb-2  inline-block rounded-lg font-medium xl:text-[15px] text-xs leading-5 xl:py-[0.719rem] xl:px-[1.563rem] py-2.5 px-4 border border-d-light-2 text-black bg-d-light-2 hover:bg-d-light duration-300"
+          >
+            <Icon icon="ic:outline-plus" className="inline" width={25} />
+            Add New
+          </button>
         </div>
       </DragDropContext>
-      <AddModal
+      <AddProjectModal
         isOpen={modalOpen}
         onClose={closeModal}
         setOpen={setModalOpen}
@@ -135,4 +157,4 @@ const SalesView = () => {
   );
 };
 
-export default SalesView;
+export default ProjectViewNew;

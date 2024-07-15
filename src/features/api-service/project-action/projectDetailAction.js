@@ -8,7 +8,7 @@ const getAllProjectStages = async (id) => {
   const config = await getConfigWithToken();
   try {
     const response = await axios.get(
-      `${base_url}project-stages?populate[project][id][$eq]=${id}`,
+      `${base_url}project-stages?populate[project][filers][id][$eq]=${id}&populate[projectTasks][fields][0]=taskTitle&populate[projectTasks][fields][1]=startDate&populate[projectTasks][fields][2]=endDate&populate[projectTasks][fields][3]=priority&populate[projectTasks][fields][4]=taskDescription&fields[0]=projectStageName`,
       config
     );
     return response.data;

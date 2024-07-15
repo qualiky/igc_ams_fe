@@ -10,9 +10,9 @@ const MenuItem = ({ to, icon, text, activeMenu, name }) => (
       <div className="menu-icon">
         <Icon
           icon={icon}
-          className={`text-${
+          className={`bg-${
             activeMenu == to ? "[#0D99FF]" : "[#888888]"
-          } text-2xl`}
+          } text-2xl `}
         />
       </div>
       <span className="nav-text">{text}</span>
@@ -57,7 +57,7 @@ const Sidebar = () => {
             } cursor-pointer`}
           >
             <a
-              className={`has-arrow ${
+              className={`has-arrow dark:bg-[#242424]  ${
                 activeMenu === "employee" ? "" : "bg-white"
               }`}
             >
@@ -70,7 +70,7 @@ const Sidebar = () => {
                 />
               </div>
               <span
-                className={`nav-text ${
+                className={`nav-text dark:text-white ${
                   activeMenu === "employee" ? "" : "text-black"
                 }`}
               >

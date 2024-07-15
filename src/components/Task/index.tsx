@@ -27,7 +27,7 @@ const Task = ({ task, provided }: TaskProps) => {
       ref={provided.innerRef}
       {...provided.draggableProps}
       {...provided.dragHandleProps}
-      className="w-auto min-w-[290px]  cursor-grab bg-[#F1F2F4] flex flex-col justify-between gap-3 my-2 items-start shadow-sm border border-stone-200 rounded-xl px-3 py-4"
+      className="w-auto min-w-[290px]  cursor-grab bg-[#F1F2F4] dark:bg-[#1E1E1E] flex flex-col justify-between gap-3 my-2 items-start shadow-sm border border-stone-200 rounded-xl px-3 py-4"
     >
       {/* {image && alt && (
         <img src={image} alt={alt} className="w-full h-[170px] rounded-lg" />
@@ -45,16 +45,18 @@ const Task = ({ task, provided }: TaskProps) => {
       </div>  */}
       <div className="w-full flex items-start flex-col gap-0">
         <Link to={paths.dashboard.sales.details(task?.id)}>
-          <span className="text-[15.5px] font-medium text-[#555]">
+          <span className="text-[15.5px] font-medium text-[#555] dark:text-white">
             {leadCompanyName}
           </span>
         </Link>
-        <span className="text-[13.5px] text-gray-500">{leadContactEmail}</span>
+        <span className="text-[13.5px] text-gray-500 dark:text-white">
+          {leadContactEmail}
+        </span>
       </div>
       <div className="w-full border border-dashed"></div>
       <div className="w-full flex items-center justify-between">
         <div className="flex items-center gap-1">
-          <span className="text-[13px] text-gray-700">
+          <span className="text-[13px] text-gray-700 dark:text-white">
             {leadContactPhoneNumber} mins
           </span>
         </div>

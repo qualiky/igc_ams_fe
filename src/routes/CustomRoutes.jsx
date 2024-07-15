@@ -28,7 +28,8 @@ import LeaveDetails from "../pages/leave/_sections/LeaveDetails";
 import LeaveView from "../pages/leave/_sections/LeaveView";
 import Project from "../pages/project";
 import ProjectView from "../pages/project/_sections/ProjectView";
-import ProjectDetail from "../pages/project/_sections/ProjectDetail";
+import AddProject from "../pages/project/_sections/AddProject";
+import ProjectViewNew from "../pages/project/_sections/ProjectDetailNew";
 
 const CustomRoutes = () => {
   const routes = useRoutes([
@@ -94,7 +95,8 @@ const CustomRoutes = () => {
           element: <ProtectedRoute element={Project} />,
           children: [
             { path: "", element: <ProjectView /> },
-            { path: "details/:id", element: <ProjectDetail /> },
+            { path: "add-project", element: <AddProject /> },
+            { path: "details/:id", element: <ProjectViewNew /> },
           ],
         },
       ],

@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import { projectDetailService } from "../../api-service/project-action/projectDetailAction";
 
 const initialState = {
-  projectStages: {},
+  projectStages: [],
   taskDetail: {},
   isSuccess: false,
   isLoading: false,

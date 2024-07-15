@@ -33,6 +33,7 @@ export const paths = {
     },
     project: {
       project: `${ROOTS.DASHBOARD}project`,
+      addProject: `${ROOTS.DASHBOARD}project/add-project`,
       details: (id) => `${ROOTS.DASHBOARD}project/details/${id}`,
     },
   },

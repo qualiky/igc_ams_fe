@@ -33,63 +33,6 @@ const LeaveDataTable = () => {
 
   const { leaveData } = useSelector(getAllLeaveData);
 
-  const people = [
-    {
-      name: "Lindsay Walton",
-      title: "Front-end Developer",
-      department: "Optimization",
-      email: "lindsay.walton@example.com",
-      role: "Member",
-      image:
-        "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    },
-    {
-      name: "Lindsay Walton",
-      title: "Front-end Developer",
-      department: "Optimization",
-      email: "lindsay.walton@example.com",
-      role: "Member",
-      image:
-        "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    },
-    {
-      name: "Lindsay Walton",
-      title: "Front-end Developer",
-      department: "Optimization",
-      email: "lindsay.walton@example.com",
-      role: "Member",
-      image:
-        "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    },
-    {
-      name: "Lindsay Walton",
-      title: "Front-end Developer",
-      department: "Optimization",
-      email: "lindsay.walton@example.com",
-      role: "Member",
-      image:
-        "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    },
-    {
-      name: "Lindsay Walton",
-      title: "Front-end Developer",
-      department: "Optimization",
-      email: "lindsay.walton@example.com",
-      role: "Member",
-      image:
-        "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    },
-    {
-      name: "Lindsay Walton",
-      title: "Front-end Developer",
-      department: "Optimization",
-      email: "lindsay.walton@example.com",
-      role: "Member",
-      image:
-        "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    },
-  ];
-
   return (
     <>
       <div className="px-4 sm:px-6 lg:px-8">
@@ -101,37 +44,37 @@ const LeaveDataTable = () => {
                   <tr>
                     <th
                       scope="col"
-                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-white dark:text-white sm:pl-0"
                     >
                       Name
                     </th>
                     <th
                       scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white"
                     >
                       Leave Type
                     </th>
                     <th
                       scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white"
                     >
                       Status
                     </th>
                     <th
                       scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white"
                     >
                       Leave Start Day
                     </th>
                     <th
                       scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white"
                     >
                       Leave End Day
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200 bg-white">
+                <tbody className="divide-y divide-gray-200 bg-white dark:bg-[#242424]">
                   {leaveData?.map((person, index) => (
                     <tr key={index}>
                       <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
@@ -166,7 +109,7 @@ const LeaveDataTable = () => {
                           <div className="ml-4">
                             <Link
                               to={paths.dashboard.leave.details(person?.id)}
-                              className="font-medium text-gray-900"
+                              className="font-medium text-gray-900 dark:text-white"
                             >
                               {
                                 person?.attributes?.applyingEmployee?.data
@@ -187,7 +130,7 @@ const LeaveDataTable = () => {
                         </div>
                       </td>
                       <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                        <div className="text-gray-900">
+                        <div className="text-gray-900 dark:text-white">
                           {person?.attributes?.leaveType}
                         </div>
                         <div className="mt-1 text-gray-500">
