@@ -96,7 +96,7 @@ const ExpensesTable = () => {
       cell: (row) => (
         <>
           <button
-            className="bg-slate-200 dark:bg-[#1E1E1E] hover:bg-slate-300 text-black dark:text-white font-bold py-1 px-4 rounded"
+            className="bg-slate-200  hover:bg-slate-300 text-black  font-bold py-1 px-4 rounded"
             onClick={() => handleView(row?.id)}
           >
             View

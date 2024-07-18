@@ -89,7 +89,7 @@ const IncomeTable = () => {
       cell: (row) => (
         <span
           onClick={() => handleView(row?.id)}
-          className="cursor-pointer transition text-black dark:text-white duration-1000 ease-in-out hover:underline hover:font-bold"
+          className="cursor-pointer transition text-black  duration-1000 ease-in-out hover:underline hover:font-bold"
         >
           {row?.attributes?.firstName} {row?.attributes?.lastName}
         </span>
@@ -113,7 +113,7 @@ const IncomeTable = () => {
       cell: (row) => (
         <>
           <button
-            className="bg-slate-200 dark:bg-[#1E1E1E] hover:bg-slate-300 text-black dark:text-white font-bold py-1 px-4 rounded"
+            className="bg-slate-200  hover:bg-slate-300 text-black  font-bold py-1 px-4 rounded"
             onClick={() => handleView(row?.id)}
           >
             View

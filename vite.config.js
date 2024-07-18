@@ -15,6 +15,9 @@ export default defineConfig({
         name: "PirusDash",
         short_name: "PirusDash",
         description: "Welcome to Pirus App",
+        start_url: "/",
+        display: "standalone",
+        background_color: "#ffffff",
         theme_color: "#ffffff",
         icons: [
           {

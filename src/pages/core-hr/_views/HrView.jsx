@@ -19,6 +19,7 @@ import {
 } from "../../../selectors/selectors";
 import TableSkeletonLoader from "../../../components/skeleton/Table";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import AvatarByName from "../../Employees/_components/avatar-by-name";
 
 const attendenceSchema = yup.object().shape({
   inTime: yup.string(),
@@ -118,6 +119,7 @@ const HrView = () => {
     navigate(`/employee/details/${id}`);
   };
 
+  console.log(employeeData);
   const handleReload = () => {
     dispatch(getAllEmployees({ populate: null }));
   };
@@ -189,10 +191,14 @@ const HrView = () => {
                               <tr key={index}>
                                 <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-1.5 px-5 font-normal whitespace-nowrap">
                                   <div className="products flex items-center">
-                                    <img
+                                    {/* <img
                                       src="assets/images/contacts/pic2.jpg"
                                       className="inline-block mr-2.5 w-[2.813rem] min-w-[2.813rem] h-[2.813rem] rounded-md relative object-cover avatar-md"
                                       alt=""
+                                    /> */}
+                                    <AvatarByName
+                                      firstname={item?.attributes?.firstName}
+                                      lastname={item?.attributes?.lastName}
                                     />
                                     <div>
                                       <h6 className="text-sm">
