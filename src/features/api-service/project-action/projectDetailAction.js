@@ -52,7 +52,7 @@ const updateProjectStage = async (id, data) => {
   try {
     const config = await getConfigWithToken();
     const response = await axios.put(
-      `${base_url}projects/${id}`,
+      `${base_url}project-tasks/${id}`,
       { data },
       config
     );
@@ -90,7 +90,11 @@ const getSingleProjectTask = async (id) => {
 const addProjectStageTask = async ({ data }) => {
   try {
     const config = await getConfigWithToken();
-    const response = await axios.post(`${base_url}projects`, data, config);
+    const response = await axios.post(
+      `${base_url}project-tasks`,
+      { data },
+      config
+    );
     if (response.status === 200) {
       toast.success(response?.message || "Project Added Successfully");
     } else {

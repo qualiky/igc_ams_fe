@@ -3,13 +3,13 @@ import { useEffect, useState } from "react";
 import { onDragEnd } from "../../../helpers/onDragEnd";
 // import { AddOutline } from "react-ionicons";
 
-import Task from "../../../components/Task/index";
-import AddModal from "../../../components/modal/AddModal";
 import { useSelector } from "react-redux";
 import { getAllSalesLead, getProjectStage } from "../../../selectors/selectors";
 import { useDispatch } from "react-redux";
-import { updateSalesLead } from "../../../features/reducer/sales/salesSlice";
-import { getProjectStages } from "../../../features/reducer/project/projectDetailSlice";
+import {
+  getProjectStages,
+  updateProjectStage,
+} from "../../../features/reducer/project/projectDetailSlice";
 import { useParams } from "react-router-dom";
 import TaskProject from "../../../components/Task/indexTask";
 import { Icon } from "@iconify/react/dist/iconify.js";
@@ -74,10 +74,10 @@ const ProjectViewNew = () => {
     // console.log(item);
     // console.log(destColumn?.id);
     const data = {
-      leadStage: `${destColumn?.id}`,
+      projectStage: `${destColumn?.id}`,
     };
 
-    // dispatch(updateSalesLead({ id: item?.id, data }));
+    dispatch(updateProjectStage({ id: item?.id, data }));
   };
 
   return (

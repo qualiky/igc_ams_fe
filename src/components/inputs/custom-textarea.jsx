@@ -1,14 +1,7 @@
 import { Controller } from "react-hook-form";
 import PropTypes from "prop-types";
 
-const CustomTextArea = ({
-  control,
-  name,
-  width = "w-1/2",
-  label,
-  errors,
-  value,
-}) => {
+const CustomTextArea = ({ control, name, width = "w-1/2", label, errors }) => {
   return (
     <div className={`xl:${width} mb-4`}>
       <label htmlFor={name} className="text-body-color form-label">

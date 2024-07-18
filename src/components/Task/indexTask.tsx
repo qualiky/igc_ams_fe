@@ -21,7 +21,7 @@ const TaskProject = ({ task, provided }: TaskProps) => {
       ref={provided.innerRef}
       {...provided.draggableProps}
       {...provided.dragHandleProps}
-      className="w-auto  bg-white dark:bg-[#1E1E1E] max-w-[290px]  cursor-grab  flex flex-col justify-between gap-3 my-2 items-start shadow-sm border border-stone-200 rounded-xl px-3 py-4"
+      className="w-auto  bg-white dark:bg-[#1E1E1E] max-w-[290px] min-w-[290px]  cursor-grab  flex flex-col justify-between gap-3 my-2 items-start shadow-sm border border-stone-200 rounded-xl px-3 py-4"
     >
       <div className="w-full flex items-start flex-col gap-0">
         <Link to={paths.dashboard.sales.details(task?.id)}>

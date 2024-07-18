@@ -30,6 +30,8 @@ import Project from "../pages/project";
 import ProjectView from "../pages/project/_sections/ProjectView";
 import AddProject from "../pages/project/_sections/AddProject";
 import ProjectViewNew from "../pages/project/_sections/ProjectDetailNew";
+import Receipt from "../pages/receipt";
+import ReceiptView from "../pages/receipt/_sections/ReceiptView";
 
 const CustomRoutes = () => {
   const routes = useRoutes([
@@ -97,6 +99,15 @@ const CustomRoutes = () => {
             { path: "", element: <ProjectView /> },
             { path: "add-project", element: <AddProject /> },
             { path: "details/:id", element: <ProjectViewNew /> },
+          ],
+        },
+        {
+          path: "receipt",
+          element: <ProtectedRoute element={Receipt} />,
+          children: [
+            { path: "", element: <ReceiptView /> },
+            // { path: "add-project", element: <AddProject /> },
+            // { path: "details/:id", element: <ProjectViewNew /> },
           ],
         },
       ],

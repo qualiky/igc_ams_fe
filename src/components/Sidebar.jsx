@@ -117,6 +117,13 @@ const Sidebar = () => {
             text="Project"
             activeMenu={activeMenu}
           />
+          <MenuItem
+            to={paths.dashboard.receipt.receipt}
+            name="receipt"
+            icon="solar:money-bag-bold-duotone"
+            text="Receipt"
+            activeMenu={activeMenu}
+          />
         </ul>
         <div className="help-desk py-3 px-[1.5rem]">
           <a className="btn btn-primary py-[5px] cursor-pointer px-3 text-[13px] rounded text-white bg-primary leading-5 inline-block border border-primary font-medium">

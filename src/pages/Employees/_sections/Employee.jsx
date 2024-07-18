@@ -34,7 +34,7 @@ const EmployeeList = () => {
                     <div className="flex gap-2">
                       <Link
                         to="/employee/add-employee"
-                        className="py-[5px] px-3 cursor-pointer text-[13px] rounded text-white bg-primary leading-[18px] inline-block border border-primary btn-sm duration-500 hover:bg-hover-primary "
+                        className="py-[5px] px-3 cursor-pointer text-[13px] rounded text-white bg-primary  leading-[18px] inline-block border border-primary btn-sm duration-500 hover:bg-hover-primary "
                       >
                         + Add Employee
                       </Link>
@@ -51,14 +51,16 @@ const EmployeeList = () => {
                   {!isLoading ? (
                     <EmployeeDataTable />
                   ) : (
-                    <div className="h-[350px] w-full bg-white">
+                    <div className="h-[350px] w-full bg-white dark:bg-[#1E1E1E]">
                       <div className="animate-pulse px-5">
                         {Array.from({ length: 10 }).map((_, index) => (
                           <div
                             key={index}
                             className={`h-4 ${
                               index % 2 === 0 ? "bg-gray-200" : "bg-gray-300"
-                            } mb-6 rounded ${index === 0 ? "mt-3" : ""}`}
+                            } mb-6 rounded dark:bg-[#242424] ${
+                              index === 0 ? "mt-3" : ""
+                            }`}
                           ></div>
                         ))}
                       </div>

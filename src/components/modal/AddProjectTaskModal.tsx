@@ -10,6 +10,10 @@ import CustomSelect from "../inputs/custom-select";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addSalesLead } from "../../features/reducer/sales/salesSlice";
+import CustomTextArea from "../inputs/custom-textarea";
+import { useSelector } from "react-redux";
+import { getAllEmployeeData } from "../../selectors/selectors";
+import { addProjectTask } from "../../features/reducer/project/projectDetailSlice";
 
 interface Tag {
   title: string;
@@ -27,14 +31,13 @@ interface AddModalProps {
 
 const leadCompanySchema = yup.object().shape({
   taskTitle: yup.string().required(),
-  tags: yup.string().required(),
   startDate: yup.string().required(),
   endDate: yup.string().required(),
   priority: yup.string().required(),
   teamMembers: yup.string().required(),
   comments: yup.string(),
-  taskDescription: yup.string().required(),
-  projectStage: yup.string().required(),
+  taskDescription: yup.string(),
+  projectStage: yup.string(),
 });
 
 const AddProjectModal = ({
@@ -60,6 +63,14 @@ const AddProjectModal = ({
 
   const dispatch = useDispatch();
 
+  const { employeeData } = useSelector(getAllEmployeeData);
+
+  const formattedOptions = employeeData.map((item) => ({
+    label: item.attributes.firstName + " " + item.attributes.lastName,
+    value: item.id,
+  }));
+  console.log(formattedOptions);
+
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
@@ -78,18 +89,19 @@ const AddProjectModal = ({
     resolver: yupResolver(leadCompanySchema),
     defaultValues: {
       taskTitle: "",
-      tags: "",
       startDate: "",
       endDate: "",
+      teamMembers: "",
       priority: "",
       comments: "",
       taskDescription: "",
+      projectStage: "",
     },
   });
 
   useEffect(() => {
     reset({
-      leadStage: selectedColumn,
+      projectStage: selectedColumn,
     });
   }, [selectedColumn]);
 
@@ -126,8 +138,9 @@ const AddProjectModal = ({
   };
 
   const onSubmit = (data: any) => {
-    dispatch(addSalesLead({ data }));
-    reset();
+    dispatch(addProjectTask(data));
+
+    // reset();
   };
 
   return (
@@ -142,145 +155,61 @@ const AddProjectModal = ({
       ></div>
       <div className="md:w-[50vw] w-[90%] bg-white dark:bg-[#1E1E1E] rounded-lg shadow-md z-50 flex flex-col items-center gap-3 px-5 py-6">
         <div className="w-full">
-          <h1 className="text-2xl text-left font-medium">
-            Add New Lead Company
-          </h1>
+          <h1 className="text-2xl text-left font-medium">Add New Task</h1>
         </div>
         <form className="row pt-3" onSubmit={handleSubmit(onSubmit)}>
           <CustomInputs
-            name="leadContactPersonName"
+            name="taskTitle"
             control={control}
             type="text"
-            label="Lead Name"
+            label="Task Title"
             errors={errors}
           />
 
           <CustomInputs
-            name="leadContactPhoneNumber"
             control={control}
-            type="text"
-            label="Contact"
+            name="startDate"
+            type="date"
+            label="Start Date"
             errors={errors}
           />
 
           <CustomInputs
-            name="leadContactEmail"
             control={control}
-            type="email"
-            label="Email"
-            errors={errors}
-          />
-
-          <CustomInputs
-            name="leadCompanyName"
-            control={control}
-            type="text"
-            label="Lead Company Name"
+            name="endDate"
+            type="date"
+            label="End Date "
             errors={errors}
           />
 
           <CustomSelect
-            label="Lead Approach Source"
+            label="Select Priority"
             options={[
-              { label: "Ads", value: "Ads" },
-              { label: "Client Reference", value: "Client Reference" },
-              { label: "SM Post", value: "SM Post" },
-              { label: "Offline Platform", value: "Offline Platform" },
-              { label: "Other", value: "Other" },
+              { label: "Low", value: "Low" },
+              { label: "Medium", value: "Medium" },
+              { label: "High", value: "High" },
+              { label: "Urgent", value: "Urgent" },
             ]}
-            name="leadApproachSource"
-            control={control}
-            errors={errors}
-          />
-
-          <CustomSelect
-            label="Lead Status"
-            options={[
-              { label: "Lead Contacted Team", value: "Lead Contacted Team" },
-              { label: "Team Contacted Lead", value: "Team Contacted Lead" },
-              { label: "Phone Conversation", value: "Phone Conversation" },
-              { label: "First Meeting", value: "First Meeting" },
-              { label: "Quote Sent", value: "Quote Sent" },
-              { label: "Client Interested", value: "Client Interested" },
-              { label: "Verbal Confirmation", value: "Verbal Confirmation" },
-              { label: "Final Meeting", value: "Final Meeting" },
-              { label: "Contract Signing", value: "Contract Signing" },
-              { label: "Advance Pending", value: "Advance Pending" },
-              { label: "Advance Received", value: "Advance Received" },
-              {
-                label: "Client Rejected by Agency",
-                value: "Client Rejected by Agency",
-              },
-              {
-                label: "Agency Rejected by Client",
-                value: "Agency Rejected by Client",
-              },
-            ]}
-            name="leadStatus"
-            control={control}
-            errors={errors}
-          />
-
-          {/* <input
-            type="text"
-            name="title"
-            value={taskData.title}
-            onChange={handleChange}
-            placeholder="Title"
-            className="w-full h-12 px-3 outline-none rounded-md bg-slate-100 border border-slate-300 text-sm font-medium"
-          />
-
-          <input
-            type="text"
-            name="description"
-            value={taskData.description}
-            onChange={handleChange}
-            placeholder="Description"
-            className="w-full h-12 px-3 outline-none rounded-md bg-slate-100 border border-slate-300 text-sm font-medium"
-          />
-          <select
             name="priority"
-            onChange={handleChange}
-            value={taskData.priority}
-            className="w-full h-12 px-2 outline-none rounded-md bg-slate-100 border border-slate-300 text-sm"
-          >
-            <option value="">Priority</option>
-            <option value="low">Low</option>
-            <option value="medium">Medium</option>
-            <option value="high">High</option>
-          </select>
-          <input
-            type="number"
-            name="deadline"
-            value={taskData.deadline}
-            onChange={handleChange}
-            placeholder="Deadline"
-            className="w-full h-12 px-3 outline-none rounded-md bg-slate-100 border border-slate-300 text-sm"
+            control={control}
+            errors={errors}
           />
-          <input
-            type="text"
-            value={tagTitle}
-            onChange={(e) => setTagTitle(e.target.value)}
-            placeholder="Tag Title"
-            className="w-full h-12 px-3 outline-none rounded-md bg-slate-100 border border-slate-300 text-sm"
-          /> */}
 
-          {/* <div className="w-full flex items-center gap-4 justify-between">
-            <input
-              type="text"
-              name="alt"
-              value={taskData.alt}
-              onChange={handleChange}
-              placeholder="Image Alt"
-              className="w-full h-12 px-3 outline-none rounded-md bg-slate-100 border border-slate-300 text-sm"
-            />
-            <input
-              type="file"
-              name="image"
-              onChange={handleImageChange}
-              className="w-full"
-            />
-          </div> */}
+          <CustomSelect
+            label="Assigned to"
+            options={formattedOptions}
+            name="teamMembers"
+            control={control}
+            errors={errors}
+          />
+
+          <CustomTextArea
+            name="taskDescription"
+            control={control}
+            errors={errors}
+            label={"Task Description"}
+            width="w-full"
+          />
 
           <div className="flex gap-3 justify-end mt-4">
             <button

@@ -6,6 +6,7 @@ const initialState = {
   projects: [],
   isSuccess: false,
   isLoading: false,
+  isSidebarOpen: false,
 };
 
 export const getAllProject = createAsyncThunk(
@@ -58,7 +59,11 @@ export const resetState = createAction("Reset_all_project_state");
 export const projectSlice = createSlice({
   name: "project",
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    toogleSidbar(state, action) {
+      state.isSidebarOpen(!state.isSidebarOpen);
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getAllProject.pending, (state) => {
@@ -103,5 +108,7 @@ export const projectSlice = createSlice({
 });
 
 const projectReducer = projectSlice.reducer;
+
+export const { toogleSidbar } = projectSlice.actions;
 
 export default projectReducer;

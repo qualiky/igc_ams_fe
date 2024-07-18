@@ -1,9 +1,10 @@
 import DataTable from "react-data-table-component";
 import { useSelector } from "react-redux";
-import { getAllEmployeeData } from "../../../selectors/selectors";
-import AvatarByName from "./avatar-by-name";
+
 import { useNavigate } from "react-router-dom";
 import { base_img_url } from "../../../utils/base_img_url";
+import AvatarByName from "../../Employees/_components/avatar-by-name";
+import { getAllEmployeeData } from "../../../selectors/selectors";
 
 const customStyles = {
   headCells: {
@@ -11,18 +12,34 @@ const customStyles = {
       fontSize: "16px",
       fontWeight: "semibold",
       padding: "20px",
+      backgroundColor: "transparent",
     },
   },
   rows: {
     style: {
       fontSize: "14px",
       padding: "10px",
+      background: "transparent",
+    },
+  },
+  cells: {
+    style: {
       backgroundColor: "transparent",
+    },
+  },
+  table: {
+    style: {
+      background: "transparent",
+    },
+  },
+  headRows: {
+    style: {
+      background: "transparent",
     },
   },
 };
 
-const EmployeeDataTable = () => {
+const IncomeTable = () => {
   const { employeeData } = useSelector(getAllEmployeeData);
 
   const handleChange = ({ selectedRows }) => {
@@ -36,32 +53,32 @@ const EmployeeDataTable = () => {
   };
 
   const columns = [
-    {
-      name: "ID",
-      selector: (row) => row.id,
-      sortable: true,
-      width: "100px",
-    },
-    {
-      name: "Image",
-      cell: (row) =>
-        row?.attributes?.profileImage?.data?.attributes?.url ? (
-          <img
-            className="h-14 w-14 rounded-full m-1 mr-2 object-cover"
-            src={
-              base_img_url +
-              row?.attributes?.profileImage?.data?.attributes?.url
-            }
-            alt={row.name}
-          />
-        ) : (
-          <AvatarByName
-            firstname={row?.attributes?.firstName}
-            lastname={row?.attributes?.lastName}
-          />
-        ),
-      width: "150px",
-    },
+    // {
+    //   name: "ID",
+    //   selector: (row) => row.id,
+    //   sortable: true,
+    //   width: "100px",
+    // },
+    // {
+    //   name: "Image",
+    //   cell: (row) =>
+    //     row?.attributes?.profileImage?.data?.attributes?.url ? (
+    //       <img
+    //         className="h-14 w-14 rounded-full m-1 mr-2 object-cover"
+    //         src={
+    //           base_img_url +
+    //           row?.attributes?.profileImage?.data?.attributes?.url
+    //         }
+    //         alt={row.name}
+    //       />
+    //     ) : (
+    //       <AvatarByName
+    //         firstname={row?.attributes?.firstName}
+    //         lastname={row?.attributes?.lastName}
+    //       />
+    //     ),
+    //   width: "150px",
+    // },
 
     {
       name: "Name",
@@ -72,7 +89,7 @@ const EmployeeDataTable = () => {
       cell: (row) => (
         <span
           onClick={() => handleView(row?.id)}
-          className="cursor-pointer transition duration-1000 ease-in-out hover:underline hover:font-bold"
+          className="cursor-pointer transition text-black dark:text-white duration-1000 ease-in-out hover:underline hover:font-bold"
         >
           {row?.attributes?.firstName} {row?.attributes?.lastName}
         </span>
@@ -111,7 +128,7 @@ const EmployeeDataTable = () => {
 
   return (
     <DataTable
-      title="Employee Data"
+      title="Overall Income"
       columns={columns}
       data={employeeData}
       pagination
@@ -131,4 +148,4 @@ const EmployeeDataTable = () => {
   );
 };
 
-export default EmployeeDataTable;
+export default IncomeTable;

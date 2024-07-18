@@ -8,6 +8,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { Bounce, ToastContainer } from "react-toastify";
 import { PersistGate } from "redux-persist/integration/react";
 import { StyleSheetManager } from "styled-components";
+import { registerSW } from "virtual:pwa-register";
+
+registerSW();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>

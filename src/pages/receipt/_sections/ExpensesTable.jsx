@@ -1,9 +1,9 @@
 import DataTable from "react-data-table-component";
 import { useSelector } from "react-redux";
-import { getAllEmployeeData } from "../../../selectors/selectors";
-import AvatarByName from "./avatar-by-name";
 import { useNavigate } from "react-router-dom";
 import { base_img_url } from "../../../utils/base_img_url";
+import AvatarByName from "../../Employees/_components/avatar-by-name";
+import { getAllEmployeeData } from "../../../selectors/selectors";
 
 const customStyles = {
   headCells: {
@@ -22,7 +22,7 @@ const customStyles = {
   },
 };
 
-const EmployeeDataTable = () => {
+const ExpensesTable = () => {
   const { employeeData } = useSelector(getAllEmployeeData);
 
   const handleChange = ({ selectedRows }) => {
@@ -111,7 +111,7 @@ const EmployeeDataTable = () => {
 
   return (
     <DataTable
-      title="Employee Data"
+      title="Overall Expenses"
       columns={columns}
       data={employeeData}
       pagination
@@ -131,4 +131,4 @@ const EmployeeDataTable = () => {
   );
 };
 
-export default EmployeeDataTable;
+export default ExpensesTable;

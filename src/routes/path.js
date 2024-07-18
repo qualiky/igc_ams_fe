@@ -36,5 +36,10 @@ export const paths = {
       addProject: `${ROOTS.DASHBOARD}project/add-project`,
       details: (id) => `${ROOTS.DASHBOARD}project/details/${id}`,
     },
+    receipt: {
+      receipt: `${ROOTS.DASHBOARD}receipt`,
+      addReceipt: `${ROOTS.DASHBOARD}receipt/add-receipt`,
+      details: (id) => `${ROOTS.DASHBOARD}receipt/details/${id}`,
+    },
   },
 };
