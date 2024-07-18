@@ -33,8 +33,6 @@ const ProjectViewNew = () => {
   const { salesLead } = useSelector(getAllSalesLead);
   const projectStages = useSelector(getProjectStage);
 
-  console.log(salesLead, projectStages);
-
   const dispatch = useDispatch();
 
   const [columns, setColumns] = useState({});
@@ -62,7 +60,7 @@ const ProjectViewNew = () => {
 
   useEffect(() => {
     dispatch(getProjectStages({ id: params?.id }));
-  }, [dispatch, params]);
+  }, [dispatch, params?.id]);
 
   const handleAddTask = (taskData) => {
     const newBoard = { ...columns };

@@ -81,7 +81,7 @@ const IncomeTable = () => {
     // },
 
     {
-      name: "Name",
+      name: "Payment By",
       selector: (row) =>
         row?.attributes?.firstName + " " + row?.attributes?.lastName,
       sortable: true,
@@ -104,6 +104,12 @@ const IncomeTable = () => {
     {
       name: "Gender",
       selector: (row) => row?.attributes?.gender || "-",
+      sortable: true,
+      width: "200px",
+    },
+    {
+      name: "Source",
+      selector: "Operating Inco",
       sortable: true,
       width: "200px",
     },
