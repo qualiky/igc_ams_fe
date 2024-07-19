@@ -24,3 +24,13 @@ export const getSingleLeaveData = (state) => state.leave;
 // Project
 export const getAllProjectList = (state) => state.project;
 export const getProjectStage = (state) => state.projectDetail.projectStages;
+export const getTaskDetail = (state) => state.projectDetail.taskDetail;
+
+// Receipt
+export const getAllReceiptList = (state) => state.receipt.allReceipts;
+export const getAllIncomeReceipt = (state) => state.receipt.incomeReceipts;
+export const getAllExpenditureReceipt = (state) =>
+  state.receipt.expenditureReceipts;
+
+// Client
+export const getAllClientList = (state) => state.client.allClient;

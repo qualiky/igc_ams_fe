@@ -149,6 +149,7 @@ export const projectDetailSlice = createSlice({
       .addCase(getProjectTaskDetail.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.taskDetail = action.payload?.data;
       })
       .addCase(getProjectTaskDetail.rejected, (state) => {
         state.isLoading = false;

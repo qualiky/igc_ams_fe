@@ -40,7 +40,7 @@ const Sidebar = () => {
 
   return (
     <div className="deznav">
-      <div className="deznav-scroll">
+      <div className="deznav-scroll flex flex-col justify-between">
         <ul className="metismenu" id="menu">
           <li className="menu-title"></li>
 
@@ -90,6 +90,14 @@ const Sidebar = () => {
           </li>
 
           <MenuItem
+            to={paths.dashboard.chat.root}
+            name="conversation"
+            icon="line-md:chat-twotone"
+            text="Conversation"
+            activeMenu={activeMenu}
+          />
+
+          <MenuItem
             to="sales"
             icon="solar:dollar-bold-duotone"
             text="Sales"
@@ -103,12 +111,20 @@ const Sidebar = () => {
             text="Core HR"
             activeMenu={activeMenu}
           />
+
           <MenuItem
             to={paths.dashboard.leave.leave}
             icon="uim:calender"
             text="Leave"
             activeMenu={activeMenu}
             name="leave"
+          />
+          <MenuItem
+            to={paths.dashboard.clients.root}
+            name="client"
+            icon="solar:users-group-two-rounded-bold-duotone"
+            text="Manage Clients"
+            activeMenu={activeMenu}
           />
           <MenuItem
             to={paths.dashboard.project.project}
@@ -125,9 +141,22 @@ const Sidebar = () => {
             activeMenu={activeMenu}
           />
         </ul>
-        <div className="help-desk py-3 px-[1.5rem]">
-          <a className="btn btn-primary py-[5px] cursor-pointer px-3 text-[13px] rounded text-white bg-primary leading-5 inline-block border border-primary font-medium">
+        <div className="help-desk py-3 ps-2 flex  gap-2 mt-10">
+          <a
+            href="https://pirus.app"
+            target="_blank"
+            type="button"
+            className="mr-1 mb-2 inline-block rounded font-medium py-[5px] px-[15px] text-[13px] border border-primary text-white bg-primary hover:bg-hover-primary hover:border-hover-primary duration-300 btn-sm"
+          >
             Contact
+          </a>
+          <a
+            type="button"
+            target="_blank"
+            href="https://pirus.app/#pricing"
+            className="mr-1 mb-2 inline-block rounded font-semibold py-[0.438rem] px-4 text-xs border border-primary text-primary hover:bg-primary hover:text-white duration-300 btn-xs"
+          >
+            Pricing
           </a>
         </div>
       </div>

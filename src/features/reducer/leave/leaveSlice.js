@@ -54,17 +54,6 @@ export const addLeave = createAsyncThunk(
   }
 );
 
-export const updateEmployee = createAsyncThunk(
-  "update_leave",
-  async ({ id, data }, thunkAPI) => {
-    try {
-      return await leaveService.updateLeave(id, data);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-);
-
 //Reset State
 export const resetState = createAction("Reset_all_leave_state");
 
@@ -127,18 +116,6 @@ export const leaveSlice = createSlice({
         state.isSuccess = true;
       })
       .addCase(addLeave.rejected, (state) => {
-        state.isLoading = false;
-        state.isSuccess = false;
-      })
-
-      .addCase(updateEmployee.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(updateEmployee.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-      })
-      .addCase(updateEmployee.rejected, (state) => {
         state.isLoading = false;
         state.isSuccess = false;
       });

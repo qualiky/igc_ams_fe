@@ -1,133 +1,225 @@
-import DataTable from "react-data-table-component";
+import { Link } from "react-router-dom";
+import { paths } from "../../../routes/path";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { base_img_url } from "../../../utils/base_img_url";
-import AvatarByName from "../../Employees/_components/avatar-by-name";
-import { getAllEmployeeData } from "../../../selectors/selectors";
-
-const customStyles = {
-  headCells: {
-    style: {
-      fontSize: "16px",
-      fontWeight: "semibold",
-      padding: "20px",
-    },
-  },
-  rows: {
-    style: {
-      fontSize: "14px",
-      padding: "10px",
-      backgroundColor: "transparent",
-    },
-  },
-};
+import { getAllExpenditureReceipt } from "../../../selectors/selectors";
+import { formatDate } from "../../../const/format-date";
 
 const ExpensesTable = () => {
-  const { employeeData } = useSelector(getAllEmployeeData);
-
-  const handleChange = ({ selectedRows }) => {
-    console.log("Selected Rows: ", selectedRows);
-  };
-
-  const navigate = useNavigate();
-
-  const handleView = (id) => {
-    navigate(`/employee/details/${id}`);
-  };
-
-  const columns = [
-    {
-      name: "ID",
-      selector: (row) => row.id,
-      sortable: true,
-      width: "100px",
-    },
-    {
-      name: "Image",
-      cell: (row) =>
-        row?.attributes?.profileImage?.data?.attributes?.url ? (
-          <img
-            className="h-14 w-14 rounded-full m-1 mr-2 object-cover"
-            src={
-              base_img_url +
-              row?.attributes?.profileImage?.data?.attributes?.url
-            }
-            alt={row.name}
-          />
-        ) : (
-          <AvatarByName
-            firstname={row?.attributes?.firstName}
-            lastname={row?.attributes?.lastName}
-          />
-        ),
-      width: "150px",
-    },
-
-    {
-      name: "Name",
-      selector: (row) =>
-        row?.attributes?.firstName + " " + row?.attributes?.lastName,
-      sortable: true,
-      width: "220px",
-      cell: (row) => (
-        <span
-          onClick={() => handleView(row?.id)}
-          className="cursor-pointer transition duration-1000 ease-in-out hover:underline hover:font-bold"
-        >
-          {row?.attributes?.firstName} {row?.attributes?.lastName}
-        </span>
-      ),
-    },
-    {
-      name: "Email",
-      selector: (row) => row?.attributes?.primaryEmail || "-",
-      sortable: true,
-      width: "220px",
-    },
-    {
-      name: "Gender",
-      selector: (row) => row?.attributes?.gender || "-",
-      sortable: true,
-      width: "200px",
-    },
-
-    {
-      name: "Actions",
-      cell: (row) => (
-        <>
-          <button
-            className="bg-slate-200  hover:bg-slate-300 text-black  font-bold py-1 px-4 rounded"
-            onClick={() => handleView(row?.id)}
-          >
-            View
-          </button>
-        </>
-      ),
-      ignoreRowClick: true,
-      // allowOverflow: true,
-      button: true,
-    },
-  ];
+  const expenditureReceipt = useSelector(getAllExpenditureReceipt);
 
   return (
-    <DataTable
-      title="Overall Expenses"
-      columns={columns}
-      data={employeeData}
-      pagination
-      paginationPerPage={5}
-      //   paginationRowsPerPageOptions={[5, 10, 15]}
-      striped
-      highlightOnHover
-      selectableRows
-      selectableRowsHighlight
-      selectableRowsOnClick
-      onSelectedRowsChange={handleChange}
-      customStyles={customStyles}
-      // responsive
-      noHeader
-      dense
-    />
+    <div className="container-fluid p-0">
+      <div className="row">
+        <div className="xl:w-full">
+          <div className="card h-auto">
+            <div className="tbl-caption flex justify-between items-center flex-wrap py-4 px-5 relative z-[2] border-b border-[#E6E6E6] dark:border-transparent">
+              <h4 className="heading">All Expenses</h4>
+              <Link
+                type="button"
+                to={paths.dashboard.receipt.analytics}
+                className="mr-1 mb-2 inline-block rounded font-medium xl:text-[15px] text-xs leading-5 xl:py-[0.719rem] xl:px-[1.563rem] py-2.5 px-4 border border-primary text-white bg-primary hover:bg-hover-primary hover:border-hover-primary duration-300 m-0"
+              >
+                <i className="fa-brands fa-accusoft mr-2"></i>Analytics
+              </Link>
+            </div>
+            <div className="p-0">
+              <div className="overflow-x-auto active-projects style-1">
+                <div
+                  id="empoloyees-tbl_wrapper"
+                  className="dataTables_wrapper no-footer h-full"
+                >
+                  <div className="dt-buttons">
+                    <button
+                      className="dt-button buttons-excel buttons-html5 btn btn-sm border-0"
+                      tabIndex="0"
+                      aria-controls="empoloyees-tbl"
+                      type="button"
+                    >
+                      <span>
+                        <i className="fa-solid fa-file-excel"></i> Export Report
+                      </span>
+                    </button>{" "}
+                  </div>
+                  <table
+                    id="empoloyees-tbl"
+                    className="table dataTable no-footer"
+                    role="grid"
+                    aria-describedby="empoloyees-tbl_info"
+                  >
+                    <thead>
+                      <tr role="row">
+                        <th
+                          className="text-[13px] py-2.5 pl-4 pr-0 bg-[#F0F4F9] text-[#374557] capitalize font-medium bg-none whitespace-nowrap text-left sorting_asc"
+                          tabIndex="0"
+                          aria-controls="empoloyees-tbl"
+                          rowSpan="1"
+                          colSpan="1"
+                          aria-sort="ascending"
+                          aria-label="REFERENCE: activate to sort column descending"
+                          style={{ width: "100.115px" }}
+                        >
+                          ID
+                        </th>
+                        <th
+                          className="text-[13px] py-2.5 px-4 bg-[#F0F4F9] text-[#374557] capitalize font-medium bg-none whitespace-nowrap text-left sorting"
+                          tabIndex="0"
+                          aria-controls="empoloyees-tbl"
+                          rowSpan="1"
+                          colSpan="1"
+                          aria-label="PRODUCT: activate to sort column ascending"
+                          style={{ width: "212.208px" }}
+                        >
+                          Receipt Title
+                        </th>
+                        <th
+                          className="text-[13px] py-2.5 px-4 bg-[#F0F4F9] text-[#374557] capitalize font-medium bg-none whitespace-nowrap text-left sorting"
+                          tabIndex="0"
+                          aria-controls="empoloyees-tbl"
+                          rowSpan="1"
+                          colSpan="1"
+                          aria-label="STATUS: activate to sort column ascending"
+                          style={{ width: "94.9375px" }}
+                        >
+                          CREATED AT
+                        </th>
+                        <th
+                          className="text-[13px] py-2.5 px-4 bg-[#F0F4F9] text-[#374557] capitalize font-medium bg-none whitespace-nowrap text-left sorting"
+                          tabIndex="0"
+                          aria-controls="empoloyees-tbl"
+                          rowSpan="1"
+                          colSpan="1"
+                          aria-label="DATE: activate to sort column ascending"
+                          style={{ width: "124.469px" }}
+                        >
+                          BILLED DATE
+                        </th>
+                        <th
+                          className="text-[13px] py-2.5 px-4 bg-[#F0F4F9] text-[#374557] capitalize font-medium bg-none whitespace-nowrap text-left sorting"
+                          tabIndex="0"
+                          aria-controls="empoloyees-tbl"
+                          rowSpan="1"
+                          colSpan="1"
+                          aria-label="PRODUCT: activate to sort column ascending"
+                          style={{ width: "212.208px" }}
+                        >
+                          TRANSCATION TYPE
+                        </th>
+                        <th
+                          className="text-[13px] py-2.5 px-4 bg-[#F0F4F9] text-[#374557] capitalize font-medium bg-none whitespace-nowrap text-right sorting"
+                          tabIndex="0"
+                          aria-controls="empoloyees-tbl"
+                          rowSpan="1"
+                          colSpan="1"
+                          aria-label="AMOUNT: activate to sort column ascending"
+                          style={{ width: "86.8125px" }}
+                        >
+                          AMOUNT
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {expenditureReceipt?.map((item, index) => (
+                        <tr
+                          key={index}
+                          role="row"
+                          className="odd cursor-pointer hover:bg-primary-light "
+                        >
+                          <td
+                            style={{ padding: "25px 0px 25px 0px" }}
+                            className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[2rem] pl-4 pr-0 font-normal whitespace-nowrap sorting_1"
+                          >
+                            <span className="text-body-color dark:text-white">
+                              {item?.id}
+                            </span>
+                          </td>
+                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[2rem] px-4 font-normal whitespace-nowrap">
+                            <span className="text-body-color dark:text-white">
+                              {item?.attributes?.title}
+                            </span>
+                          </td>
+                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[2rem] px-4 font-normal whitespace-nowrap">
+                            <span className="text-body-color dark:text-white">
+                              {formatDate(item?.attributes?.createdAt)}
+                            </span>
+                          </td>
+                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[2rem] px-4 font-normal whitespace-nowrap">
+                            <span className="text-body-color dark:text-white">
+                              {item?.attributes?.billedDate}
+                            </span>
+                          </td>
+                          <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[2rem] px-4 font-normal whitespace-nowrap">
+                            <span className="text-body-color dark:text-white">
+                              {item?.attributes?.transactionType}
+                            </span>
+                          </td>
+                          <td
+                            style={{ padding: "5px 0px 5px 0px" }}
+                            className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[2rem] px-4 font-normal whitespace-nowrap text-right"
+                          >
+                            <span className="text-body-color text-danger dark:text-white">
+                              {item?.attributes?.amount}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  <div
+                    className="dataTables_info"
+                    id="empoloyees-tbl_info"
+                    role="status"
+                    aria-live="polite"
+                  >
+                    Showing 1 to 5 of 6 entries
+                  </div>
+                  <div
+                    className="dataTables_paginate paging_simple_numbers"
+                    id="empoloyees-tbl_paginate"
+                  >
+                    <a
+                      className="paginate_button previous disabled"
+                      aria-controls="empoloyees-tbl"
+                      data-dt-idx="0"
+                      tabIndex="0"
+                      id="empoloyees-tbl_previous"
+                    >
+                      <i className="fa-solid fa-angle-left"></i>
+                    </a>
+                    <span>
+                      <a
+                        className="paginate_button current"
+                        aria-controls="empoloyees-tbl"
+                        data-dt-idx="1"
+                        tabIndex="0"
+                      >
+                        1
+                      </a>
+                      <a
+                        className="paginate_button "
+                        aria-controls="empoloyees-tbl"
+                        data-dt-idx="2"
+                        tabIndex="0"
+                      >
+                        2
+                      </a>
+                    </span>
+                    <a
+                      className="paginate_button next"
+                      aria-controls="empoloyees-tbl"
+                      data-dt-idx="3"
+                      tabIndex="0"
+                      id="empoloyees-tbl_next"
+                    >
+                      <i className="fa-solid fa-angle-right"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

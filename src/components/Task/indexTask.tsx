@@ -24,11 +24,9 @@ const TaskProject = ({ task, provided }: TaskProps) => {
       className="w-auto  bg-white dark:bg-[#1E1E1E] max-w-[290px] min-w-[290px]  cursor-grab  flex flex-col justify-between gap-3 my-2 items-start shadow-sm border border-stone-200 rounded-xl px-3 py-4"
     >
       <div className="w-full flex items-start flex-col gap-0">
-        <Link to={paths.dashboard.sales.details(task?.id)}>
-          <span className="text-[15.5px] font-medium text-[#555] dark:text-white">
-            {taskTitle}
-          </span>
-        </Link>
+        <span className="text-[15.5px] font-medium text-[#555] dark:text-white">
+          {taskTitle}
+        </span>
         <span className="text-[13.5px] text-gray-500 ">{taskDescription}</span>
       </div>
       <div className="w-full border border-dashed"></div>
@@ -78,6 +76,12 @@ const TaskProject = ({ task, provided }: TaskProps) => {
           <p className="text-body-color text-[13px]">{formatDate(endDate)}</p>
         </div>
       </div>
+      <Link
+        to={paths.dashboard.project.taskDetails(1)}
+        className=" w-full text-center  btn btn-primary cursor-pointer duration-500 hover:bg-hover-primary py-[5px] px-3 text-[13px] rounded text-white bg-primary leading-[18px] inline-block border border-primary dz-modal-btn"
+      >
+        View Detail
+      </Link>
     </div>
   );
 };

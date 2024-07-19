@@ -1,9 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import IncomeTable from "./IncomeTable";
 import ExpensesTable from "./ExpensesTable";
+import { useDispatch } from "react-redux";
+import { getAllReceipt } from "../../../features/reducer/receipt/receiptSlice";
 
 const ReceiptView = () => {
   const [activeTab, setActiveTab] = useState("tab1");
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllReceipt());
+  }, [dispatch]);
 
   return (
     <div className="container-fluid">

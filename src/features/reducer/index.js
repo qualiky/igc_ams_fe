@@ -9,6 +9,8 @@ import salesReducer from "./sales/salesSlice";
 import leaveReducer from "./leave/leaveSlice";
 import projectReducer from "./project/projectSlice";
 import projectDetailReducer from "./project/projectDetailSlice";
+import receiptReducer from "./receipt/receiptSlice";
+import ClientReducer from "./client/clientSlice";
 
 export const rootReducer = combineReducers({
   auth: authReducer,
@@ -21,4 +23,6 @@ export const rootReducer = combineReducers({
   leave: leaveReducer,
   project: projectReducer,
   projectDetail: projectDetailReducer,
+  receipt: receiptReducer,
+  client: ClientReducer,
 });

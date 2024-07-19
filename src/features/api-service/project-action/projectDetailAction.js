@@ -75,7 +75,7 @@ const getSingleProjectTask = async (id) => {
     const config = await getConfigWithToken();
 
     const response = await axios.get(
-      `${base_url}projects/${id}?populate=deep`,
+      `${base_url}project-tasks/${id}?populate=deep`,
       config
     );
 

@@ -32,6 +32,13 @@ import AddProject from "../pages/project/_sections/AddProject";
 import ProjectViewNew from "../pages/project/_sections/ProjectDetailNew";
 import Receipt from "../pages/receipt";
 import ReceiptView from "../pages/receipt/_sections/ReceiptView";
+import TaskDetail from "../pages/project/_sections/TaskDetail";
+import Clients from "../pages/clients";
+import ClientView from "../pages/clients/_sections/ClientView";
+import ClientDetail from "../pages/clients/_sections/ClientDetail";
+import Chat from "../pages/chat";
+import ChatView from "../pages/chat/_sections/ChatView";
+import ReceiptAnalytics from "../pages/receipt/_sections/ReceiptAnalytics";
 
 const CustomRoutes = () => {
   const routes = useRoutes([
@@ -75,7 +82,11 @@ const CustomRoutes = () => {
           element: <ProtectedRoute element={CoreHr} />,
           children: [{ path: "", element: <HrView /> }],
         },
-
+        {
+          path: "conversation",
+          element: <ProtectedRoute element={Chat} />,
+          children: [{ path: "", element: <ChatView /> }],
+        },
         {
           path: "sales",
           element: <ProtectedRoute element={SalesPage} />,
@@ -93,12 +104,21 @@ const CustomRoutes = () => {
           ],
         },
         {
+          path: "client",
+          element: <ProtectedRoute element={Clients} />,
+          children: [
+            { path: "", element: <ClientView /> },
+            { path: "details/:id", element: <ClientDetail /> },
+          ],
+        },
+        {
           path: "project",
           element: <ProtectedRoute element={Project} />,
           children: [
             { path: "", element: <ProjectView /> },
             { path: "add-project", element: <AddProject /> },
             { path: "details/:id", element: <ProjectViewNew /> },
+            { path: "task-detail/:id", element: <TaskDetail /> },
           ],
         },
         {
@@ -106,7 +126,7 @@ const CustomRoutes = () => {
           element: <ProtectedRoute element={Receipt} />,
           children: [
             { path: "", element: <ReceiptView /> },
-            // { path: "add-project", element: <AddProject /> },
+            { path: "analytics", element: <ReceiptAnalytics /> },
             // { path: "details/:id", element: <ProjectViewNew /> },
           ],
         },

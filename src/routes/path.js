@@ -21,9 +21,16 @@ export const paths = {
         employeeEdit: (id) => `${ROOTS.DASHBOARD}employee/edit-employee/${id}`,
       },
     },
+    chat: {
+      root: `${ROOTS.DASHBOARD}conversation`,
+    },
     sales: {
       root: `${ROOTS.DASHBOARD}sales`,
       details: (id) => `${ROOTS.DASHBOARD}sales/details/${id}`,
+    },
+    clients: {
+      root: `${ROOTS.DASHBOARD}client`,
+      details: (id) => `${ROOTS.DASHBOARD}client/details/${id}`,
     },
 
     coreHr: `${ROOTS.DASHBOARD}core-hr`,
@@ -35,10 +42,12 @@ export const paths = {
       project: `${ROOTS.DASHBOARD}project`,
       addProject: `${ROOTS.DASHBOARD}project/add-project`,
       details: (id) => `${ROOTS.DASHBOARD}project/details/${id}`,
+      taskDetails: (id) => `${ROOTS.DASHBOARD}project/task-detail/${id}`,
     },
     receipt: {
       receipt: `${ROOTS.DASHBOARD}receipt`,
       addReceipt: `${ROOTS.DASHBOARD}receipt/add-receipt`,
+      analytics: `${ROOTS.DASHBOARD}receipt/analytics`,
       details: (id) => `${ROOTS.DASHBOARD}receipt/details/${id}`,
     },
   },
