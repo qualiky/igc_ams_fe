@@ -3,6 +3,7 @@ import { paths } from "../../../routes/path";
 import { useSelector } from "react-redux";
 import { getAllExpenditureReceipt } from "../../../selectors/selectors";
 import { formatDate } from "../../../const/format-date";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 const ExpensesTable = () => {
   const expenditureReceipt = useSelector(getAllExpenditureReceipt);
@@ -14,13 +15,22 @@ const ExpensesTable = () => {
           <div className="card h-auto">
             <div className="tbl-caption flex justify-between items-center flex-wrap py-4 px-5 relative z-[2] border-b border-[#E6E6E6] dark:border-transparent">
               <h4 className="heading">All Expenses</h4>
-              <Link
-                type="button"
-                to={paths.dashboard.receipt.analytics}
-                className="mr-1 mb-2 inline-block rounded font-medium xl:text-[15px] text-xs leading-5 xl:py-[0.719rem] xl:px-[1.563rem] py-2.5 px-4 border border-primary text-white bg-primary hover:bg-hover-primary hover:border-hover-primary duration-300 m-0"
-              >
-                <i className="fa-brands fa-accusoft mr-2"></i>Analytics
-              </Link>
+              <div className="flex gap-4">
+                <Link
+                  type="button"
+                  to={paths.dashboard.receipt.analytics}
+                  className="mr-1 mb-2 inline-block rounded font-medium xl:text-[15px] text-xs leading-5 xl:py-[0.719rem] xl:px-[1.563rem] py-2.5 px-4 border border-primary text-white bg-primary hover:bg-hover-primary hover:border-hover-primary duration-300 m-0"
+                >
+                  <i className="fa-brands fa-accusoft mr-2"></i>Analytics
+                </Link>
+                <Link
+                  type="button"
+                  to={paths.dashboard.receipt.addReceipt}
+                  className="mr-1 mb-2 flex items-center gap-3 rounded font-medium xl:text-[15px] text-xs leading-5 xl:py-[0.719rem] xl:px-[1.563rem] py-2.5 px-4 border border-primary text-primary bg-white hover:bg-primary-light hover:border-hover-primary duration-300 m-0"
+                >
+                  <Icon icon="subway:add" /> Add New
+                </Link>
+              </div>
             </div>
             <div className="p-0">
               <div className="overflow-x-auto active-projects style-1">
@@ -169,9 +179,7 @@ const ExpensesTable = () => {
                     id="empoloyees-tbl_info"
                     role="status"
                     aria-live="polite"
-                  >
-                    Showing 1 to 5 of 6 entries
-                  </div>
+                  ></div>
                   <div
                     className="dataTables_paginate paging_simple_numbers"
                     id="empoloyees-tbl_paginate"

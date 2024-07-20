@@ -39,6 +39,9 @@ const EmployeeDataTable = () => {
     {
       name: "ID",
       selector: (row) => row.id,
+      cell: (row) => (
+        <p className="text-black dark:text-white">00{row?.id || "-"}</p>
+      ),
       sortable: true,
       width: "100px",
     },
@@ -72,7 +75,7 @@ const EmployeeDataTable = () => {
       cell: (row) => (
         <span
           onClick={() => handleView(row?.id)}
-          className="cursor-pointer transition duration-1000 ease-in-out hover:underline hover:font-bold"
+          className="cursor-pointer transition duration-1000 dark:text-white ease-in-out hover:underline hover:font-bold"
         >
           {row?.attributes?.firstName} {row?.attributes?.lastName}
         </span>
@@ -80,13 +83,22 @@ const EmployeeDataTable = () => {
     },
     {
       name: "Email",
-      selector: (row) => row?.attributes?.primaryEmail || "-",
+      cell: (row) => (
+        <p className="text-black dark:text-white">
+          {row?.attributes?.primaryEmail || "-"}
+        </p>
+      ),
       sortable: true,
       width: "220px",
     },
     {
       name: "Gender",
       selector: (row) => row?.attributes?.gender || "-",
+      cell: (row) => (
+        <p className="text-black dark:text-white">
+          {row?.attributes?.gender || "-"}
+        </p>
+      ),
       sortable: true,
       width: "200px",
     },
@@ -96,8 +108,9 @@ const EmployeeDataTable = () => {
       cell: (row) => (
         <>
           <button
-            className="bg-slate-200 bg-white hover:bg-slate-300 text-black dark:text-white font-bold py-1 px-4 rounded"
             onClick={() => handleView(row?.id)}
+            type="button"
+            className="mr-1 mb-2 inline-block rounded font-medium xl:text-[14px] text-xs leading-5  py-1.5 px-3 border border-d-light-2 text-black dark:text-white bg-d-light-2 hover:bg-d-light dark:bg-[#242424] duration-300"
           >
             View
           </button>

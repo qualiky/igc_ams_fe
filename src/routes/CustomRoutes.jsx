@@ -39,6 +39,7 @@ import ClientDetail from "../pages/clients/_sections/ClientDetail";
 import Chat from "../pages/chat";
 import ChatView from "../pages/chat/_sections/ChatView";
 import ReceiptAnalytics from "../pages/receipt/_sections/ReceiptAnalytics";
+import AddReceipt from "../pages/receipt/_sections/AddReceipt";
 
 const CustomRoutes = () => {
   const routes = useRoutes([
@@ -127,6 +128,8 @@ const CustomRoutes = () => {
           children: [
             { path: "", element: <ReceiptView /> },
             { path: "analytics", element: <ReceiptAnalytics /> },
+            { path: "add-receipt", element: <AddReceipt /> },
+
             // { path: "details/:id", element: <ProjectViewNew /> },
           ],
         },

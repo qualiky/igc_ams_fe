@@ -69,7 +69,6 @@ const AddProjectModal = ({
     label: item.attributes.firstName + " " + item.attributes.lastName,
     value: item.id,
   }));
-  console.log(formattedOptions);
 
   const handleChange = (
     e: React.ChangeEvent<

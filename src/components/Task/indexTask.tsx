@@ -14,8 +14,6 @@ const TaskProject = ({ task, provided }: TaskProps) => {
   const { startDate, endDate, priority, taskDescription, taskTitle } =
     task?.attributes;
 
-  console.log(task?.attributes);
-
   return (
     <div
       ref={provided.innerRef}

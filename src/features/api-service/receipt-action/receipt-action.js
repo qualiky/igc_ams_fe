@@ -38,7 +38,7 @@ const getSingleReceipt = async (id) => {
 const addReceipt = async ({ data }) => {
   try {
     const config = await getConfigWithToken();
-    const response = await axios.post(`${base_url}receipts`, data, config);
+    const response = await axios.post(`${base_url}receipts`, { data }, config);
     if (response.status === 200) {
       toast.success(response?.message || "Receipt Added Successfully");
     } else {

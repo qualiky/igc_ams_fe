@@ -17,7 +17,7 @@ const CustomTextArea = ({ control, name, width = "w-1/2", label, errors }) => {
             className="form-control relative text-[13px] text-body-color border border-b-color block rounded-md py-1.5 px-3 duration-500 focus:border-primary dark:hover:border-b-color outline-none w-full"
             id={name}
             rows={4}
-            placeholder={`Enter your ${label.toLowerCase()}`}
+            placeholder={`Enter ${label.toLowerCase()}...`}
           />
         )}
       />

@@ -20,9 +20,7 @@ const validationSchema = yup.object().shape({
   citizenshipIssuedDistrict: yup
     .string()
     .required("Citizenship Issued District is required"),
-  issuedMunicipalRegion: yup
-    .string()
-    .required("Issued Municipal Region is required"),
+  issuedMunicipalRegion: yup.string(),
   citizenshipIssueDate: yup
     .date()
     .required("Citizenship Issue Date is required")
@@ -128,7 +126,7 @@ const AddPersonalIdentification = ({ currentEducation }) => {
 
   return (
     <>
-      <div className=" bg-white m-5 p-3">
+      <div className=" bg-white dark:bg-[#1E1E1E] m-5 p-3">
         <div className="container-fluid px-[15px] py-0">
           <div>
             <form onSubmit={handleSubmit(onSubmit)} className="row pt-5">
@@ -190,35 +188,27 @@ const AddPersonalIdentification = ({ currentEducation }) => {
 
               <CustomInputs
                 control={control}
-                name="citizenshipNumber"
+                name="panNumber"
                 type="text"
-                label="Citizenship Number"
+                label="PAN Number"
                 errors={errors}
               />
               <CustomInputs
                 control={control}
-                name="citizenshipIssueDate"
+                name="panIssueDate"
                 type="date"
-                label="Citizenship Issue Date"
+                label="PAN Issue Date"
                 errors={errors}
               />
 
               <CustomSelect
-                label="Issued Provience"
+                label="PAN Issued Provience"
                 options={provienceData.map((p) => ({
                   label: p.name,
                   value: p.name,
                 }))}
-                name="citizenshipIssuedProvince"
+                name="panIssueDistrict"
                 onChange={(e) => handleProvinceChange(e.target.value)}
-                control={control}
-                errors={errors}
-              />
-
-              <CustomSelect
-                label="Issued District"
-                options={districtOptions}
-                name="citizenshipIssuedProvince"
                 control={control}
                 errors={errors}
               />
@@ -227,14 +217,14 @@ const AddPersonalIdentification = ({ currentEducation }) => {
                 control={control}
                 name="panScanCopy[0]"
                 type="file"
-                label="Citizenship Front"
+                label="PAN Card Front"
                 errors={errors}
               />
               <CustomInputs
                 control={control}
                 name="panScanCopy[1]"
                 type="file"
-                label="Citizenship Back"
+                label="PAN Card Back"
                 errors={errors}
               />
 

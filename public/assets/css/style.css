@@ -6591,6 +6591,10 @@ ul {
   [data-theme-version="dark"][data-layout="horizontal"] .deznav .metismenu>li:hover>ul {
     box-shadow: 0.3125rem 0.3125rem 1.875rem 0 #0000001a;
     background: #242424;
+
+    .kzZBXj {
+      color: white !important;
+    }
   }
 
   [data-layout="horizontal"] .deznav .metismenu>li:hover>ul {
@@ -14789,4 +14793,9 @@ pre code.hljs {
   .max-2xl\:translate-y-\[-7\.75rem\] {
     --tw-translate-y: -7.75rem !important;
   }
+}
+
+/* ------------Datatable---------------- */
+.kzZBXj {
+  color: var(--primary);
 }
