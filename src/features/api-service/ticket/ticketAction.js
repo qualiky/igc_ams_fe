@@ -3,28 +3,25 @@ import { toast } from "react-toastify";
 import base_url from "../../../utils/base_url";
 import { getConfigWithToken } from "../../../utils/config";
 
-// Get All Project
-const getAllProject = async () => {
+// Get All Ticket
+const getAllTicket = async () => {
   const config = await getConfigWithToken();
   try {
-    const response = await axios.get(
-      `${base_url}projects?populate[projectLead][fields][0]=firstName&populate[projectLead][fields][1]=lastName&populate[client][fields][0]=companyName&fields[0]=projectName&fields[1]=projectDescription&fields[2]=startDate`,
-      config
-    );
+    const response = await axios.get(`${base_url}tickets?populate=*`, config);
     return response.data;
   } catch (error) {
-    console.error("Error during getting project data:", error);
+    console.error("Error during getting Ticket data:", error);
     throw error;
   }
 };
 
-//   Get single Project
-const getSingleProject = async (id) => {
+//   Get single Ticket
+const getSingleTicket = async (id) => {
   try {
     const config = await getConfigWithToken();
 
     const response = await axios.get(
-      `${base_url}projects/${id}?populate=deep`,
+      `${base_url}tickets/${id}?populate=deep`,
       config
     );
 
@@ -35,13 +32,13 @@ const getSingleProject = async (id) => {
   }
 };
 
-// Post Project
-const addProject = async ({ data }) => {
+// Post Ticket
+const addTicket = async ({ data }) => {
   try {
     const config = await getConfigWithToken();
-    const response = await axios.post(`${base_url}projects`, data, config);
+    const response = await axios.post(`${base_url}tickets`, { data }, config);
     if (response.status === 200) {
-      toast.success(response?.message || "Project Added Successfully");
+      toast.success(response?.message || "Ticket Added Successfully");
     } else {
       toast.error(response?.error?.message);
     }
@@ -52,17 +49,17 @@ const addProject = async ({ data }) => {
   }
 };
 
-// Update Project
-const updateProject = async (id, data) => {
+// Update Ticket
+const updateTicket = async (id, data) => {
   try {
     const config = await getConfigWithToken();
     const response = await axios.put(
-      `${base_url}projects/${id}`,
+      `${base_url}tickets/${id}`,
       { data },
       config
     );
     if (response.status === 200) {
-      toast.success(response?.message || "Project Updated Successfully");
+      toast.success(response?.message || "Ticket Updated Successfully");
     } else {
       toast.error(response?.error?.message);
     }
@@ -73,9 +70,9 @@ const updateProject = async (id, data) => {
   }
 };
 
-export const projectService = {
-  getAllProject,
-  getSingleProject,
-  addProject,
-  updateProject,
+export const ticketService = {
+  getAllTicket,
+  getSingleTicket,
+  addTicket,
+  updateTicket,
 };

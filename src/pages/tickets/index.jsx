@@ -2,16 +2,16 @@ import { Outlet } from "react-router-dom";
 import Breadcumb from "../../components/Breadcumb";
 import { useEffect } from "react";
 
-const CoreHr = () => {
+const Tickets = () => {
   useEffect(() => {
     // Scroll to the top of the page when the component mounts
     window.scrollTo(0, 0);
   }, []);
+
   return (
     <>
       <div className="content-body">
-        {/* <!-- row -->	 */}
-        <Breadcumb title="Home" subtitle="Core HR" />
+        <Breadcumb title="Home" subtitle="Tickets" />
 
         <Outlet />
       </div>
@@ -19,4 +19,4 @@ const CoreHr = () => {
   );
 };
 
-export default CoreHr;
+export default Tickets;

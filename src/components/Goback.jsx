@@ -1,11 +1,12 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useRouter } from "../hooks";
 
 const Goback = () => {
-  const navigate = useNavigate();
+  const route = useRouter();
 
   const goBack = () => {
-    navigate(-1);
+    route?.back();
   };
 
   return (

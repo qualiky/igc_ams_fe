@@ -6,7 +6,7 @@ const initialState = {
   projectStages: [],
   taskDetail: {},
   isSuccess: false,
-  isLoading: false,
+  isLoading: true,
 };
 
 export const getProjectStages = createAsyncThunk(

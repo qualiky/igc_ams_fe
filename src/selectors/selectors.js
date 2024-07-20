@@ -28,9 +28,12 @@ export const getTaskDetail = (state) => state.projectDetail.taskDetail;
 
 // Receipt
 export const getAllReceiptList = (state) => state.receipt.allReceipts;
-export const getAllIncomeReceipt = (state) => state.receipt.incomeReceipts;
+export const getAllIncomeReceipt = (state) => state.receipt;
 export const getAllExpenditureReceipt = (state) =>
   state.receipt.expenditureReceipts;
 
 // Client
-export const getAllClientList = (state) => state.client.allClient;
+export const getAllClientList = (state) => state.client;
+
+// Ticket
+export const getAllTicketList = (state) => state.ticket.tickets;

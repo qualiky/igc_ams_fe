@@ -50,5 +50,9 @@ export const paths = {
       analytics: `${ROOTS.DASHBOARD}receipt/analytics`,
       details: (id) => `${ROOTS.DASHBOARD}receipt/details/${id}`,
     },
+    ticket: {
+      root: `${ROOTS.DASHBOARD}ticket`,
+      details: (id) => `${ROOTS.DASHBOARD}ticket/detail/${id}`,
+    },
   },
 };

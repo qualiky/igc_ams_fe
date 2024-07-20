@@ -140,8 +140,15 @@ const Sidebar = () => {
             text="Receipt"
             activeMenu={activeMenu}
           />
+          <MenuItem
+            to={paths.dashboard.ticket.root}
+            name="ticket"
+            icon="lets-icons:ticket-alt-duotone"
+            text="Support"
+            activeMenu={activeMenu}
+          />
         </ul>
-        <div className="help-desk py-3 ps-2 flex justify-center  gap-2 mt-10">
+        <div className="help-desk py-3 ps-2 flex flex-row justify-center  gap-2 mt-10">
           <a
             href="https://pirus.app"
             target="_blank"
@@ -149,6 +156,7 @@ const Sidebar = () => {
             className="mr-1 mb-2 inline-block rounded font-medium py-[5px] px-[15px] text-[13px] border border-primary text-white bg-primary hover:bg-hover-primary hover:border-hover-primary duration-300 btn-sm"
           >
             Contact
+            {/* <Icon icon="solar:call-chat-bold-duotone" /> */}
           </a>
           <a
             type="button"

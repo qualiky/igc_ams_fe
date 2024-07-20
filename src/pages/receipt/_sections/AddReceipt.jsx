@@ -86,13 +86,13 @@ const AddReceipt = ({ currentEducation }) => {
   }, [user?.id, setValue]);
 
   const onSubmit = async (data) => {
-    console.log(data);
-    // const resultAction = await dispatch(addReceipt(data));
+    // console.log(data);
+    const resultAction = await dispatch(addReceipt(data));
 
-    // if (addReceipt.fulfilled.match(resultAction)) {
-    //   reset();
-    //   dispatch(getAllReceipt());
-    // }
+    if (addReceipt.fulfilled.match(resultAction)) {
+      reset();
+      dispatch(getAllReceipt());
+    }
   };
 
   return (
@@ -167,7 +167,7 @@ const AddReceipt = ({ currentEducation }) => {
                 errors={errors}
               />
 
-              <div className="xl:w-1/2">
+              {/* <div className="xl:w-1/2">
                 <label
                   htmlFor="attachment"
                   className="text-body-color form-label"
@@ -188,7 +188,7 @@ const AddReceipt = ({ currentEducation }) => {
                     {errors.attachment.message}
                   </div>
                 )}
-              </div>
+              </div> */}
 
               <CustomInputs
                 control={control}
@@ -202,7 +202,7 @@ const AddReceipt = ({ currentEducation }) => {
                 control={control}
                 name="description"
                 type="text"
-                width="w-full"
+                width="w-1/2"
                 label="Description"
                 errors={errors}
               />

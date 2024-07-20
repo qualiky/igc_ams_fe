@@ -14,7 +14,7 @@ const ExpensesTable = () => {
         <div className="xl:w-full">
           <div className="card h-auto">
             <div className="tbl-caption flex justify-between items-center flex-wrap py-4 px-5 relative z-[2] border-b border-[#E6E6E6] dark:border-transparent">
-              <h4 className="heading">All Expenses</h4>
+              <h4 className="heading text-xl font-medium">All Expenses</h4>
               <div className="flex gap-4">
                 <Link
                   type="button"
@@ -139,7 +139,7 @@ const ExpensesTable = () => {
                             className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[2rem] pl-4 pr-0 font-normal whitespace-nowrap sorting_1"
                           >
                             <span className="text-body-color dark:text-white">
-                              {item?.id}
+                              00{item?.id}
                             </span>
                           </td>
                           <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[2rem] px-4 font-normal whitespace-nowrap">

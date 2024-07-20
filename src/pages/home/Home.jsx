@@ -7,9 +7,15 @@ import { getAllEmployeeData } from "../../selectors/selectors.js";
 import { base_img_url } from "../../utils/base_img_url.js";
 import AvatarCoreHr from "../core-hr/_components/AvatarCoreHr.jsx";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 const Home = () => {
   const { employeeData } = useSelector(getAllEmployeeData);
+
+  useEffect(() => {
+    // Scroll to the top of the page when the component mounts
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>

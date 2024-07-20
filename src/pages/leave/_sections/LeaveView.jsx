@@ -16,6 +16,7 @@ import { useForm } from "react-hook-form";
 import CustomSelect from "../../../components/inputs/custom-select";
 import CustomInputs from "../../../components/inputs/custom-inputs";
 import { getAllLeave } from "../../../features/reducer/leave/leaveSlice";
+import TableSkeleton from "../../../components/skeleton/TableSkeleton";
 
 const leaveSchema = yup.object().shape({
   inTime: yup.string(),
@@ -125,24 +126,7 @@ const LeaveView = () => {
                     </div>
                   </div>
 
-                  {!isLoading ? (
-                    <LeaveDataTable />
-                  ) : (
-                    <div className="h-[350px] w-full bg-white dark:bg-[#1E1E1E]">
-                      <div className="animate-pulse px-5">
-                        {Array.from({ length: 10 }).map((_, index) => (
-                          <div
-                            key={index}
-                            className={`h-4 ${
-                              index % 2 === 0
-                                ? "bg-gray-200 dark:bg-[#242424]"
-                                : "bg-gray-300 dark:bg-[#242424]"
-                            } mb-6 rounded ${index === 0 ? "mt-3" : ""}`}
-                          ></div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+                  {!isLoading ? <LeaveDataTable /> : <TableSkeleton />}
                 </div>
               </div>
             </div>

@@ -75,7 +75,7 @@ const getSingleProjectTask = async (id) => {
     const config = await getConfigWithToken();
 
     const response = await axios.get(
-      `${base_url}project-tasks/${id}?populate=deep`,
+      `${base_url}project-tasks/${id}?filters[taskId][$eq]=${id}&populate[tags][fields][0]=tagTitle&populate[comments][fields][0]=commenter&populate[comments][fields][1]=commentId&populate[comments][fields][2]=comment&populate[comments][fields][3]=createdAt&populate[comments][populate][commenter][fields][0]=firstName&populate[comments][populate][commenter][fields][1]=lastName&populate[comments][populate][commenter][populate][profileImage][populate][data][populate][attributes][field][0]=url&populate[projectStage][fields][0]=projectStageName&fields[0]=taskId&fields[1]=taskTitle&fields[2]=startDate&fields[3]=endDate&fields[4]=priority&fields[5]=taskDescription`,
       config
     );
 
@@ -140,6 +140,22 @@ const deleteProjectStageTask = async (id) => {
   }
 };
 
+const addTaskComment = async ({ data }) => {
+  try {
+    const config = await getConfigWithToken();
+    const response = await axios.post(`${base_url}comments`, { data }, config);
+    if (response.status === 200) {
+      toast.success(response?.message || "Comment Added Successfully");
+    } else {
+      toast.error(response?.error?.message);
+    }
+    return response.data;
+  } catch (error) {
+    toast.error(error?.response?.data?.error?.message);
+    throw error;
+  }
+};
+
 export const projectDetailService = {
   getAllProjectStages,
   addProjectStage,
@@ -150,4 +166,5 @@ export const projectDetailService = {
   addProjectStageTask,
   updateProjectStageTask,
   deleteProjectStageTask,
+  addTaskComment,
 };

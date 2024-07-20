@@ -14,6 +14,7 @@ const TaskProject = ({ task, provided }: TaskProps) => {
   const { startDate, endDate, priority, taskDescription, taskTitle } =
     task?.attributes;
 
+  console.log(task);
   return (
     <div
       ref={provided.innerRef}
@@ -75,7 +76,7 @@ const TaskProject = ({ task, provided }: TaskProps) => {
         </div>
       </div>
       <Link
-        to={paths.dashboard.project.taskDetails(1)}
+        to={paths.dashboard.project.taskDetails(task?.id)}
         className=" w-full text-center  btn btn-primary cursor-pointer duration-500 hover:bg-hover-primary py-[5px] px-3 text-[13px] rounded text-white bg-primary leading-[18px] inline-block border border-primary dz-modal-btn"
       >
         View Detail

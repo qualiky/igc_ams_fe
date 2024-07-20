@@ -20,12 +20,12 @@ const ReceiptView = () => {
           {/* <div className="card overflow-hidden relative"> */}
           <div className="overflow-x-auto active-projects style-1">
             <div className="card-body p-0"></div>
-            <div className="flex flex-col items-center ">
-              <div className="flex border-b gap-10 w-full border-gray-400">
+            <div className="flex flex-col items-start border-b-2 w-full ">
+              <div className="flex  gap-5 w-auto">
                 <button
-                  className={`px-4 tex-3xl w-1/2 py-3 focus:outline-none ${
+                  className={`px-10 tex-3xl w-1/2 py-3 focus:outline-none ${
                     activeTab === "tab1"
-                      ? "border-b-2 border-blue-400 bg-primary-light rounded-t-md  text-primary font-bold"
+                      ? "border-b-2  border-blue-400 bg-primary-light rounded-t-[4px]  text-primary font-bold"
                       : ""
                   }`}
                   onClick={() => setActiveTab("tab1")}
@@ -33,14 +33,14 @@ const ReceiptView = () => {
                   All Income
                 </button>
                 <button
-                  className={`px-4 w-1/2 py-2 focus:outline-none ${
+                  className={`px-10 w-1/2 py-2 focus:outline-none ${
                     activeTab === "tab2"
-                      ? "border-b-2 border-blue-400 bg-primary-light rounded-t-md  text-primary font-bold"
+                      ? "border-b-2 border-blue-400 bg-primary-light rounded-t-[4px]  text-primary font-bold"
                       : ""
                   }`}
                   onClick={() => setActiveTab("tab2")}
                 >
-                  All Expenses
+                  All&nbsp;Expenses
                 </button>
               </div>
             </div>

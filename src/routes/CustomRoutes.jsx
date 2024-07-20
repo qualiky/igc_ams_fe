@@ -40,6 +40,9 @@ import Chat from "../pages/chat";
 import ChatView from "../pages/chat/_sections/ChatView";
 import ReceiptAnalytics from "../pages/receipt/_sections/ReceiptAnalytics";
 import AddReceipt from "../pages/receipt/_sections/AddReceipt";
+import Tickets from "../pages/tickets";
+import TicketView from "../pages/tickets/_sections/TicketView";
+import TicketDetail from "../pages/tickets/_sections/TicketDetail";
 
 const CustomRoutes = () => {
   const routes = useRoutes([
@@ -129,8 +132,15 @@ const CustomRoutes = () => {
             { path: "", element: <ReceiptView /> },
             { path: "analytics", element: <ReceiptAnalytics /> },
             { path: "add-receipt", element: <AddReceipt /> },
-
-            // { path: "details/:id", element: <ProjectViewNew /> },
+          ],
+        },
+        {
+          path: "ticket",
+          element: <ProtectedRoute element={Tickets} />,
+          children: [
+            { path: "", element: <TicketView /> },
+            { path: "detail/:id", element: <TicketDetail /> },
+            // { path: "add-receipt", element: <AddReceipt /> },
           ],
         },
       ],

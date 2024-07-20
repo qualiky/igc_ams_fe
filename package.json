@@ -11,6 +11,7 @@
     "pirus": "vite"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-react": "^8.0.0",
     "@hookform/resolvers": "^3.3.4",
     "@reduxjs/toolkit": "^2.2.3",
     "@syncfusion/ej2-react-kanban": "^25.2.6",

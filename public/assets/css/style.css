@@ -10734,12 +10734,18 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
   background-color: #f7f7f7;
   border-width: 0.0625rem 0 0;
   border-color: #0000001a;
-  min-height: 12.5rem;
+  padding-left: 20px;
+  min-height: 16.5rem;
   border: 0.0625rem solid var(--rgba-primary-1) !important;
 }
 
 .ck.ck-editor__main>.ck-editor__editable {
   background: #fff !important;
+}
+
+.ck.ck-editor__editable.ck-focused {
+  border: 1px solid #69bfff !important;
+  box-shadow: none !important;
 }
 
 .ck.ck-editor .ck.ck-toolbar {
@@ -10749,7 +10755,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 }
 
 .ck-editor__editable {
-  background-color: #f7f7f7 !important;
+  background-color: red !important;
 }
 
 .ck.ck-toolbar .ck.ck-toolbar__separator {
