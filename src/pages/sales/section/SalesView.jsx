@@ -81,7 +81,7 @@ const SalesView = () => {
         >
           {Object.entries(columns).map(([columnId, column]) => (
             <div
-              className="w-full flex flex-col gap-5 rounded-xl dark:bg-[#242424]"
+              className="w-full flex flex-col gap-5 rounded dark:bg-[#242424]"
               key={columnId}
               style={{ background: "#ffffff", padding: "10px" }}
             >
@@ -92,8 +92,15 @@ const SalesView = () => {
                     {...provided.droppableProps}
                     className="flex flex-col md:w-[290px] w-[250px] gap-3 items-center py-5"
                   >
-                    <div className="flex items-center justify-center py-[10px] w-full bg-[#F1F2F4] dark:bg-[#1E1E1E] dark:text-white shadow-md rounded-lg border border-stone-200 uppercase text-[#393939] font-semibold tracking-wider text-[15px]">
-                      {column?.name}
+                    <div className="flex items-center justify-between py-[7px] px-3 w-full bg-[#F1F2F4] dark:bg-[#1E1E1E] dark:text-white  rounded border border-stone-200 uppercase font-semibold tracking-wider text-[15px]">
+                      <p className="text-black dark:text-white">
+                        {column?.name}
+                      </p>
+                      <div className="w-10 h-10 relative inline-block text-center leading-[2.5rem] bg-primary-light rounded-full">
+                        <h5 className="inline-block text-primary totalCount">
+                          {column?.items?.length}
+                        </h5>
+                      </div>
                     </div>
                     {column?.items?.map((task, index) => (
                       <Draggable
@@ -114,7 +121,7 @@ const SalesView = () => {
               </Droppable>
               <div
                 onClick={() => openModal(column?.id)}
-                className="flex cursor-pointer bg-[#F1F2F4] dark:bg-[#1E1E1E] dark:text-white items-center justify-center gap-1 py-[10px] md:w-[90%] w-full opacity-90 border border-stone-200 rounded-xl shadow text-[#555] font-medium text-[15px]"
+                className="flex cursor-pointer bg-primary dark:bg-[#1E1E1E] text-white items-center justify-center gap-1 py-[10px] md:w-[90%] w-full  rounded shadow font-medium text-[15px]"
               >
                 {/* <AddOutline color={"#555"} /> */}
                 Add Lead

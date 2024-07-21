@@ -39,7 +39,7 @@ const Sidebar = () => {
   }, [location]);
 
   return (
-    <div className="deznav">
+    <div className="deznav chatbox" id="sidebarMain">
       <div className="deznav-scroll flex flex-col justify-between">
         <ul className="metismenu" id="menu">
           <li className="menu-title"></li>

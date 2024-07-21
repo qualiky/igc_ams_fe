@@ -22,7 +22,7 @@ export const getAllLeaveData = (state) => state.leave;
 export const getSingleLeaveData = (state) => state.leave;
 
 // Project
-export const getAllProjectList = (state) => state.project;
+export const getAllProjectList = (state) => state?.project;
 export const getProjectStage = (state) => state.projectDetail.projectStages;
 export const getTaskDetail = (state) => state.projectDetail.taskDetail;
 

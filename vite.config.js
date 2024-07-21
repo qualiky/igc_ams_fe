@@ -12,6 +12,7 @@ export default defineConfig({
         enabled: true,
       },
       manifest: {
+        includeAssets: ["favicon.ico", "apple-touch-icon.png", "assets/*"],
         name: "PirusDash",
         short_name: "PirusDash",
         description: "Welcome to Pirus App",
@@ -31,6 +32,9 @@ export default defineConfig({
             type: "image/png",
           },
         ],
+      },
+      workbox: {
+        globPatterns: ["**/*.{js,css,html,ico,png,svg,webmanifest}"],
       },
     }),
   ],

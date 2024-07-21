@@ -12,6 +12,10 @@
   border: 0 solid;
 }
 
+.left-roshan {
+  left: 0% !important;
+}
+
 :after,
 :before {
   --tw-content: "";
