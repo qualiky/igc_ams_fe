@@ -23,8 +23,6 @@ const LeaveDetails = () => {
 
   const { leaveDetail, yearlyLeaveDetail } = useSelector(getSingleLeaveData);
 
-  console.log(leaveDetail);
-
   useEffect(() => {
     dispatch(getSingleLeave(id));
   }, [dispatch, id]);

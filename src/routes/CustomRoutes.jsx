@@ -43,6 +43,8 @@ import AddReceipt from "../pages/receipt/_sections/AddReceipt";
 import Tickets from "../pages/tickets";
 import TicketView from "../pages/tickets/_sections/TicketView";
 import TicketDetail from "../pages/tickets/_sections/TicketDetail";
+import RoleBasesGuard from "./RoleBasesGuard";
+import Processing from "../components/Processing";
 
 const CustomRoutes = () => {
   const routes = useRoutes([
@@ -143,10 +145,17 @@ const CustomRoutes = () => {
             // { path: "add-receipt", element: <AddReceipt /> },
           ],
         },
+
+        {
+          path: "permission-denied",
+          element: <RoleBasesGuard />,
+          children: [{ path: "", element: <RoleBasesGuard /> }],
+        },
       ],
     },
     { path: "/Loading", element: <PreLoader /> },
     { path: "*", element: <Error403 /> },
+    { path: "/processing", element: <Processing /> },
   ]);
 
   return routes;

@@ -14,13 +14,12 @@ const TaskProject = ({ task, provided }: TaskProps) => {
   const { startDate, endDate, priority, taskDescription, taskTitle } =
     task?.attributes;
 
-  console.log(task);
   return (
     <div
       ref={provided.innerRef}
       {...provided.draggableProps}
       {...provided.dragHandleProps}
-      className="w-auto min-w-[290px]  cursor-grab bg-white  dark:bg-[#1E1E1E] flex flex-col justify-between gap-3 my-2 items-start shadow-sm border border-stone-200 rounded px-3 py-4 transition-transform duration-400 transform-gpu hover:scale-[1.03] hover:shadow-md"
+      className="w-auto min-w-[255px] md:min-w-[290px]  max-w-[290px] cursor-grab bg-white  dark:bg-[#1E1E1E] flex flex-col justify-between gap-3 my-2 items-start shadow-sm border border-stone-200 rounded px-3 py-4 transition-transform duration-400 transform-gpu hover:scale-[1.03] hover:shadow-md"
     >
       <div className="w-full flex items-start flex-col gap-0">
         <Link
@@ -29,7 +28,9 @@ const TaskProject = ({ task, provided }: TaskProps) => {
         >
           {taskTitle}
         </Link>
-        <span className="text-[13.5px] text-gray-500 ">{taskDescription}</span>
+        <span className="truncate-multiline text-[13.5px] text-gray-500 ">
+          {taskDescription}
+        </span>
       </div>
       <div className="w-full border border-dashed"></div>
       <div className="w-full flex items-center justify-between">

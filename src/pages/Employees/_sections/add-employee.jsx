@@ -75,7 +75,7 @@ const AddEmployee = ({ currentUser }) => {
 
   return (
     <>
-      <div className=" bg-white dark:bg-[#1E1E1E] m-5 p-3">
+      <div className=" bg-white dark:bg-[#242424] m-5 p-3">
         <div className="container-fluid px-[15px] py-0">
           <div>
             <form onSubmit={handleSubmit(onSubmit)} className="row pt-5">

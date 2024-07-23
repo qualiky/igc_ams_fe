@@ -148,7 +148,7 @@ const Sidebar = () => {
             activeMenu={activeMenu}
           />
         </ul>
-        <div className="help-desk py-3 ps-2 flex flex-row justify-center  gap-2 mt-10">
+        <div className="help-desk md:hidden lg:flex py-3 ps-2  flex-row justify-center  gap-2 mt-10">
           <a
             href="https://pirus.app"
             target="_blank"

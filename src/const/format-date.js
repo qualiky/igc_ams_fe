@@ -21,3 +21,23 @@ export const findGap = (start, end) => {
 
   return dayDifference;
 };
+
+export const formatTime = (dateString) => {
+  const date = new Date(dateString);
+
+  // Get hours, minutes, and seconds
+  let hours = date.getUTCHours();
+  const minutes = date.getUTCMinutes();
+
+  // Determine AM or PM
+  const period = hours >= 12 ? "PM" : "AM";
+
+  // Convert hours from 24-hour to 12-hour format
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+
+  // Format the time as a string (e.g., "5:29:57 PM")
+  return `${hours.toString().padStart(2, "0")}:${minutes
+    .toString()
+    .padStart(2, "0")} ${period}`;
+};

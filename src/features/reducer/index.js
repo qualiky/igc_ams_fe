@@ -12,6 +12,7 @@ import projectDetailReducer from "./project/projectDetailSlice";
 import receiptReducer from "./receipt/receiptSlice";
 import ClientReducer from "./client/clientSlice";
 import ticketReducer from "./ticket/ticketSlice";
+import invoiceReducer from "./invoice/invoiceSlice";
 
 export const rootReducer = combineReducers({
   auth: authReducer,
@@ -27,4 +28,5 @@ export const rootReducer = combineReducers({
   receipt: receiptReducer,
   client: ClientReducer,
   ticket: ticketReducer,
+  invoice: invoiceReducer,
 });

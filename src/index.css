@@ -250,3 +250,13 @@
 .rdt_TableRow {
   background-color: transparent !important;
 }
+
+/* -------------------------DOM Puirfy----------------------- */
+.truncate-multiline {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  /* Limit to 3 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

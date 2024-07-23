@@ -63,7 +63,6 @@ const LeaveView = () => {
       inTime: data.inTime ? `${data.inTime}:00.000` : data.inTime,
       outTime: data.outTime ? `${data.outTime}:00.000` : data.outTime,
     };
-    console.log(modifiedData);
 
     reset();
   };

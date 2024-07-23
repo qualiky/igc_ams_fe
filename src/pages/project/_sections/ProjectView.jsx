@@ -46,7 +46,6 @@ const ProjectView = () => {
   }, [dispatch]);
 
   const navigateToDetail = (id) => {
-    console.log(id);
     navigate(paths.dashboard.project.details(id));
     // window.location.reload();
   };

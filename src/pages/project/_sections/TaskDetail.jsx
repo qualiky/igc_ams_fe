@@ -32,8 +32,6 @@ const TaskDetail = () => {
 
   const { user } = useSelector(getLoginData);
 
-  console.log(taskData);
-
   useEffect(() => {
     dispatch(getProjectTaskDetail(params?.id));
   }, [dispatch, params?.id]);
@@ -63,7 +61,6 @@ const TaskDetail = () => {
   }, [setValue, user?.id]);
 
   const onSubmit = async (data) => {
-    console.log(data);
     try {
       const resPayload = await projectDetailService.addTaskComment({ data });
       console.log(resPayload);

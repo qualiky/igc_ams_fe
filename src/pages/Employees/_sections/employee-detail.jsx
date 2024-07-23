@@ -26,15 +26,13 @@ const EmployeeDetail = () => {
     dispatch(deletBankDetails(id));
   };
 
-  console.log(employeeDetail);
-
   return (
     <>
-      <section className="w-full overflow-hidden dark:bg-gray-900 p-5">
-        <div className="flex flex-col md:flex-row m-5 bg-white dark:bg-[#1E1E1E]">
+      <section className="w-full overflow-hidden  md:p-5">
+        <div className="flex flex-col md:flex-row m-5 bg-white dark:bg-[#242424]">
           {/* <!-- Cover Image --> */}
           <img
-            src="https://images.unsplash.com/photo-1606189933558-71f9b4747578?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src="https://images.unsplash.com/photo-1502945015378-0e284ca1a5be?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt="User Cover"
             className="w-full object-cover xl:h-[20rem] lg:h-[18rem] md:h-[16rem] sm:h-[14rem] xs:h-[11rem]"
           />
@@ -82,7 +80,7 @@ const EmployeeDetail = () => {
                   <nav className="-mb-px flex gap-6" aria-label="Tabs">
                     <a
                       onClick={() => setSelectedTab("account")}
-                      className={`shrink-0 px-1 pb-4 text-lg font-medium hover:text-blue-500 cursor-pointer  ${
+                      className={`shrink-0 px-1 pb-4 text-md md:text-lg font-medium hover:text-blue-500 cursor-pointer  ${
                         selectedTab == "account"
                           ? "font-bold text-blue-500 border-b-4 border-blue-500"
                           : ""
@@ -93,7 +91,7 @@ const EmployeeDetail = () => {
 
                     <a
                       onClick={() => setSelectedTab("professional")}
-                      className={`shrink-0 b  px-1 pb-4 text-lg font-medium  hover:text-blue-500 cursor-pointer ${
+                      className={`shrink-0 b  px-1 pb-4 text-md md:text-lg font-medium  hover:text-blue-500 cursor-pointer ${
                         selectedTab == "professional"
                           ? "font-bold text-blue-500 border-b-4 border-blue-500"
                           : ""
@@ -110,7 +108,7 @@ const EmployeeDetail = () => {
             {selectedTab == "account" && (
               <div className="w-full my-auto py-6 flex flex-col justify-center gap-2">
                 <div className="flex flex-row items-center justify-between">
-                  <h1 className="text-3xl font-[500]  mb-3 ">
+                  <h1 className="text-xl md:text-3xl font-[500]  mb-3 ">
                     Account Information
                   </h1>
                   <Link
@@ -124,36 +122,36 @@ const EmployeeDetail = () => {
                   <div className="w-full">
                     <dl className="text-gray-900 divide-y divide-gray-200 dark:text-white dark:divide-gray-700">
                       <div className="flex flex-col pb-3">
-                        <dt className="mb-1  md:text-lg dark:text-gray-400">
+                        <dt className="mb-1 text-sm  md:text-lg dark:text-gray-400">
                           First Name
                         </dt>
-                        <dd className="text-lg font-semibold">
+                        <dd className="text-sm md:text-lg font-semibold">
                           {employeeDetail?.attributes?.firstName}{" "}
                           {employeeDetail?.attributes?.middleName}{" "}
                           {employeeDetail?.attributes?.lastName}
                         </dd>
                       </div>
                       <div className="flex flex-col py-3">
-                        <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
+                        <dt className="mb-1 text-gray-500 text-sm md:text-lg dark:text-gray-400">
                           Email
                         </dt>
-                        <dd className="text-lg font-semibold">
+                        <dd className="text-sm md:text-lg font-semibold">
                           {employeeDetail?.attributes?.primaryEmail || "-"}
                         </dd>
                       </div>
                       <div className="flex flex-col py-3">
-                        <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
+                        <dt className="mb-1 text-gray-500 text-sm md:text-lg dark:text-gray-400">
                           Date Of Birth
                         </dt>
-                        <dd className="text-lg font-semibold">
+                        <dd className="text-sm md:text-lg font-semibold">
                           {employeeDetail?.attributes?.dateOfBirth || "-"}
                         </dd>
                       </div>
                       <div className="flex flex-col py-3">
-                        <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
+                        <dt className="mb-1 text-gray-500 text-sm md:text-lg dark:text-gray-400">
                           Gender
                         </dt>
-                        <dd className="text-lg font-semibold">
+                        <dd className="text-sm md:text-lg font-semibold">
                           {employeeDetail?.attributes?.gender || "-"}
                         </dd>
                       </div>
@@ -162,26 +160,26 @@ const EmployeeDetail = () => {
                   <div className="w-full">
                     <dl className="text-gray-900 divide-y divide-gray-200 dark:text-white dark:divide-gray-700">
                       <div className="flex flex-col pb-3">
-                        <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
+                        <dt className="mb-1 text-gray-500 text-sm md:text-lg dark:text-gray-400">
                           Username
                         </dt>
-                        <dd className="text-lg font-semibold">
+                        <dd className="text-sm md:text-lg font-semibold">
                           {employeeDetail?.attributes?.userName || "-"}
                         </dd>
                       </div>
                       <div className="flex flex-col py-3">
-                        <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
+                        <dt className="mb-1 text-gray-500 text-sm md:text-lg dark:text-gray-400">
                           Marital Status
                         </dt>
-                        <dd className="text-lg font-semibold">
+                        <dd className="text-sm md:text-lg font-semibold">
                           {employeeDetail?.attributes?.maritalStatus || "-"}
                         </dd>
                       </div>
                       <div className="flex flex-col py-3">
-                        <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
+                        <dt className="mb-1 text-gray-500 text-sm md:text-lg dark:text-gray-400">
                           Nationality
                         </dt>
-                        <dd className="text-lg font-semibold">
+                        <dd className="text-sm md:text-lg font-semibold">
                           {employeeDetail?.attributes?.nationality || "-"}
                         </dd>
                       </div>
@@ -192,7 +190,9 @@ const EmployeeDetail = () => {
                 {/* Bank Detail */}
 
                 <div className="flex flex-row items-center justify-between mt-10">
-                  <h1 className="text-3xl font-[500]  mb-3 ">Bank Details</h1>
+                  <h1 className="text-xl md:text-3xl font-[500]  mb-3 ">
+                    Bank Details
+                  </h1>
                   <Link
                     to="/employee/add-bank-details"
                     className="btn btn-primary py-[5px] cursor-pointer px-5 text-[13px] rounded text-white bg-primary leading-5 inline-block border border-primary font-medium"
@@ -207,10 +207,10 @@ const EmployeeDetail = () => {
                     .map((item, index) => (
                       <div
                         key={index}
-                        className="p-6 my-1 rounded-lg custom-box-shadow"
+                        className="p-6 my-1 rounded-lg dark:bg-[#1E1E1E] custom-box-shadow"
                       >
                         <div className="flex justify-between">
-                          <h2 className="mb-2 font-bold text-2xl text-gray-600 tracking-wider">
+                          <h2 className="mb-2 font-bold text-lg md:text-2xl text-gray-600 tracking-wider">
                             {item?.attributes?.bankName}
                           </h2>
                           <div className="flex gap-2 sm:gap-4">
@@ -256,7 +256,9 @@ const EmployeeDetail = () => {
 
                 {/* Education Detail */}
                 <div className="flex flex-row items-center justify-between mt-10 mb-5">
-                  <h1 className="text-3xl font-[500]  mb-3 ">Education</h1>
+                  <h1 className="text-xl md:text-3xl font-[500]  mb-3 ">
+                    Education
+                  </h1>
                   <Link
                     to="/employee/add-education"
                     className="btn btn-primary py-[5px] cursor-pointer px-5 text-[13px] rounded text-white bg-primary leading-5 inline-block border border-primary font-medium"
@@ -271,12 +273,12 @@ const EmployeeDetail = () => {
                       return (
                         <div
                           key={index}
-                          className="flex mb-5 gap-4 border-slate-300 rounded-2xl border-s-8 p-6 custom-box-shadow-low"
+                          className="flex mb-5 gap-4 border-slate-300 dark:bg-[#1E1E1E] rounded-2xl border-s-8 p-6 custom-box-shadow-low"
                         >
                           <div className="flex-none mr-4 h-full ">
                             <Icon
                               icon="ion:school-outline"
-                              className="text-[#888888] text-6xl font-regular"
+                              className="text-[#888888] dark:text-white text-6xl font-regular"
                             />
                           </div>
                           <div className="flex-grow flex justify-between">
@@ -284,11 +286,11 @@ const EmployeeDetail = () => {
                               <h2 className="text-2xl font-semibold">
                                 {item?.attributes?.programName}
                               </h2>
-                              <p className="text-lg text-[#000000]">
+                              <p className="text-lg text-[#000000] dark:text-white">
                                 {item?.attributes?.schoolUniName} (
                                 {item?.attributes?.facultyName})
                               </p>
-                              <p className="text-sm text-gray-500">
+                              <p className="text-sm text-gray-500 dark:text-white">
                                 ({item?.attributes?.startYear} to{" "}
                                 {item?.attributes?.endYear})
                               </p>
@@ -319,7 +321,7 @@ const EmployeeDetail = () => {
               <div className="w-full my-auto py-6 flex flex-col justify-center gap-2">
                 {/* Education Detail */}
                 <div className="flex flex-row items-center justify-between mt-10 mb-5">
-                  <h1 className="text-3xl font-[500]  mb-3 ">
+                  <h1 className="text-xl md:text-3xl font-[500]  mb-3 ">
                     Personal Information
                   </h1>
                   <Link

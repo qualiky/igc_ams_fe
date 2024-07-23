@@ -208,7 +208,7 @@ const Header = () => {
                         </div>
                         <div className="header-info text-white max-sm:hidden">
                           <h6 className="lg:text-[13px] text-xs mb-1 font-semibold text-white leading-[1]">
-                            Roshan Nyaupane
+                            {user?.username}
                           </h6>
                           <p className="text-xs leading-[1] text-[#E1E1E1] mb-1">
                             {user?.email}
@@ -225,9 +225,9 @@ const Header = () => {
                       <div className="card border-0 mb-0">
                         <div className="card-header relative flex items-center justify-between bg-transparent py-2 sm:px-[1.25rem] px-4 border-b border-[#E6E6E6] dark:border-[#444444]">
                           <Link
-                            to={paths.dashboard.employee.details.employeeDetails(
-                              user?.id
-                            )}
+                            // to={paths.dashboard.employee.details.employeeDetails(
+                            //   user?.id
+                            // )}
                             onClick={() => setOpenDrawer(!openDrawer)}
                             className="flex items-center"
                           >
@@ -283,98 +283,6 @@ const Header = () => {
                               Profile{" "}
                             </span>
                           </Link>
-                          <a
-                            href="app-profile.html"
-                            className="dropdown-item py-[0.6rem] px-[1.25rem] block w-full ai-icon hover:bg-primary-light group"
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="19"
-                              height="19"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="var(--primary)"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              className="feather feather-pie-chart inline-block"
-                            >
-                              <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
-                              <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
-                            </svg>
-
-                            <span className="ml-2 text-[13px] text-body-color group-hover:text-primary">
-                              My Project
-                            </span>
-                            <span className="bg-badge-secondary py-[0.15rem] px-2 light rounded-full text-white ml-2 text-xs border border-[#acacac] dark:border-transparent">
-                              4
-                            </span>
-                          </a>
-                          <a className="dropdown-item py-[0.6rem] px-[1.25rem] block w-full ai-icon hover:bg-primary-light group">
-                            <svg
-                              className="inline-block"
-                              width="20"
-                              height="20"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M17.9026 8.85114L13.4593 12.4642C12.6198 13.1302 11.4387 13.1302 10.5992 12.4642L6.11844 8.85114"
-                                stroke="var(--primary)"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                              <path
-                                fillRule="evenodd"
-                                clipRule="evenodd"
-                                d="M16.9089 21C19.9502 21.0084 22 18.5095 22 15.4384V8.57001C22 5.49883 19.9502 3 16.9089 3H7.09114C4.04979 3 2 5.49883 2 8.57001V15.4384C2 18.5095 4.04979 21.0084 7.09114 21H16.9089Z"
-                                stroke="var(--primary)"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                            </svg>
-
-                            <span className="ml-2 text-[13px] text-body-color group-hover:text-primary">
-                              Message{" "}
-                            </span>
-                          </a>
-                          <a
-                            href="email-inbox.html"
-                            className="dropdown-item py-[0.6rem] px-[1.25rem] block w-full ai-icon hover:bg-primary-light group"
-                          >
-                            <svg
-                              className="inline-block"
-                              width="20"
-                              height="20"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                clipRule="evenodd"
-                                d="M12 17.8476C17.6392 17.8476 20.2481 17.1242 20.5 14.2205C20.5 11.3188 18.6812 11.5054 18.6812 7.94511C18.6812 5.16414 16.0452 2 12 2C7.95477 2 5.31885 5.16414 5.31885 7.94511C5.31885 11.5054 3.5 11.3188 3.5 14.2205C3.75295 17.1352 6.36177 17.8476 12 17.8476Z"
-                                stroke="var(--primary)"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                              <path
-                                d="M14.3888 20.8572C13.0247 22.372 10.8967 22.3899 9.51947 20.8572"
-                                stroke="var(--primary)"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                            </svg>
-
-                            <span className="ml-2 text-[13px] text-body-color group-hover:text-primary">
-                              Notification{" "}
-                            </span>
-                          </a>
                         </div>
                         <div className="card-footer px-0 py-2">
                           <a className="dropdown-item py-[0.6rem] px-[1.25rem] text-base block w-full ai-icon">

@@ -7,13 +7,17 @@ import CustomInputs from "../inputs/custom-inputs";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import CustomSelect from "../inputs/custom-select";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addSalesLead } from "../../features/reducer/sales/salesSlice";
 import CustomTextArea from "../inputs/custom-textarea";
 import { useSelector } from "react-redux";
 import { getAllEmployeeData } from "../../selectors/selectors";
-import { addProjectTask } from "../../features/reducer/project/projectDetailSlice";
+import {
+  addProjectTask,
+  getProjectStages,
+} from "../../features/reducer/project/projectDetailSlice";
+import { projectDetailService } from "../../features/api-service/project-action/projectDetailAction";
 
 interface Tag {
   title: string;
@@ -62,6 +66,8 @@ const AddProjectModal = ({
   const [tagTitle, setTagTitle] = useState("");
 
   const dispatch = useDispatch();
+
+  const params = useParams();
 
   const { employeeData } = useSelector(getAllEmployeeData);
 
@@ -136,8 +142,18 @@ const AddProjectModal = ({
     closeModal();
   };
 
-  const onSubmit = (data: any) => {
-    dispatch(addProjectTask(data));
+  const onSubmit = async (data: any) => {
+    try {
+      const response = await projectDetailService.addProjectStageTask({ data });
+      setTimeout(() => {
+        dispatch(getProjectStages({ id: params?.id }));
+      }, 1000);
+      closeModal();
+      reset();
+    } catch (error) {
+      console.error("Error during adding sales lead:", error);
+    }
+    // dispatch(addProjectTask(data));
 
     // reset();
   };

@@ -21,7 +21,7 @@ const getSingleTicket = async (id) => {
     const config = await getConfigWithToken();
 
     const response = await axios.get(
-      `${base_url}tickets/${id}?populate=deep`,
+      `${base_url}tickets/${id}?populate=*`,
       config
     );
 

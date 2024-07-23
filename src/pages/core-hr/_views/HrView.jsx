@@ -119,7 +119,6 @@ const HrView = () => {
     navigate(`/employee/details/${id}`);
   };
 
-  console.log(employeeData);
   const handleReload = () => {
     dispatch(getAllEmployees({ populate: null }));
   };

@@ -1,4 +1,5 @@
 export const getLoginData = (state) => state?.auth;
+export const selectJwtToken = (state) => state.auth.token;
 
 export const getAllEmployeeData = (state) => state?.employee;
 
@@ -36,4 +37,5 @@ export const getAllExpenditureReceipt = (state) =>
 export const getAllClientList = (state) => state.client;
 
 // Ticket
-export const getAllTicketList = (state) => state.ticket.tickets;
+export const getAllTicketList = (state) => state.ticket;
+export const getTicketDetail = (state) => state.ticket;

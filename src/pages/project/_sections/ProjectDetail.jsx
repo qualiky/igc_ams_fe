@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { getProjectStages } from "../../../features/reducer/project/projectDetailSlice";
 import { useSelector } from "react-redux";
 import { getProjectStage } from "../../../selectors/selectors";
+import { usePathname } from "../../../hooks/use-pathname";
 
 const ProjectDetail = () => {
   const [projectStage, setProjectStage] = useState([]);
@@ -12,39 +13,17 @@ const ProjectDetail = () => {
 
   const dispatch = useDispatch();
 
+  const pathName = usePathname();
+
   const projectStages = useSelector(getProjectStage);
 
   useEffect(() => {
     setProjectStage([...projectStages]);
   }, [projectStages]);
 
-  const name = [
-    {
-      id: 1,
-      attributes: {
-        projectStageName: "Roshan",
-      },
-    },
-    {
-      id: 3,
-      attributes: {
-        projectStageName: "Mohan",
-      },
-    },
-    {
-      id: 2,
-      attributes: {
-        projectStageName: "SOhan",
-      },
-    },
-  ];
-
-  console.log(projectStage);
-  // console.log(name);
-
   useEffect(() => {
     dispatch(getProjectStages({ id: params?.id }));
-  }, [dispatch, params]);
+  }, [dispatch, params?.id, pathName]);
 
   return (
     <div className="container-fluid">

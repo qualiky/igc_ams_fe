@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   ClassicEditor,
   Context,
@@ -14,10 +15,30 @@ import {
 import { CKEditor, CKEditorContext } from "@ckeditor/ckeditor5-react";
 import "ckeditor5/ckeditor5.css";
 import { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
+import { getSingleTicket } from "../../../features/reducer/ticket/ticketSlice";
+import { useSelector } from "react-redux";
+import { getAllTicketList } from "../../../selectors/selectors";
+import { formatDate, formatTime } from "../../../const/format-date";
+import Markdown from "../../../components/Markdown";
 
 const TicketDetail = () => {
   const [isReplying, setIsReplying] = useState(false);
+
   const formRef = useRef(null);
+
+  const params = useParams();
+
+  const dispatch = useDispatch();
+
+  const { ticketDetail, isLoading } = useSelector(getAllTicketList);
+
+  console.log(ticketDetail);
+
+  useEffect(() => {
+    dispatch(getSingleTicket(params?.id));
+  }, [dispatch, params?.id]);
 
   useEffect(() => {
     if (isReplying && formRef.current) {
@@ -39,18 +60,18 @@ const TicketDetail = () => {
                 <div className="read-content">
                   <div className="media items-start pt-4 sm:flex block justify-between">
                     <div className="clearfix mb-4 flex">
-                      <img
-                        className="mr-4 rounded-md"
-                        width="70"
-                        height="70"
-                        alt="image"
-                        src="/assets/images/avatar/1.jpg"
-                      />
+                      <div className=" mr-2.5 h-20 w-20 rounded bg-gray-100 dark:bg-primary text-info dark:text-white text-xl font-bold flex items-center justify-center">
+                        # {ticketDetail?.id}
+                      </div>
                       <div className="media-body mr-2">
                         <h5 className="text-primary mb-0 mt-1">
-                          Ingredia Nutrisha
+                          {ticketDetail?.attributes?.title}
                         </h5>
-                        <p className="mb-0">20 May 2020</p>
+                        <p className="mb-0">
+                          {formatDate(
+                            ticketDetail?.attributes?.createdAt || ""
+                          )}
+                        </p>
                       </div>
                     </div>
                     <div className="clearfix mb-4">
@@ -70,18 +91,18 @@ const TicketDetail = () => {
                   <div className="flex items-start mb-2 mt-4">
                     <div className="media-body">
                       <span className="text-body-color sm:text-sm text-xs pull-end">
-                        07:23 AM
+                        {formatTime(ticketDetail?.attributes?.createdAt)}
                       </span>
                       <h5 className="text-[#6a707e] my-1 text-primary">
-                        A collection of textile samples lay spread
+                        {ticketDetail?.attributes?.title}
                       </h5>
-                      <p className="read-content-email mb-3.5">
+                      {/* <p className="read-content-email mb-3.5">
                         To: Me, info@example.com
-                      </p>
+                      </p> */}
                     </div>
                   </div>
                   <div className="read-content-body">
-                    <h5 className="text-[#6a707e] mb-6">Hi,Ingredia,</h5>
+                    {/* <h5 className="text-[#6a707e] mb-6">Hi,Ingredia,</h5>
                     <p className="mb-2">
                       <strong className="text-[#6a707e]">
                         Ingredia Nutrisha,
@@ -111,7 +132,11 @@ const TicketDetail = () => {
                       ipsum. Nam quam nunc, blandit vel, luctus pulvinar,
                     </p>
                     <h5 className="pt-4 mb-2">Kind Regards</h5>
-                    <p className="mb-[1.875rem]">Mr Smith</p>
+                    <p className="mb-[1.875rem]">Mr Smith</p> */}
+                    <Markdown
+                      htmlContent={ticketDetail?.attributes?.description}
+                      className="pt-4 mb-2 text-justify"
+                    />
                   </div>
 
                   {/* -----------Reply Goes here------------ */}

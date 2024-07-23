@@ -68,7 +68,7 @@ const deleteSalesLead = async (id) => {
 };
 
 // Post sales lead
-const addSalesLead = async ({ data }) => {
+const addSalesLead = async (data) => {
   try {
     const config = await getConfigWithToken();
     const response = await axios.post(

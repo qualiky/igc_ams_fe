@@ -28,6 +28,59 @@ const EmployeeList = () => {
     <>
       <div className="container-fluid">
         <div className="row">
+          <div className="xl:w-1/4 lg:w-1/2 sm:w-1/2">
+            <div className="widget-stat card">
+              <div className="sm:p-6 p-4">
+                <h4 className="card-title capitalize mb-2">Total Employee</h4>
+                <h3 className="xl:text-2xl mb-2">3280</h3>
+                <div className="progress mb-2 h-[5px] overflow-hidden bg-[#f6f6f6] dark:bg-[#1E1E1E] rounded-md flex">
+                  <div
+                    className="progress-bar animate-myanimation whitespace-nowrap rounded-md bg-primary"
+                    style={{ width: "80%" }}
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="xl:w-1/4 lg:w-1/2 sm:w-1/2">
+            <div className="widget-stat card">
+              <div className="sm:p-6 p-4">
+                <h4 className="card-title capitalize mb-2">New Employee</h4>
+                <h3 className="xl:text-2xl mb-2">245</h3>
+                <div className="progress mb-2 h-[5px] overflow-hidden bg-[#f6f6f6] dark:bg-[#1E1E1E] rounded-md flex">
+                  <div
+                    className="progress-bar animate-myanimation whitespace-nowrap rounded-md bg-warning"
+                    style={{ width: "50%" }}
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="xl:w-1/4 lg:w-1/2 sm:w-1/2">
+            <div className="widget-stat card">
+              <div className="sm:p-6 p-4">
+                <h4 className="card-title capitalize mb-2">Male Employee</h4>
+                <h3 className="xl:text-2xl mb-2">28</h3>
+                <div className="progress mb-2 h-[5px] overflow-hidden bg-[#f6f6f6] dark:bg-[#1E1E1E] rounded-md flex">
+                  <div
+                    className="progress-bar animate-myanimation whitespace-nowrap rounded-md bg-red"
+                    style={{ width: "76%" }}
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="xl:w-1/4 lg:w-1/2 sm:w-1/2">
+            <div className="widget-stat card">
+              <div className="sm:p-6 p-4">
+                <h4 className="card-title capitalize mb-2">Female Employee</h4>
+                <h3 className="xl:text-2xl mb-2">25160$</h3>
+                <div className="progress mb-2 h-[5px] overflow-hidden bg-[#f6f6f6] dark:bg-[#1E1E1E] rounded-md flex">
+                  <div className=" w-[30%] progress-bar animate-myanimation whitespace-nowrap rounded-md bg-success"></div>
+                </div>
+              </div>
+            </div>
+          </div>
           <div className="w-full">
             <div className="card overflow-hidden relative">
               <div className="card-body p-0">

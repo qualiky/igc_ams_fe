@@ -69,8 +69,6 @@ const ProjectViewNew = () => {
   };
 
   const handleDrag = (item, destColumn) => {
-    // console.log(item);
-    // console.log(destColumn?.id);
     const data = {
       projectStage: `${destColumn?.id}`,
     };

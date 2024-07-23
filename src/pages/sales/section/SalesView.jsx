@@ -8,7 +8,12 @@ import AddModal from "../../../components/modal/AddModal";
 import { useSelector } from "react-redux";
 import { getAllSalesLead } from "../../../selectors/selectors";
 import { useDispatch } from "react-redux";
-import { updateSalesLead } from "../../../features/reducer/sales/salesSlice";
+import {
+  getSalesLead,
+  updateSalesLead,
+} from "../../../features/reducer/sales/salesSlice";
+import { salesService } from "../../../features/api-service/sales-action/salesAction";
+import { toast } from "react-toastify";
 
 const SalesView = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -56,14 +61,17 @@ const SalesView = () => {
     setColumns(newBoard);
   };
 
-  const handleDrag = (item, destColumn) => {
-    // console.log(item);
-    // console.log(destColumn?.id);
+  const handleDrag = async (item, destColumn) => {
     const data = {
       leadStage: `${destColumn?.id}`,
     };
 
-    dispatch(updateSalesLead({ id: item?.id, data }));
+    try {
+      const response = await salesService.updateSalesLead(item?.id, data);
+    } catch (error) {
+      console.error("Error during updating sales lead:", error);
+    }
+    // dispatch(updateSalesLead({ id: item?.id, data }));
   };
 
   return (

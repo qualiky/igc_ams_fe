@@ -9,7 +9,11 @@ import { useForm } from "react-hook-form";
 import CustomSelect from "../inputs/custom-select";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { addSalesLead } from "../../features/reducer/sales/salesSlice";
+import {
+  addSalesLead,
+  getSalesLead,
+} from "../../features/reducer/sales/salesSlice";
+import { salesService } from "../../features/api-service/sales-action/salesAction";
 
 interface Tag {
   title: string;
@@ -123,9 +127,15 @@ const AddModal = ({
     closeModal();
   };
 
-  const onSubmit = (data: any) => {
-    dispatch(addSalesLead({ data }));
-    reset();
+  const onSubmit = async (data: any) => {
+    try {
+      const response = await salesService.addSalesLead({ data });
+      reset();
+      dispatch(getSalesLead());
+    } catch (error) {
+      console.error("Error during adding sales lead:", error);
+    }
+    // dispatch(addSalesLead({ data }));
   };
 
   return (
