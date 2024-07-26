@@ -13,7 +13,6 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import CustomTextArea from "../../../components/inputs/custom-textarea";
 import { projectDetailService } from "../../../features/api-service/project-action/projectDetailAction";
-import { toast } from "react-toastify";
 import NotFound from "../../../components/NotFound";
 
 const commentSchema = yup.object().shape({
@@ -39,7 +38,6 @@ const TaskDetail = () => {
   const {
     control,
     setValue,
-    reset,
     handleSubmit,
     formState: { errors },
   } = useForm({

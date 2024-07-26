@@ -78,8 +78,8 @@ const AddReceipt = () => {
   useEffect(() => {
     setValue("title", responseData?.company);
     setValue("amount", responseData?.total);
-    setValue("receiptType", responseData?.total ? "Income" : "");
-    setValue("transactionType", responseData?.total ? "Office Supplies" : "");
+    setValue("receiptType", responseData?.total ? "Expenditure" : "");
+    setValue("transactionType", responseData?.total ? "Raw Materials" : "");
     setValue("description", responseData?.terms);
     setValue("billedDate", responseData?.invoice_date);
   }, [setValue, responseData]);

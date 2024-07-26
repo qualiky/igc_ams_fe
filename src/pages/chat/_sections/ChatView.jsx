@@ -4,8 +4,8 @@ import { selectJwtToken } from "../../../selectors/selectors";
 import { useWebSocket } from "../../../hooks/use-websocket";
 import { useState } from "react";
 
-const CHAT_URL = "https://systems.pirus.app"; // Replace with your backend URL
-const ROOM_ID = "cd8ac835-1699-493a-a435-33416bd6b6ad";
+const CHAT_URL = "https://systems.pirus.app";
+const ROOM_ID = "0899bfe7-00fd-472b-9dc8-1429bfad6815";
 
 const ChatView = () => {
   const jwtToken = useSelector(selectJwtToken);
@@ -16,6 +16,7 @@ const ChatView = () => {
   };
 
   const { messages, sendMessage } = useWebSocket(getChatWebSocketUrl);
+
   const [inputValue, setInputValue] = useState("");
 
   const handleSend = () => {

@@ -1,4 +1,6 @@
 export const getLoginData = (state) => state?.auth;
+export const getCurrentUser = (state) => state.auth;
+
 export const selectJwtToken = (state) => state.auth.token;
 
 export const getAllEmployeeData = (state) => state?.employee;

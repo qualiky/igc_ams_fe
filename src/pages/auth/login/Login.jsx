@@ -7,6 +7,7 @@ import LoginSidebar from "./LoginSidebar";
 import { getLoginData } from "../../../selectors/selectors";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const schema = yup.object().shape({
   identifier: yup.string().email().required("Email is Required"),
@@ -23,7 +24,7 @@ const Login = () => {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     resolver: yupResolver(schema),
   });
@@ -111,8 +112,11 @@ const Login = () => {
                 </div>
                 <div className="mb-6">
                   <a
-                    href="page-forgot-password.html"
-                    className="sm:text-sm text-xs text-primary whitespace-nowrap dark:text-white"
+                    // href="page-forgot-password.html"
+                    onClick={() => {
+                      toast.warning("Please Cantact Your Administrator");
+                    }}
+                    className="sm:text-sm text-xs text-primary whitespace-nowrap dark:text-white cursor-pointer"
                   >
                     Forgot Password?
                   </a>
@@ -121,9 +125,10 @@ const Login = () => {
               <div className="text-center mb-6">
                 <button
                   type="submit"
+                  disabled={isSubmitting}
                   className="block w-full rounded font-medium text-[15px] max-xl:text-xs leading-5 py-[0.719rem] max-xl:px-4 px-[1.563rem] max-xl:py-2.5 border border-primary text-white bg-primary hover:bg-hover-primary hover:border-hover-primary duration-300 mb-2"
                 >
-                  Sign In
+                  {isSubmitting ? "Signing in..." : "Sign In"}
                 </button>
               </div>
             </form>

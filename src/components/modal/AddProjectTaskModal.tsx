@@ -160,8 +160,8 @@ const AddProjectModal = ({
 
   return (
     <div
-      className={`w-screen h-screen place-items-center fixed top-0 left-0 mt-5 ${
-        isOpen ? "grid" : "hidden"
+      className={`w-screen h-screen place-items-center fixed top-0 left-0 ${
+        isOpen ? "grid z-10" : "hidden"
       }`}
     >
       <div

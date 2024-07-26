@@ -7,7 +7,10 @@ import { getConfigWithToken } from "../../../utils/config";
 const getAllTicket = async () => {
   const config = await getConfigWithToken();
   try {
-    const response = await axios.get(`${base_url}tickets?populate=*`, config);
+    const response = await axios.get(
+      `${base_url}tickets?sort[0]=createdAt:desc&filters[parent][$null]=true&populate[replies][fields][0]=id&populate[replies][fields][1]=title&populate[replies][fields][2]=description&populate[replies][fields][3]=priority&populate[replies][populate][user][fields][0]=id&populate[replies][populate][user][fields][1]=username&populate[project][fields][0]=id&populate[project][fields][1]=projectName&populate[attachments][populate][data][populate][attributes][field][0]=url&fields[0]=id&fields[1]=title&fields[2]=description&fields[3]=createdAt&fields[4]=priority`,
+      config
+    );
     return response.data;
   } catch (error) {
     console.error("Error during getting Ticket data:", error);
@@ -21,7 +24,7 @@ const getSingleTicket = async (id) => {
     const config = await getConfigWithToken();
 
     const response = await axios.get(
-      `${base_url}tickets/${id}?populate=*`,
+      `${base_url}tickets/${id}?sort[0]=createdAt:desc&filters[parent][$null]=true&populate[replies][fields][0]=id&populate[replies][fields][1]=title&populate[replies][fields][2]=description&populate[replies][fields][3]=priority&populate[replies][fields][4]=createdAt&populate[replies][populate][user][fields][0]=id&populate[replies][populate][user][fields][1]=username&populate[replies][populate][user][fields][2]=email&populate[replies][populate][user][fields][3]=firstName&populate[replies][populate][user][fields][4]=lastName&populate[replies][populate][user][populate][profileImage][populate][data][populate][attributes][field][0]=url&populate[project][fields][0]=id&populate[project][fields][1]=projectName&populate[attachments][populate][data][populate][attributes][field][0]=url&fields[0]=id&fields[1]=title&fields[2]=description&fields[3]=createdAt&fields[4]=priority`,
       config
     );
 

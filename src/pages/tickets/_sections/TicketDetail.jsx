@@ -17,14 +17,21 @@ import "ckeditor5/ckeditor5.css";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getSingleTicket } from "../../../features/reducer/ticket/ticketSlice";
+import ticketReducer, {
+  getSingleTicket,
+  updateTicket,
+} from "../../../features/reducer/ticket/ticketSlice";
 import { useSelector } from "react-redux";
-import { getAllTicketList } from "../../../selectors/selectors";
+import { getAllTicketList, getCurrentUser } from "../../../selectors/selectors";
 import { formatDate, formatTime } from "../../../const/format-date";
 import Markdown from "../../../components/Markdown";
+import { ticketService } from "../../../features/api-service/ticket/ticketAction";
+import { base_img_url } from "../../../utils/base_img_url";
 
 const TicketDetail = () => {
   const [isReplying, setIsReplying] = useState(false);
+
+  const [reply, setReply] = useState("");
 
   const formRef = useRef(null);
 
@@ -32,9 +39,9 @@ const TicketDetail = () => {
 
   const dispatch = useDispatch();
 
-  const { ticketDetail, isLoading } = useSelector(getAllTicketList);
+  const { user } = useSelector(getCurrentUser);
 
-  console.log(ticketDetail);
+  const { ticketDetail, isLoading } = useSelector(getAllTicketList);
 
   useEffect(() => {
     dispatch(getSingleTicket(params?.id));
@@ -48,6 +55,22 @@ const TicketDetail = () => {
 
   const handleClick = () => {
     setIsReplying(true);
+  };
+
+  const handleReplySubmit = async () => {
+    const data = {
+      title: "Ticket sample 3",
+      user: user?.id,
+      description: reply,
+      parent: ticketDetail?.id,
+    };
+    try {
+      const response = await ticketService.addTicket({ data });
+
+      dispatch(getSingleTicket(params?.id));
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <div className="container-fluid mb-0">
@@ -96,43 +119,12 @@ const TicketDetail = () => {
                       <h5 className="text-[#6a707e] my-1 text-primary">
                         {ticketDetail?.attributes?.title}
                       </h5>
-                      {/* <p className="read-content-email mb-3.5">
+                      <p className="read-content-email mb-3.5">
                         To: Me, info@example.com
-                      </p> */}
+                      </p>
                     </div>
                   </div>
                   <div className="read-content-body">
-                    {/* <h5 className="text-[#6a707e] mb-6">Hi,Ingredia,</h5>
-                    <p className="mb-2">
-                      <strong className="text-[#6a707e]">
-                        Ingredia Nutrisha,
-                      </strong>{" "}
-                      A collection of textile samples lay spread out on the
-                      table - Samsa was a travelling salesman - and above it
-                      there hung a picture
-                    </p>
-                    <p className="mb-2">
-                      Even the all-powerful Pointing has no control about the
-                      blind texts it is an almost unorthographic life One day
-                      however a small line of blind text by the name of Lorem
-                      Ipsum decided to leave for the far World of Grammar.
-                      Aenean vulputate eleifend tellus. Aenean leo ligula,
-                      porttitor eu, consequat vitae, eleifend ac, enim. Aliquam
-                      lorem ante, dapibus in, viverra quis, feugiat a, tellus.
-                    </p>
-                    <p className="mb-2">
-                      Aenean vulputate eleifend tellus. Aenean leo ligula,
-                      porttitor eu, consequat vitae, eleifend ac, enim. Aliquam
-                      lorem ante, dapibus in, viverra quis, feugiat a, tellus.
-                      Phasellus viverra nulla ut metus varius laoreet. Quisque
-                      rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue.
-                      Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam
-                      rhoncus. Maecenas tempus, tellus eget condimentum rhoncus,
-                      sem quam semper libero, sit amet adipiscing sem neque sed
-                      ipsum. Nam quam nunc, blandit vel, luctus pulvinar,
-                    </p>
-                    <h5 className="pt-4 mb-2">Kind Regards</h5>
-                    <p className="mb-[1.875rem]">Mr Smith</p> */}
                     <Markdown
                       htmlContent={ticketDetail?.attributes?.description}
                       className="pt-4 mb-2 text-justify"
@@ -153,62 +145,63 @@ const TicketDetail = () => {
                           className="widget-timeline dz-scroll overflow-hidden h-auto my-6 px-3"
                         >
                           <ul className="timeline relative">
-                            {Array.from({ length: 2 }).map((item, index) => (
-                              <li
-                                key={index}
-                                className="mb-[0.9375rem] relative"
-                              >
-                                <div className="timeline-badge rounded-full h-[1.275rem] left-0 absolute top-[0.625rem] w-[1.275rem] border-2 border-d-light bg-white dark p-1"></div>
-                                <a className="timeline-panel  bg-d-light border-d-light dark:border-[#6e6e6e59] dark:bg-[#6e6e6e59]">
-                                  <span className="text-xs block mb-[0.3125rem] opacity-80 tracking-[0.0625rem] text-body-color">
-                                    20 minutes ago
-                                  </span>
-                                  <div className="read-content-body">
-                                    <h5 className="text-[#6a707e] mb-6">
-                                      Hi,Ingredia,
-                                    </h5>
-                                    <p className="mb-2">
-                                      <strong className="text-[#6a707e]">
-                                        Ingredia Nutrisha,
-                                      </strong>{" "}
-                                      A collection of textile samples lay spread
-                                      out on the table - Samsa was a travelling
-                                      salesman - and above it there hung a
-                                      picture
-                                    </p>
-                                    <p className="mb-2">
-                                      Even the all-powerful Pointing has no
-                                      control about the blind texts it is an
-                                      almost unorthographic life One day however
-                                      a small line of blind text by the name of
-                                      Lorem Ipsum decided to leave for the far
-                                      World of Grammar. Aenean vulputate
-                                      eleifend tellus. Aenean leo ligula,
-                                      porttitor eu, consequat vitae, eleifend
-                                      ac, enim. Aliquam lorem ante, dapibus in,
-                                      viverra quis, feugiat a, tellus.
-                                    </p>
-                                    <p className="mb-2">
-                                      Aenean vulputate eleifend tellus. Aenean
-                                      leo ligula, porttitor eu, consequat vitae,
-                                      eleifend ac, enim. Aliquam lorem ante,
-                                      dapibus in, viverra quis, feugiat a,
-                                      tellus. Phasellus viverra nulla ut metus
-                                      varius laoreet. Quisque rutrum. Aenean
-                                      imperdiet. Etiam ultricies nisi vel augue.
-                                      Curabitur ullamcorper ultricies nisi. Nam
-                                      eget dui. Etiam rhoncus. Maecenas tempus,
-                                      tellus eget condimentum rhoncus, sem quam
-                                      semper libero, sit amet adipiscing sem
-                                      neque sed ipsum. Nam quam nunc, blandit
-                                      vel, luctus pulvinar,
-                                    </p>
-                                    <h5 className="pt-4 mb-2">Kind Regards</h5>
-                                    <p className="mb-[1.875rem]">Mr Smith</p>
-                                  </div>
-                                </a>
-                              </li>
-                            ))}
+                            {ticketDetail?.attributes?.replies?.data?.map(
+                              (item, index) => (
+                                <li
+                                  key={index}
+                                  className="mb-[0.9375rem] relative"
+                                >
+                                  <div className="timeline-badge rounded-full h-[1.275rem] left-0 absolute top-[0.625rem] w-[1.275rem] border-2 border-d-light bg-white dark p-1"></div>
+                                  <a className="timeline-panel  bg-d-light border-d-light dark:border-[#6e6e6e59] dark:bg-[#6e6e6e59]">
+                                    <div className="flex mb-5">
+                                      <img
+                                        src={
+                                          base_img_url +
+                                          item?.attributes?.user?.data
+                                            ?.attributes?.profileImage
+                                            ?.data?.[0]?.attributes?.url
+                                        }
+                                        className="h-[1.813rem] w-[1.813rem] inline-block relative rounded-full"
+                                        alt=""
+                                      />
+                                      <div className="ml-2">
+                                        <h6 className="text-[10px]">
+                                          Replied by :{" "}
+                                          <span className="font-semibold text-xs">
+                                            {
+                                              item?.attributes?.user?.data
+                                                ?.attributes?.firstName
+                                            }{" "}
+                                            {
+                                              item?.attributes?.user?.data
+                                                ?.attributes?.lastName
+                                            }
+                                          </span>
+                                        </h6>
+                                        <span className="text-xs text-body-color whitespace-nowrap bg-light  pr-3 rounded py-1 ">
+                                          {
+                                            item?.attributes?.user?.data
+                                              ?.attributes?.username
+                                          }
+                                        </span>
+                                      </div>
+                                    </div>
+                                    <span className="text-xs block mb-[0.3125rem] opacity-80 tracking-[0.0625rem] text-body-color">
+                                      {formatDate(item?.attributes?.createdAt)},{" "}
+                                      {formatTime(item?.attributes?.createdAt)}
+                                    </span>
+                                    <div className="read-content-body">
+                                      <Markdown
+                                        htmlContent={
+                                          item?.attributes?.description
+                                        }
+                                        className="pt-4 mb-2 text-justify"
+                                      />
+                                    </div>
+                                  </a>
+                                </li>
+                              )
+                            )}
                           </ul>
                         </div>
                       </div>
@@ -230,7 +223,7 @@ const TicketDetail = () => {
                     className={`mb-4 pt-0 ${isReplying ? "" : "hidden"}`}
                     ref={formRef}
                   >
-                    <div className="flex mb-5">
+                    {/* <div className="flex mb-5">
                       <img
                         src="/assets/images/contacts/d1.jpg"
                         className="h-[2.813rem] w-[2.813rem] inline-block relative rounded-full"
@@ -244,7 +237,7 @@ const TicketDetail = () => {
                           aasthagautam@gmail.com
                         </span>
                       </div>
-                    </div>
+                    </div> */}
                     <hr className="mb-4" />
                     <CKEditorContext
                       context={Context}
@@ -281,8 +274,11 @@ const TicketDetail = () => {
                         }}
                         data="<p>Hello from the second editor working with the context!</p>"
                         onReady={(editor) => {
-                          // You can store the "editor" and use when it is needed.
                           console.log("Editor 2 is ready to use!", editor);
+                        }}
+                        onChange={(e, editor) => {
+                          const data = editor.getData();
+                          setReply(data);
                         }}
                       />
                     </CKEditorContext>
@@ -302,6 +298,7 @@ const TicketDetail = () => {
                     <button
                       className="btn btn-primary ms-4 xl:py-[0.719rem] xl:px-[1.563rem] py-2.5 px-4 duration-300 sm:text-[15px]  font-medium rounded text-white bg-primary leading-[20px] inline-block border hover:bg-hover-primary mb-4"
                       type="button"
+                      onClick={handleReplySubmit}
                     >
                       Send
                     </button>

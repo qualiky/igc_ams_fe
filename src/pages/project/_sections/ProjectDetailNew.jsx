@@ -73,7 +73,9 @@ const ProjectViewNew = () => {
       projectStage: `${destColumn?.id}`,
     };
 
-    dispatch(updateProjectStage({ id: item?.id, data }));
+    dispatch(updateProjectStage({ id: item?.id, data })).then(() => {
+      dispatch(getProjectStages({ id: params?.id }));
+    });
   };
 
   return (

@@ -25,7 +25,7 @@ export const useWebSocket = (getUrl) => {
       };
 
       socketRef.current.onerror = (error) => {
-        console.error("WebSocket error:", error);
+        console.error("WebSocket errorrrrrrrrrrrrrrrrrrrrrrr:", error);
       };
 
       socketRef.current.onclose = () => {

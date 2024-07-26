@@ -75,7 +75,7 @@ const getSingleProjectTask = async (id) => {
     const config = await getConfigWithToken();
 
     const response = await axios.get(
-      `${base_url}project-tasks/${id}?filters[taskId][$eq]=${id}&populate[tags][fields][0]=tagTitle&populate[comments][fields][0]=commenter&populate[comments][fields][1]=commentId&populate[comments][fields][2]=comment&populate[comments][fields][3]=createdAt&populate[comments][populate][commenter][fields][0]=firstName&populate[comments][populate][commenter][fields][1]=lastName&populate[comments][populate][commenter][populate][profileImage][populate][data][populate][attributes][field][0]=url&populate[projectStage][fields][0]=projectStageName&fields[0]=taskId&fields[1]=taskTitle&fields[2]=startDate&fields[3]=endDate&fields[4]=priority&fields[5]=taskDescription`,
+      `${base_url}project-tasks/${id}?filters[taskId][$eq]=${id}&populate[tags][fields][0]=tagTitle&populate[comments][fields][0]=commentingUser&populate[comments][fields][1]=commentId&populate[comments][fields][2]=comment&populate[comments][fields][3]=createdAt&populate[comments][populate][commentingUser][fields][0]=firstName&populate[comments][populate][commentingUser][fields][1]=lastName&populate[comments][populate][commentingUser][fields][2]=email&populate[comments][populate][commentingUser][fields][3]=username&populate[comments][populate][commentingUser][populate][profileImage][populate][data][populate][attributes][field][0]=url&populate[projectStage][fields][0]=projectStageName&fields[0]=taskId&fields[1]=taskTitle&fields[2]=startDate&fields[3]=endDate&fields[4]=priority&fields[5]=taskDescription`,
       config
     );
 

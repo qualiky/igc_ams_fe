@@ -8,10 +8,17 @@ import { base_img_url } from "../../../utils/base_img_url";
 import { deletBankDetails } from "../../../features/reducer/employee/bankSlice";
 import { Icon } from "@iconify/react";
 import NotFound from "../../../components/NotFound";
+import { paymentService } from "../../../features/api-service/payment-action/payment-action";
+import PaymentModal from "../../../components/modal/PaymentModal";
 
 const EmployeeDetail = () => {
   const [selectedTab, setSelectedTab] = useState("account");
 
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
   const { id } = useParams();
 
   const dispatch = useDispatch();
@@ -24,6 +31,51 @@ const EmployeeDetail = () => {
 
   const handleDeleteBankDetail = (id) => {
     dispatch(deletBankDetails(id));
+  };
+
+  const handleSend = async () => {
+    // try {
+    //   const res = await paymentService.initiateKhaltiPayment({
+    //     return_url: "https://dash.pirus.app",
+    //     website_url: "https://pirus.app/",
+    //     amount: 1300,
+    //     purchase_order_id: "test12",
+    //     purchase_order_name: "test",
+    //     customer_info: {
+    //       name: "Khalti Bahadur",
+    //       email: "example@gmail.com",
+    //       phone: "9800000123",
+    //     },
+    //     amount_breakdown: [
+    //       {
+    //         label: "Mark Price",
+    //         amount: 1000,
+    //       },
+    //       {
+    //         label: "VAT",
+    //         amount: 300,
+    //       },
+    //     ],
+    //     product_details: [
+    //       {
+    //         identity: "1234567890",
+    //         name: "Khalti logo",
+    //         total_price: 1300,
+    //         quantity: 1,
+    //         unit_price: 1300,
+    //       },
+    //     ],
+    //     merchant_username: "merchant_name",
+    //     merchant_extra: "merchant_extra",
+    //   });
+    //   if (res.status == 200) {
+    //     window.location.href = res?.data?.payment_url;
+    //   }
+    //   console.log(res);
+    // } catch (error) {
+    //   console.error(error);
+    // }
+    setModalOpen(true);
   };
 
   return (
@@ -58,15 +110,26 @@ const EmployeeDetail = () => {
             )}
 
             {/* <!-- FullName --> */}
-            <div className="flex flex-col md:flex-row items-start mt-10 ms-10 md:mt-0 md:mt-0">
-              <h1 className="w-auto md:w-full my-4 sm:mx-4 xs:pl-4 text-gray-800 dark:text-white lg:text-4xl md:text-3xl sm:text-3xl xs:text-xl ">
-                {employeeDetail?.attributes?.firstName}{" "}
-                {employeeDetail?.attributes?.middleName}{" "}
-                {employeeDetail?.attributes?.lastName}
-              </h1>
-              <h6 className="sm:mx-4 text-stone-400">
-                {employeeDetail?.attributes?.userName}
-              </h6>
+            <div className="w-full flex justify-between">
+              <div className="flex flex-col md:flex-row items-start mt-10 ms-10 md:mt-0 md:mt-0">
+                <h1 className="w-auto md:w-full my-4 sm:mx-4 xs:pl-4 text-gray-800 dark:text-white lg:text-4xl md:text-3xl sm:text-3xl xs:text-xl ">
+                  {employeeDetail?.attributes?.firstName}{" "}
+                  {employeeDetail?.attributes?.middleName}{" "}
+                  {employeeDetail?.attributes?.lastName}
+                </h1>
+                <h6 className="sm:mx-4 text-stone-400">
+                  {employeeDetail?.attributes?.userName}
+                </h6>
+              </div>
+              <div>
+                <button
+                  type="button"
+                  className="btn btn-primary mt-16 flex p-2 text-[15px] font-medium rounded text-white bg-primary leading-5 items-center border border-primary duration-500 hover:bg-hover-primary"
+                  onClick={handleSend}
+                >
+                  Pay Salary
+                </button>
+              </div>
             </div>
           </div>
 
@@ -553,6 +616,12 @@ const EmployeeDetail = () => {
           </div>
         </div>
       </section>
+
+      <PaymentModal
+        isOpen={modalOpen}
+        onClose={closeModal}
+        setOpen={setModalOpen}
+      />
 
       {/* <!-- Photo by '@jessbaileydesigns' & '@von_co' on Unsplash --> */}
     </>

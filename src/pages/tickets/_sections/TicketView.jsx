@@ -50,10 +50,10 @@ const TicketView = () => {
                   <div className="sm:p-5 p-4">
                     <div className="row">
                       <div className="flex items-start">
-                        <div className=" mr-2.5 w-[13rem] min-w-[4.813rem] h-[4.813rem] rounded-full bg-gray-100 text-info text-xl font-bold flex items-center justify-center">
+                        <div className=" mr-2.5 min-w-[4.813rem] h-[4.813rem] rounded-full bg-gray-100 text-info text-xl font-bold flex items-center justify-center">
                           # {item?.id}
                         </div>
-                        <div className="post-data">
+                        <div className="post-data w-full">
                           <div className="flex justify-between">
                             <Link
                               to={paths.dashboard.ticket.details(1)}
@@ -90,7 +90,7 @@ const TicketView = () => {
                           </div>
                           <div className="flex w-full justify-end mt-0">
                             <Link
-                              to={paths.dashboard.ticket.details(1)}
+                              to={paths.dashboard.ticket.details(item?.id)}
                               type="button"
                               className="mr-1 mb-2 inline-block rounded font-medium py-2.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-primary text-white bg-primary hover:bg-hover-primary hover:text-white duration-300 btn-sm"
                             >

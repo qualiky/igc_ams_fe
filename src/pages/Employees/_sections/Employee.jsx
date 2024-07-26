@@ -19,7 +19,12 @@ const EmployeeList = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const { isLoading } = useSelector(getAllEmployeeData);
+  const { employeeData, isLoading } = useSelector(getAllEmployeeData);
+
+  console.log(employeeData);
+  const males =
+    employeeData?.filter((item) => item?.attributes?.gender === "Male") || [];
+  console.log(males);
 
   const handleReload = () => {
     dispatch(getAllEmployees({ populate: null }));
@@ -32,7 +37,7 @@ const EmployeeList = () => {
             <div className="widget-stat card">
               <div className="sm:p-6 p-4">
                 <h4 className="card-title capitalize mb-2">Total Employee</h4>
-                <h3 className="xl:text-2xl mb-2">3280</h3>
+                <h3 className="xl:text-2xl mb-2">{employeeData?.length}</h3>
                 <div className="progress mb-2 h-[5px] overflow-hidden bg-[#f6f6f6] dark:bg-[#1E1E1E] rounded-md flex">
                   <div
                     className="progress-bar animate-myanimation whitespace-nowrap rounded-md bg-primary"
@@ -46,7 +51,7 @@ const EmployeeList = () => {
             <div className="widget-stat card">
               <div className="sm:p-6 p-4">
                 <h4 className="card-title capitalize mb-2">New Employee</h4>
-                <h3 className="xl:text-2xl mb-2">245</h3>
+                <h3 className="xl:text-2xl mb-2">0</h3>
                 <div className="progress mb-2 h-[5px] overflow-hidden bg-[#f6f6f6] dark:bg-[#1E1E1E] rounded-md flex">
                   <div
                     className="progress-bar animate-myanimation whitespace-nowrap rounded-md bg-warning"
@@ -60,7 +65,13 @@ const EmployeeList = () => {
             <div className="widget-stat card">
               <div className="sm:p-6 p-4">
                 <h4 className="card-title capitalize mb-2">Male Employee</h4>
-                <h3 className="xl:text-2xl mb-2">28</h3>
+                <h3 className="xl:text-2xl mb-2">
+                  {
+                    employeeData?.filter(
+                      (item) => item?.attributes?.gender === "Male"
+                    ).length
+                  }
+                </h3>
                 <div className="progress mb-2 h-[5px] overflow-hidden bg-[#f6f6f6] dark:bg-[#1E1E1E] rounded-md flex">
                   <div
                     className="progress-bar animate-myanimation whitespace-nowrap rounded-md bg-red"
@@ -74,7 +85,13 @@ const EmployeeList = () => {
             <div className="widget-stat card">
               <div className="sm:p-6 p-4">
                 <h4 className="card-title capitalize mb-2">Female Employee</h4>
-                <h3 className="xl:text-2xl mb-2">25160$</h3>
+                <h3 className="xl:text-2xl mb-2">
+                  {
+                    employeeData?.filter(
+                      (item) => item?.attributes?.gender === "Female"
+                    ).length
+                  }
+                </h3>
                 <div className="progress mb-2 h-[5px] overflow-hidden bg-[#f6f6f6] dark:bg-[#1E1E1E] rounded-md flex">
                   <div className=" w-[30%] progress-bar animate-myanimation whitespace-nowrap rounded-md bg-success"></div>
                 </div>
