@@ -34,6 +34,8 @@ export const getAllReceiptList = (state) => state.receipt.allReceipts;
 export const getAllIncomeReceipt = (state) => state.receipt;
 export const getAllExpenditureReceipt = (state) =>
   state.receipt.expenditureReceipts;
+export const getReceiptAnalyticsData = (state) =>
+  state.receipt?.receiptAnalytics;
 
 // Client
 export const getAllClientList = (state) => state.client;

@@ -72,9 +72,25 @@ const updateReceipt = async (id, data) => {
   }
 };
 
+// Get Receipt Analytics
+const getReceiptAnalytics = async () => {
+  const config = await getConfigWithToken();
+  try {
+    const response = await axios.get(
+      `${base_url}receipts/date/analytics?startDate=2024-06-01&endDate=2024-07-30`,
+      config
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error during Receipt Analytics:", error);
+    throw error;
+  }
+};
+
 export const ReceiptService = {
   getAllReceipt,
   getSingleReceipt,
   addReceipt,
   updateReceipt,
+  getReceiptAnalytics,
 };

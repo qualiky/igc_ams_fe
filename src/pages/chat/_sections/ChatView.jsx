@@ -3,18 +3,22 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { useSelector } from "react-redux";
 import {
   getAllChatRoomList,
+  getCurrentUser,
   selectJwtToken,
 } from "../../../selectors/selectors";
 import ChatRoom from "./ChatRoom";
 import GetUserImage from "../../../const/GetUserImage";
 import NotFound from "../../../components/NotFound";
 import { formatDate, formatTime } from "../../../const/format-date";
+import GetUserFullname from "../../../const/GetUserFullname";
 
 // WebSocket Hook
 const useWebSocket = (roomId, token) => {
   const [messages, setMessages] = useState([]);
   const [onlineCount, setOnlineCount] = useState(0);
   const [isConnected, setIsConnected] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+  const [isTypingUser, setIsTypingUser] = useState(false);
   const socketRef = useRef(null);
   const reconnectTimeoutRef = useRef(null);
 
@@ -43,6 +47,11 @@ const useWebSocket = (roomId, token) => {
         setMessages((prevMessages) => [...prevMessages, data.message]);
       } else if (data.type === "online_count") {
         setOnlineCount(data.count);
+      } else if (data.type === "typing") {
+        setIsTyping(true);
+        setIsTypingUser(data.user);
+      } else if (data.type === "notTyping") {
+        setIsTyping(true);
       }
     };
 
@@ -82,13 +91,39 @@ const useWebSocket = (roomId, token) => {
     }
   };
 
-  return { messages, onlineCount, isConnected, sendMessage };
+  const sendTypingStatus = (value) => {
+    if (socketRef.current) {
+      if (value == "") {
+        setIsTyping(false);
+      } else {
+        socketRef.current.send(
+          JSON.stringify({
+            type: "typing",
+          })
+        );
+      }
+    }
+  };
+
+  return {
+    messages,
+    onlineCount,
+    isTyping,
+    isConnected,
+    sendMessage,
+    sendTypingStatus,
+    isTypingUser,
+  };
 };
 
 // Main Chat Component
 const ChatView = () => {
   const jwtToken = useSelector(selectJwtToken);
   const [chatID, setChatID] = useState("");
+
+  const { user } = useSelector(getCurrentUser);
+
+  const [inputValue, setInputValue] = useState("");
 
   const { allChatRooms } = useSelector(getAllChatRoomList);
 
@@ -100,11 +135,15 @@ const ChatView = () => {
 
   const roomId = chatID;
 
-  const { messages, onlineCount, isConnected, sendMessage } = useWebSocket(
-    roomId,
-    jwtToken
-  );
-  const [inputValue, setInputValue] = useState("");
+  const {
+    messages,
+    isTyping,
+    onlineCount,
+    isConnected,
+    isTypingUser,
+    sendMessage,
+    sendTypingStatus,
+  } = useWebSocket(roomId, jwtToken);
 
   const handleSend = () => {
     if (inputValue.trim() !== "") {
@@ -113,7 +152,12 @@ const ChatView = () => {
     }
   };
 
-  console.log(chats);
+  const handleOnChange = (e) => {
+    setInputValue(e);
+    sendTypingStatus(e);
+  };
+
+  console.log(isTypingUser);
 
   return (
     <div className="container-fluid">
@@ -125,7 +169,7 @@ const ChatView = () => {
                 <ChatRoom setChatID={setChatID} chatID={chatID} />
 
                 {selecetdRoom?.length == 0 ? (
-                  <div className="xl:w-5/12 lg:w-1/2 sm:w-7/12 w-full flex flex-col justify-between border-r border-[#88888833]">
+                  <div className="xl:w-[60%] lg:w-2/3 sm:w-7/12 w-full flex flex-col justify-between ">
                     <div className="mt-20 flex justify-between p-5">
                       <NotFound title="Please Select the user" />
                     </div>
@@ -155,23 +199,33 @@ const ChatView = () => {
                   </div>
                 ) : (
                   <>
-                    <div className="xl:w-5/12 lg:w-1/2 sm:w-7/12 w-full border-r border-[#88888833]">
+                    <div className="xl:w-[60%] lg:w-2/3 sm:w-7/12 w-full border-r border-[#88888833]">
                       <div className="border-b border-[#88888833] flex justify-between p-5">
                         <div className="flex">
                           <GetUserImage
-                            userID={selecetdRoom?.[0]?.members?.[0]?.id}
+                            userID={selecetdRoom?.[0]?.members?.[0]?.username}
                           />
 
                           <div className="ml-2">
-                            <h6 className="text-sm"></h6>
-                            <span className="flex items-center text-xs text-body-color whitespace-nowrap">
-                              online
-                              <Icon
-                                icon="carbon:dot-mark"
-                                className="text-success"
-                                width={20}
-                              />
-                            </span>
+                            <GetUserFullname
+                              userName={
+                                selecetdRoom?.[0]?.members?.[0]?.username
+                              }
+                            />
+                            {isTyping && isTypingUser != user?.username ? (
+                              <span className="flex items-center text-xs text-body-color whitespace-nowrap">
+                                ...is typing
+                              </span>
+                            ) : (
+                              <span className="flex items-center text-xs text-body-color whitespace-nowrap">
+                                online
+                                <Icon
+                                  icon="carbon:dot-mark"
+                                  className="text-success"
+                                  width={20}
+                                />
+                              </span>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -197,14 +251,14 @@ const ChatView = () => {
                                 className={`text-secondary text-justify text-[13px] ${
                                   msg.sender === me
                                     ? "bg-[#eeeeee] dark:bg-[#383838]"
-                                    : "bg-[#E8F2FF] dark:bg-[#171717]"
+                                    : "bg-primary text-white dark:bg-[#171717]"
                                 } dark:text-white py-2.5 px-[15px] rounded-md ${
                                   msg.sender === me
                                     ? "rounded-ee-none"
                                     : "rounded-ss-none"
                                 } leading-[1.6] mb-4`}
                               >
-                                {msg.message}Hello
+                                {msg.message}
                               </p>
                               <span className="text-[10px] text-body-color leading-[1.5]">
                                 {formatDate(msg?.created_at) +
@@ -223,7 +277,7 @@ const ChatView = () => {
                               className="bg-chat dark:bg-[#171717] p-2 overflow-hidden resize-none outline-none flex-auto leading-5 text-body-color"
                               placeholder="Type a message..."
                               value={inputValue}
-                              onChange={(e) => setInputValue(e.target.value)}
+                              onChange={(e) => handleOnChange(e.target.value)}
                             ></textarea>
                           </div>
                         </div>
@@ -238,7 +292,7 @@ const ChatView = () => {
                       </div>
                     </div>
 
-                    <div className="xl:w-2/6 w-full">
+                    {/* <div className="xl:w-2/6 w-full">
                       <div className="chat-meadia sm:p-5 p-4 xl:w-full sm:w-1/2 float-left">
                         <h4 className="text-base leading-[1.6]">Media</h4>
                         <div className="mt-2.5">
@@ -252,7 +306,7 @@ const ChatView = () => {
                           ))}
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                   </>
                 )}
               </div>

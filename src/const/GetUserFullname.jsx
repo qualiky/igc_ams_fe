@@ -1,31 +1,25 @@
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
-const GetUserFullname = ({ userID }) => {
+const GetUserFullname = ({ userName }) => {
   const { allUser } = useSelector((state) => state.user);
 
-  const getProfileImageUrl = (id) => {
-    const profile = allUser.find((profile) => profile.id === id);
-    return profile
-      ? profile.attributes?.firstName + " " + profile.attributes?.lastName
-      : null;
+  const getUserFullName = (user) => {
+    const profile = allUser.find((profile) => profile.username === user);
+    return profile ? profile?.firstName + " " + profile?.lastName : null;
   };
 
-  const imageUrl = getProfileImageUrl(userID);
+  const name = getUserFullName(userName);
 
   return (
     <>
-      <img
-        src={imageUrl}
-        className="h-[2.813rem] w-[2.813rem] inline-block relative rounded-full"
-        alt=""
-      />
+      <h6 className="text-sm">{name}</h6>
     </>
   );
 };
 
 GetUserFullname.propTypes = {
-  userID: PropTypes.number,
+  userName: PropTypes.string,
 };
 
 export default GetUserFullname;

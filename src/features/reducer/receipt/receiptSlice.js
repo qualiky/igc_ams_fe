@@ -7,6 +7,7 @@ const initialState = {
   expenditureReceipts: [],
   incomeReceipts: [],
   receiptDetail: {},
+  receiptAnalytics: [],
   isSuccess: false,
   isLoading: false,
 };
@@ -49,6 +50,17 @@ export const updateEmployee = createAsyncThunk(
   async ({ id, data }, thunkAPI) => {
     try {
       return await ReceiptService.updateReceipt(id, data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const getReceiptAnalytics = createAsyncThunk(
+  "get_Receipt_analytics",
+  async (thunkAPI) => {
+    try {
+      return await ReceiptService.getReceiptAnalytics();
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -112,6 +124,19 @@ export const receiptSlice = createSlice({
         state.isSuccess = true;
       })
       .addCase(addReceipt.rejected, (state) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+      })
+
+      .addCase(getReceiptAnalytics.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getReceiptAnalytics.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.receiptAnalytics = action?.payload;
+      })
+      .addCase(getReceiptAnalytics.rejected, (state) => {
         state.isLoading = false;
         state.isSuccess = false;
       });

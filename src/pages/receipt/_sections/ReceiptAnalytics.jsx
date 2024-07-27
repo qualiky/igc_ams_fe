@@ -1,15 +1,24 @@
+import { useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
+import { useDispatch } from "react-redux";
+import { getReceiptAnalytics } from "../../../features/reducer/receipt/receiptSlice";
+import { getReceiptAnalyticsData } from "../../../selectors/selectors";
+import { useSelector } from "react-redux";
 
 const ReceiptAnalytics = () => {
+  const dispatch = useDispatch();
+
+  const { date, income, expenses } = useSelector(getReceiptAnalyticsData);
+
   const options = {
     series: [
       {
         name: "Revenue (NRS)",
-        data: [44, 55, 57, 56, 61, 58],
+        data: income,
       },
       {
         name: "Expenses (NRS)",
-        data: [76, 85, 101, 98, 87, 105],
+        data: expenses,
       },
     ],
     chart: {
@@ -32,7 +41,7 @@ const ReceiptAnalytics = () => {
       colors: ["transparent"],
     },
     xaxis: {
-      categories: ["Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+      categories: date,
     },
     yaxis: {
       title: {
@@ -50,6 +59,10 @@ const ReceiptAnalytics = () => {
       },
     },
   };
+  useEffect(() => {
+    dispatch(getReceiptAnalytics());
+  }, [dispatch]);
+
   return (
     <div className="container-fluid">
       <div className="row gx-0">

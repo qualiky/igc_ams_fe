@@ -7,7 +7,10 @@ import { getConfigWithToken } from "../../../utils/config";
 const getAllUser = async () => {
   const config = await getConfigWithToken();
   try {
-    const response = await axios.get(`${base_url}users`, config);
+    const response = await axios.get(
+      `${base_url}users?populate[profileImage][populate][data][populate][attributes][field][0]=url&fields[0]=username&fields[1]=firstName&fields[2]=lastName&fields[3]=email`,
+      config
+    );
     return response.data;
   } catch (error) {
     console.error("Error during geting Users List:", error);

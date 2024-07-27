@@ -64,8 +64,7 @@ export const chatSlice = createSlice({
       })
       .addCase(getSingleRoomMessages.fulfilled, (state, action) => {
         state.isLoading = false;
-        console.log(action.payload);
-        state.chats = action.payload;
+        state.chats = action.payload.reverse();
       })
       .addCase(getSingleRoomMessages.rejected, (state) => {
         state.isLoading = false;

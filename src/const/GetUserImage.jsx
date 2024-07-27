@@ -1,21 +1,22 @@
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
+import { base_img_url } from "../utils/base_img_url";
 
-const GetUserImage = ({ userID }) => {
+const GetUserImage = ({ userName }) => {
   const { allUser } = useSelector((state) => state.user);
 
-  const getProfileImageUrl = (id) => {
-    const profile = allUser.find((profile) => profile.id === id);
-    return profile ? profile.attributes?.profileImage : null;
+  const getProfileImageUrl = (user) => {
+    const profile = allUser?.find((profile) => profile.username === user);
+    return profile ? profile?.profileImage?.[0]?.url : null;
   };
 
-  const imageUrl = getProfileImageUrl(userID);
+  const imageUrl = getProfileImageUrl(userName);
 
   return (
     <>
       {imageUrl ? (
         <img
-          src={imageUrl}
+          src={base_img_url + imageUrl}
           className="h-[2.813rem] w-[2.813rem] inline-block relative rounded-full"
           alt=""
         />
@@ -31,7 +32,7 @@ const GetUserImage = ({ userID }) => {
 };
 
 GetUserImage.propTypes = {
-  userID: PropTypes.number,
+  userName: PropTypes.string,
 };
 
 export default GetUserImage;

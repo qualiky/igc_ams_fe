@@ -74,12 +74,11 @@ export const userSlice = createSlice({
     builder
       .addCase(getAllUser.pending, (state) => {
         state.isLoading = true;
-        state.allUser = [];
       })
       .addCase(getAllUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
-        state.allUser = action?.payload?.data;
+        state.allUser = action?.payload;
         state.isSuccess = true;
       })
       .addCase(getAllUser.rejected, (state) => {
