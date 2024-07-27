@@ -41,3 +41,6 @@ export const getAllClientList = (state) => state.client;
 // Ticket
 export const getAllTicketList = (state) => state.ticket;
 export const getTicketDetail = (state) => state.ticket;
+
+// Chat
+export const getAllChatRoomList = (state) => state.chat;

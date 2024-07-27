@@ -15,12 +15,22 @@ export const useWebSocket = (getUrl) => {
         console.log("WebSocket connected");
       };
 
+      // socketRef.current.onmessage = (event) => {
+      //   try {
+      //     const data = JSON.parse(event.data);
+      //     setMessages((prevMessages) => [...prevMessages, data]);
+      //   } catch (error) {
+      //     console.error("Error parsing WebSocket message:", error);
+      //   }
+      // };
       socketRef.current.onmessage = (event) => {
-        try {
-          const data = JSON.parse(event.data);
+        const data = JSON.parse(event.data);
+
+        console.log("Received message:", data);
+        if (data.type === "new_message") {
           setMessages((prevMessages) => [...prevMessages, data]);
-        } catch (error) {
-          console.error("Error parsing WebSocket message:", error);
+        } else if (data.type === "online_count") {
+          // setOnlineCount(data.count);
         }
       };
 
@@ -41,14 +51,13 @@ export const useWebSocket = (getUrl) => {
   }, [getUrl]);
 
   const sendMessage = (message) => {
-    try {
-      if (socketRef.current.readyState === WebSocket.OPEN) {
-        socketRef.current.send(JSON.stringify(message));
-      } else {
-        throw new Error("WebSocket is not open");
-      }
-    } catch (error) {
-      console.error("Error sending WebSocket message:", error);
+    if (socketRef.current) {
+      socketRef.current.send(
+        JSON.stringify({
+          type: "message",
+          message,
+        })
+      );
     }
   };
 

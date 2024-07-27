@@ -17,7 +17,7 @@ import NotFound from "../../../components/NotFound";
 
 const commentSchema = yup.object().shape({
   comment: yup.string().required(),
-  commenter: yup.string().required(),
+  commentingUser: yup.string().required(),
   commentId: yup.string(),
   projectTask: yup.string().required(),
 });
@@ -28,6 +28,8 @@ const TaskDetail = () => {
   const dispatch = useDispatch();
 
   const taskData = useSelector(getTaskDetail);
+
+  console.log(taskData);
 
   const { user } = useSelector(getLoginData);
 
@@ -44,7 +46,7 @@ const TaskDetail = () => {
     resolver: yupResolver(commentSchema),
     defaultValues: {
       comment: "",
-      commenter: "",
+      commentingUser: "",
       commentId: "",
       projectTask: "",
     },
@@ -55,13 +57,13 @@ const TaskDetail = () => {
   }, [params?.id, setValue]);
 
   useEffect(() => {
-    setValue("commenter", user?.id);
+    setValue("commentingUser", user?.id);
   }, [setValue, user?.id]);
 
   const onSubmit = async (data) => {
     try {
       const resPayload = await projectDetailService.addTaskComment({ data });
-      console.log(resPayload);
+
       dispatch(getProjectTaskDetail(params?.id));
     } catch (error) {
       console.log(error?.response?.data?.error?.message);
@@ -80,15 +82,16 @@ const TaskDetail = () => {
                   <strong>{taskData?.attributes?.taskTitle}</strong>
                 </h3>
                 <ul className="mb-6 post-meta flex flex-wrap">
-                  <li className="post-author text-body-color text-sm mr-4">
+                  {/* <li className="post-author text-body-color text-sm mr-4">
                     By Roshan Nyaupane
-                  </li>
+                  </li> */}
                   <li className="post-date text-body-color text-sm mr-4">
                     <i className="far fa-calendar-plus mr-2"></i>
-                    {formatDate(taskData?.attributes?.createdAt)}
+                    {formatDate(taskData?.attributes?.startDate)}
                   </li>
                   <li className="post-comment text-body-color text-sm">
-                    <i className="far fa-comment mr-2"></i>28
+                    <i className="far fa-comment mr-2"></i>
+                    {taskData?.attributes?.comments?.data.length}
                   </li>
                 </ul>
                 {/* <img
@@ -159,25 +162,25 @@ const TaskDetail = () => {
                               <li key={index}>
                                 <div className="timeline-panel flex items-center relative rounded-md py-[0.8rem] px-3 mx-[-5px] duration-500 hover:bg-[#0d99ff0d]">
                                   <div className="media flex items-center justify-center w-[2.4rem] h-[2.4rem] bg-[#eee] rounded-full text-[13px] text-center overflow-hidden font-semibold self-start mr-2 media-info">
-                                    {item?.attributes?.commenter?.data
-                                      ?.attributes?.profileImage?.data
+                                    {item?.attributes?.commentingUser?.data
+                                      ?.attributes?.profileImage?.data?.[0]
                                       ?.attributes?.url ? (
                                       <img
                                         alt="image"
                                         width="50"
                                         src={
                                           base_img_url +
-                                          item?.attributes?.commenter?.data
-                                            ?.attributes?.profileImage?.data
-                                            ?.attributes?.url
+                                          item?.attributes?.commentingUser?.data
+                                            ?.attributes?.profileImage
+                                            ?.data?.[0]?.attributes?.url
                                         }
                                       />
                                     ) : (
                                       <>
-                                        {item?.commenter?.data?.attributes?.firstName?.charAt(
+                                        {item?.commentingUser?.data?.attributes?.firstName?.charAt(
                                           0
                                         )}{" "}
-                                        {item?.commenter?.data?.attributes?.lastName?.charAt(
+                                        {item?.commentingUser?.data?.attributes?.lastName?.charAt(
                                           0
                                         )}
                                       </>
@@ -186,11 +189,11 @@ const TaskDetail = () => {
                                   <div className="media-body flex-1">
                                     <h5 className="mb-1 leading-6">
                                       {
-                                        item?.attributes?.commenter?.data
+                                        item?.attributes?.commentingUser?.data
                                           ?.attributes?.firstName
                                       }{" "}
                                       {
-                                        item?.attributes?.commenter?.data
+                                        item?.attributes?.commentingUser?.data
                                           ?.attributes?.lastName
                                       }{" "}
                                       <small className="text-body-color text-[8px]  dark:text-white">

@@ -13,6 +13,7 @@ import receiptReducer from "./receipt/receiptSlice";
 import ClientReducer from "./client/clientSlice";
 import ticketReducer from "./ticket/ticketSlice";
 import invoiceReducer from "./invoice/invoiceSlice";
+import chatReducer from "./chat/chatSlice";
 
 export const rootReducer = combineReducers({
   auth: authReducer,
@@ -29,4 +30,5 @@ export const rootReducer = combineReducers({
   client: ClientReducer,
   ticket: ticketReducer,
   invoice: invoiceReducer,
+  chat: chatReducer,
 });
