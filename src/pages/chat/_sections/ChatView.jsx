@@ -24,7 +24,7 @@ const useWebSocket = (roomId, token) => {
     }
 
     const ws = new WebSocket(
-      `ws://systems.pirus.app/ws/chat/1bf67711-376e-4667-baec-710162e90e02/?token=${token}`
+      `wss://systems.pirus.app/ws/chat/${roomId}/?token=${token}`
     );
 
     ws.onopen = () => {
