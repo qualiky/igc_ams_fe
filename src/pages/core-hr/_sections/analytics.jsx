@@ -15,7 +15,7 @@ const AnalyticsCoreHr = () => {
               </div>
               <div className="total-projects ml-4">
                 <h3 className="text-success count text-[28px] font-semibold">
-                  24
+                  07
                 </h3>
                 <span className="text-sm font-medium">Total Workforce</span>
               </div>
@@ -35,7 +35,7 @@ const AnalyticsCoreHr = () => {
               </div>
               <div className="total-projects ml-4">
                 <h3 className="text-primary count text-[28px] font-semibold">
-                  12
+                  03
                 </h3>
                 <span className="text-sm font-medium">Present Workforce</span>
               </div>
@@ -55,7 +55,7 @@ const AnalyticsCoreHr = () => {
               </div>
               <div className="total-projects ml-4">
                 <h3 className="text-purple count text-[28px] font-semibold">
-                  07
+                  04
                 </h3>
                 <span className="text-sm font-medium">Absent Workforce</span>
               </div>
@@ -75,7 +75,7 @@ const AnalyticsCoreHr = () => {
               </div>
               <div className="total-projects ml-4">
                 <h3 className="text-danger count text-[28px] font-semibold">
-                  05
+                  00
                 </h3>
                 <span className="text-sm font-medium">Late Arrivals</span>
               </div>

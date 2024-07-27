@@ -8,6 +8,7 @@ import { getAllClientList } from "../../../selectors/selectors";
 import AvatarByNameRect from "../../../components/AvatarByNameRect";
 import { formatDate } from "../../../const/format-date";
 import TableSkeleton from "../../../components/skeleton/TableSkeleton";
+import { base_img_url } from "../../../utils/base_img_url";
 
 const ClientView = () => {
   const navigate = useNavigate();
@@ -67,9 +68,16 @@ const ClientView = () => {
                         >
                           <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[1.125rem] px-5 font-normal whitespace-nowrap">
                             <div className="flex items-center">
-                              <AvatarByNameRect
-                                name={item?.attributes?.clientContactPersonName}
+                              <img
+                                src={
+                                  base_img_url +
+                                  item?.attributes?.logo?.data?.attributes?.url
+                                }
+                                className="w-[2.25rem] h-[2.25rem] inline-block mr-2.5 relative object-cover rounded-full"
                               />
+                              {/* <AvatarByNameRect
+                                name={item?.attributes?.clientContactPersonName}
+                              /> */}
                               <div>
                                 <h6 className="text-sm">
                                   {item?.attributes?.clientContactPersonName}

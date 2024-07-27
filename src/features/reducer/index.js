@@ -14,8 +14,10 @@ import ClientReducer from "./client/clientSlice";
 import ticketReducer from "./ticket/ticketSlice";
 import invoiceReducer from "./invoice/invoiceSlice";
 import chatReducer from "./chat/chatSlice";
+import homeReducer from "./home/homeSlice";
 
 export const rootReducer = combineReducers({
+  home: homeReducer,
   auth: authReducer,
   user: userReducer,
   employee: employeeReducer,

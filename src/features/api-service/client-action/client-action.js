@@ -9,7 +9,7 @@ const getAllClient = async () => {
   const config = await getConfigWithToken();
 
   try {
-    const response = await axios.get(`${base_url}clients`, config);
+    const response = await axios.get(`${base_url}clients?populate=*`, config);
     return response.data;
   } catch (error) {
     console.error("Error during getting Client data:", error);

@@ -35,7 +35,7 @@ const TaskProject = ({ task, provided }: TaskProps) => {
       <div className="w-full border border-dashed"></div>
       <div className="w-full flex items-center justify-between">
         <div className="flex items-center gap-1">
-          <span className="text-[13px] text-gray-700">Assigned to</span>
+          {/* <span className="text-[13px] text-gray-700">Assigned to</span> */}
         </div>
         <div
           className={`w-[60px] rounded-full h-[5px] ${
@@ -47,7 +47,7 @@ const TaskProject = ({ task, provided }: TaskProps) => {
           }`}
         ></div>
       </div>
-      <div className="">
+      {/* <div className="">
         <img
           src="/assets/images/contacts/pic666.jpg"
           className="avatar inline-block w-[1.875rem] h-[1.875rem] me-[-13px] rounded-full border-2 border-white dark:border-[#444444] relative object-cover duration-300 hover:z-[1]"
@@ -68,7 +68,7 @@ const TaskProject = ({ task, provided }: TaskProps) => {
           className="avatar inline-block w-[1.875rem] h-[1.875rem] me-[-13px] rounded-full border-2 border-white dark:border-[#444444] relative object-cover duration-300 hover:z-[1]"
           alt=""
         />
-      </div>
+      </div> */}
       <div className=" w-full border-t border-[#E6E6E6] dark:border-[#444444] flex items-center justify-between">
         <div className="footer-data">
           <span className="text-primary text-xs">Start Date</span>

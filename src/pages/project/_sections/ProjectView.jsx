@@ -140,7 +140,7 @@ const ProjectView = () => {
                   <ProjectDescription
                     projectDescription={item?.attributes?.projectDescription}
                   />
-                  <div>
+                  {/* <div>
                     <p className="text-secondary dark:text-white mb-1 font-medium">
                       Team Members
                     </p>
@@ -166,7 +166,7 @@ const ProjectView = () => {
                         className="avatar inline-block w-[1.875rem] h-[1.875rem] me-[-13px] rounded-full border-2 border-white dark:border-[#444444] relative object-cover duration-300 hover:z-[1]"
                       />
                     </div>
-                  </div>
+                  </div> */}
                   <div className="progress h-[5px] overflow-hidden bg-[#f6f6f6] dark:bg-[#1E1E1E] mt-6">
                     <div
                       className="progress-bar bg-purple"
@@ -185,13 +185,13 @@ const ProjectView = () => {
                       <p className="mb-0 text-secondary dark:text-white font-medium">
                         Start Date :{" "}
                         <span className="font-normal text-primary">
-                          {formatDate(item?.attributes?.createdAt)}
+                          {formatDate(item?.attributes?.startDate)}
                         </span>
                       </p>
                       <p className="mb-0 text-secondary dark:text-white font-medium">
                         Due Date :{" "}
                         <span className="font-normal text-primary">
-                          {formatDate(item?.attributes?.createdAt)}
+                          {formatDate(item?.attributes?.endDate)}
                         </span>
                       </p>
                     </div>

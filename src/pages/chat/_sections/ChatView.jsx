@@ -11,6 +11,8 @@ import GetUserImage from "../../../const/GetUserImage";
 import NotFound from "../../../components/NotFound";
 import { formatDate, formatTime } from "../../../const/format-date";
 import GetUserFullname from "../../../const/GetUserFullname";
+import GroupProfileImage from "../../../const/GroupProfileImage";
+import SkeletonChatLoader from "../../../components/skeleton/ChatSkeleton";
 
 // WebSocket Hook
 const useWebSocket = (roomId, token) => {
@@ -42,16 +44,17 @@ const useWebSocket = (roomId, token) => {
 
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      console.log("Received message:", data);
+      console.log("Web SOcket", data);
       if (data.type === "new_message") {
         setMessages((prevMessages) => [...prevMessages, data.message]);
+        setIsTyping(false);
       } else if (data.type === "online_count") {
         setOnlineCount(data.count);
       } else if (data.type === "typing") {
         setIsTyping(true);
         setIsTypingUser(data.user);
-      } else if (data.type === "notTyping") {
-        setIsTyping(true);
+      } else if (data.type === "typing_stopped") {
+        setIsTyping(false);
       }
     };
 
@@ -93,8 +96,13 @@ const useWebSocket = (roomId, token) => {
 
   const sendTypingStatus = (value) => {
     if (socketRef.current) {
-      if (value == "") {
-        setIsTyping(false);
+      if (value == "" || value == null || value == undefined) {
+        console.log("emptyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
+        socketRef.current.send(
+          JSON.stringify({
+            type: "stopped_typing",
+          })
+        );
       } else {
         socketRef.current.send(
           JSON.stringify({
@@ -129,7 +137,7 @@ const ChatView = () => {
 
   const selecetdRoom = allChatRooms?.filter((item) => item?.id === chatID);
 
-  const { chats } = useSelector(getAllChatRoomList);
+  const { chats, isLoading } = useSelector(getAllChatRoomList);
 
   const me = useSelector((state) => state.auth.user?.username);
 
@@ -156,8 +164,6 @@ const ChatView = () => {
     setInputValue(e);
     sendTypingStatus(e);
   };
-
-  console.log(isTypingUser);
 
   return (
     <div className="container-fluid">
@@ -202,16 +208,38 @@ const ChatView = () => {
                     <div className="xl:w-[60%] lg:w-2/3 sm:w-7/12 w-full border-r border-[#88888833]">
                       <div className="border-b border-[#88888833] flex justify-between p-5">
                         <div className="flex">
-                          <GetUserImage
-                            userID={selecetdRoom?.[0]?.members?.[0]?.username}
-                          />
+                          {selecetdRoom?.[0]?.is_private ? (
+                            <GetUserImage
+                              userID={selecetdRoom?.[0]?.members?.[0]?.username}
+                            />
+                          ) : (
+                            <GroupProfileImage />
+                          )}
 
                           <div className="ml-2">
-                            <GetUserFullname
-                              userName={
-                                selecetdRoom?.[0]?.members?.[0]?.username
-                              }
-                            />
+                            <>
+                              {selecetdRoom?.[0]?.is_private ? (
+                                <GetUserFullname
+                                  userName={
+                                    selecetdRoom?.[0]?.members?.[0]?.username
+                                  }
+                                />
+                              ) : (
+                                <div className="flex">
+                                  <GetUserFullname
+                                    userName={
+                                      selecetdRoom?.[0]?.members?.[0]?.username
+                                    }
+                                  />
+                                  ,&nbsp;
+                                  <GetUserFullname
+                                    userName={
+                                      selecetdRoom?.[0]?.members?.[1]?.username
+                                    }
+                                  />
+                                </div>
+                              )}
+                            </>
                             {isTyping && isTypingUser != user?.username ? (
                               <span className="flex items-center text-xs text-body-color whitespace-nowrap">
                                 ...is typing
@@ -233,41 +261,49 @@ const ChatView = () => {
                         className="chat-box-area style-2 dz-scroll relative overflow-y-scroll overflow-x-hidden"
                         id="chartBox2"
                       >
-                        {[...chats, ...messages].map((msg, index) => (
-                          <div
-                            key={index}
-                            className={`flex ${
-                              msg.sender === me
-                                ? "justify-end"
-                                : "justify-start"
-                            } items-end mx-auto`}
-                          >
-                            <div
-                              className={`flex flex-col ${
-                                msg.sender === me ? "items-end " : "items-start"
-                              } w-[90%]`}
-                            >
-                              <p
-                                className={`text-secondary text-justify text-[13px] ${
+                        {isLoading ? (
+                          <SkeletonChatLoader />
+                        ) : (
+                          <>
+                            {[...chats, ...messages].map((msg, index) => (
+                              <div
+                                key={index}
+                                className={`flex ${
                                   msg.sender === me
-                                    ? "bg-[#eeeeee] dark:bg-[#383838]"
-                                    : "bg-primary text-white dark:bg-[#171717]"
-                                } dark:text-white py-2.5 px-[15px] rounded-md ${
-                                  msg.sender === me
-                                    ? "rounded-ee-none"
-                                    : "rounded-ss-none"
-                                } leading-[1.6] mb-4`}
+                                    ? "justify-end"
+                                    : "justify-start"
+                                } items-end mx-auto`}
                               >
-                                {msg.message}
-                              </p>
-                              <span className="text-[10px] text-body-color leading-[1.5]">
-                                {formatDate(msg?.created_at) +
-                                  " " +
-                                  formatTime(msg?.created_at)}
-                              </span>
-                            </div>
-                          </div>
-                        ))}
+                                <div
+                                  className={`flex flex-col ${
+                                    msg.sender === me
+                                      ? "items-end "
+                                      : "items-start"
+                                  } w-[90%]`}
+                                >
+                                  <p
+                                    className={`text-secondary text-justify text-[13px] ${
+                                      msg.sender === me
+                                        ? "bg-[#eeeeee] dark:bg-[#383838]"
+                                        : "bg-primary text-white dark:bg-primary"
+                                    } dark:text-white py-2.5 px-[15px] rounded-md ${
+                                      msg.sender === me
+                                        ? "rounded-ee-none"
+                                        : "rounded-ss-none"
+                                    } leading-[1.6] mb-4`}
+                                  >
+                                    {msg.message}
+                                  </p>
+                                  <span className="text-[10px] text-body-color leading-[1.5]">
+                                    {formatDate(msg?.created_at) +
+                                      " " +
+                                      formatTime(msg?.created_at)}
+                                  </span>
+                                </div>
+                              </div>
+                            ))}
+                          </>
+                        )}
                       </div>
                       <div className="message-send py-[7px] px-2 flex items-center justify-between rounded-md bg-chat dark:bg-[#171717] m-5">
                         <div className="flex items-center justify-between w-[70%]">

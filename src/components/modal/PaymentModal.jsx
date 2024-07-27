@@ -50,7 +50,7 @@ const PaymentModal = ({ isOpen, onClose, setOpen, price }) => {
           merchant_extra: "merchant_extra",
         });
         if (res.status == 200) {
-          window.location.href = res?.data?.payment_url;
+          window.open(res?.data?.payment_url, "_blank");
         }
       } catch (error) {
         console.error(error);
@@ -58,9 +58,18 @@ const PaymentModal = ({ isOpen, onClose, setOpen, price }) => {
     } else if (selectedPayment === "stripe") {
       try {
         const res = await paymentService.initiateStripePayment({
-          amount: 300,
+          product_name: "Java Book",
+          unit_amount: 500,
+          product_quantity: 2,
           currency: "usd",
+          product_description: "Best book to buy",
+          success_url: "https://dash.pirus.app",
+          cancel_url: "https://dash.pirus.app",
         });
+        if (res.status == 200) {
+          window.open(res?.data?.url, "_blank");
+        }
+        console.log(object);
       } catch (error) {
         console.error(error);
       }
@@ -144,7 +153,7 @@ const PaymentModal = ({ isOpen, onClose, setOpen, price }) => {
                   </div>
                   <div className="flex items-center justify-between pt-5">
                     <p className="text-base leading-none text-gray-800 dark:text-white">
-                      Vat
+                      Tax(13%)
                     </p>
                     <p className="text-base leading-none text-gray-800 dark:text-white">
                       14.04

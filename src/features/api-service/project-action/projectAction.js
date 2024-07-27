@@ -8,7 +8,7 @@ const getAllProject = async () => {
   const config = await getConfigWithToken();
   try {
     const response = await axios.get(
-      `${base_url}projects?populate[projectLead][fields][0]=firstName&populate[projectLead][fields][1]=lastName&populate[client][fields][0]=companyName&fields[0]=projectName&fields[1]=projectDescription&fields[2]=startDate`,
+      `${base_url}projects?populate[projectLead][fields][0]=firstName&populate[projectLead][fields][1]=lastName&populate[client][fields][0]=companyName&fields[0]=projectName&fields[1]=projectDescription&fields[2]=startDate&fields[3]=endDate`,
       config
     );
     return response.data;

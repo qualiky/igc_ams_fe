@@ -3,20 +3,42 @@ import Breadcumb from "../../components/Breadcumb";
 // import "../../../public/assets/vendor/apexchart/apexchart.min.js";
 import HomeAnalytics from "./_sections/HomeAnalytics.jsx";
 import { useSelector } from "react-redux";
-import { getAllEmployeeData } from "../../selectors/selectors.js";
+import {
+  getAllClientList,
+  getAllEmployeeData,
+} from "../../selectors/selectors.js";
 import { base_img_url } from "../../utils/base_img_url.js";
 import AvatarCoreHr from "../core-hr/_components/AvatarCoreHr.jsx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { getAllHomeData } from "../../features/reducer/home/homeSlice.js";
+import { useDispatch } from "react-redux";
+import { getAllClient } from "../../features/reducer/client/clientSlice.js";
+import { paths } from "../../routes/path.js";
+import TableSkeleton from "../../components/skeleton/TableSkeleton.jsx";
+import AvatarByNameRect from "../../components/AvatarByNameRect.jsx";
+import { formatDate } from "../../const/format-date.js";
 
 const Home = () => {
   const { employeeData } = useSelector(getAllEmployeeData);
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     // Scroll to the top of the page when the component mounts
-    window.scrollTo(0, 0);
-  }, []);
+    dispatch(getAllHomeData());
+    dispatch(getAllClient());
 
+    window.scrollTo(0, 0);
+  }, [dispatch]);
+
+  const navigate = useNavigate();
+
+  const { allClient, isLoading } = useSelector(getAllClientList);
+
+  const handleNavigateToDetail = (id) => {
+    navigate(paths.dashboard.clients.details(id));
+  };
   return (
     <>
       <div className="content-body">
@@ -29,282 +51,113 @@ const Home = () => {
             <div className="2xl:w-1/2 w-full active-p">
               <div className="card">
                 <div className="card-body p-0">
-                  <div className="overflow-x-auto active-projects shorting">
+                  <div className="overflow-x-auto active-projects">
                     <div className="p-5">
-                      <h4 className="heading">Active Projects</h4>
+                      <h4 className="heading">Manage Client</h4>
                     </div>
-                    <table
-                      id="projects-tbl"
-                      className="table ItemsCheckboxSec text-sm w-full"
-                    >
-                      <thead>
-                        <tr>
-                          <th className="text-[13px] py-2.5 pl-4 pr-0 bg-[#F0F4F9] text-[#374557] capitalize font-medium bg-none whitespace-nowrap style-1">
-                            <div className="form-check custom-checkbox ms-0">
-                              <input
-                                type="checkbox"
-                                className="form-check-input checkAll ml-0"
-                                id="checkInput"
-                                required=""
-                              />
-                              <label
-                                className="form-check-label ml-[0.3125rem] text-sm text-secondary dark:text-white mt-[0.1875rem] font-normal"
-                                htmlFor="checkInput"
-                              ></label>
-                            </div>
-                          </th>
-                          <th className="text-[13px] py-2.5 px-4 bg-[#F0F4F9] text-[#374557] capitalize font-medium bg-none whitespace-nowrap text-left">
-                            Project Name
-                          </th>
-                          <th className="text-[13px] py-2.5 px-4 bg-[#F0F4F9] text-[#374557] capitalize font-medium bg-none whitespace-nowrap text-left">
-                            Project Lead
-                          </th>
-                          <th className="text-[13px] py-2.5 px-4 bg-[#F0F4F9] text-[#374557] capitalize font-medium bg-none whitespace-nowrap text-left">
-                            Progress
-                          </th>
-                          <th className="text-[13px] py-2.5 px-4 bg-[#F0F4F9] text-[#374557] capitalize font-medium bg-none whitespace-nowrap text-left">
-                            Assignee
-                          </th>
-                          <th className="text-[13px] py-2.5 px-4 bg-[#F0F4F9] text-[#374557] capitalize font-medium bg-none whitespace-nowrap text-left">
-                            Status
-                          </th>
-                          <th className="text-[13px] py-2.5 px-4 bg-[#F0F4F9] text-[#374557] capitalize font-medium bg-none whitespace-nowrap text-right">
-                            Due Date
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td className="text-[13px] font-normal py-2.5 pl-4 pr-0 whitespace-nowrap">
-                            <div className="form-check custom-checkbox block min-h-[1.3125rem] mb-0.5 text-sm pl-[1.5em] font-semibold">
-                              <input
-                                type="checkbox"
-                                className="form-check-input"
-                                id="customCheckBox2"
-                                required=""
-                              />
-                              <label
-                                className="form-check-label ml-[0.3125rem] text-sm text-secondary dark:text-white mt-[0.1875rem] font-normal"
-                                htmlFor="customCheckBox2"
-                              ></label>
-                            </div>
-                          </td>
-                          <td className="text-[13px] font-normal py-2.5 px-4 whitespace-nowrap text-body-color">
-                            Batman
-                          </td>
-                          <td className="text-[13px] font-normal py-2.5 px-4 whitespace-nowrap">
-                            <div className="flex items-center">
-                              <img
-                                src="assets/images/contacts/pic1.jpg"
-                                className="inline-block w-[1.875rem] min-w-[1.875rem] h-[1.875rem] rounded-full relative object-cover"
-                                width="30px"
-                                height="30px"
-                                alt=""
-                              />
-                              <p className="ml-2 dark:text-white text-[13px]">
-                                Liam Risher
-                              </p>
-                            </div>
-                          </td>
-                          <td className="text-[13px] py-2.5 pl-4 pr-0 font-normal">
-                            <div className="flex items-center">
-                              <div className="progress bg-[#f6f6f6] dark:bg-[#1E1E1E] mr-[5px] h-[5px] overflow-hidden flex-1">
-                                <div
-                                  className="progress-bar bg-primary rounded-[4px]"
-                                  style={{ width: "53%", height: "5px" }}
-                                  role="progressbar"
-                                ></div>
-                              </div>
-                              <span className="text-primary">53%</span>
-                            </div>
-                          </td>
-                          <td className="text-[13px] py-2.5 pl-4 pr-0 font-normal">
-                            <div className="avatar-list avatar-list-stacked">
-                              <img
-                                src="assets/images/contacts/pic1.jpg"
-                                className="inline-block w-[1.875rem] h-[1.875rem] me-[-13px] rounded-full border-2 border-white dark:border-[#444444] relative object-cover duration-300 hover:z-[1]"
-                                alt=""
-                              />
-                              <img
-                                src="assets/images/contacts/pic555.jpg"
-                                className="inline-block w-[1.875rem] h-[1.875rem] me-[-13px] rounded-full border-2 border-white dark:border-[#444444] relative object-cover duration-300 hover:z-[1]"
-                                alt=""
-                              />
-                              <img
-                                src="assets/images/contacts/pic666.jpg"
-                                className="inline-block w-[1.875rem] h-[1.875rem] me-[-13px] rounded-full border-2 border-white dark:border-[#444444] relative object-cover duration-300 hover:z-[1]"
-                                alt=""
-                              />
-                            </div>
-                          </td>
-                          <td className="text-[13px] py-2.5 pl-4 pr-0 font-normal">
-                            <span className="bg-primary-light text-primary text-xs py-[5px] px-3 rounded font-medium leading-[1.5]">
-                              Inprogress
-                            </span>
-                          </td>
-                          <td className="text-right text-[13px] font-normal py-2.5 px-4 whitespace-nowrap">
-                            <span className="text-body-color dark:text-white">
-                              08 Sep 2029
-                            </span>
-                          </td>
-                        </tr>
+                    {isLoading ? (
+                      <TableSkeleton />
+                    ) : (
+                      <table id="reports-tbl" className="table w-full">
+                        <thead>
+                          <tr>
+                            <th className="text-[13px] py-2.5 pl-4 bg-[#F0F4F9] text-[#374557] capitalize font-medium bg-none whitespace-nowrap text-left">
+                              Full Name
+                            </th>
+                            <th className="text-[13px] py-2.5 px-4 bg-[#F0F4F9] text-[#374557] capitalize font-medium bg-none whitespace-nowrap text-left">
+                              Company Info
+                            </th>
+                            <th className="text-[13px] py-2.5 px-4 bg-[#F0F4F9] text-[#374557] capitalize font-medium bg-none whitespace-nowrap text-left">
+                              Company Contact
+                            </th>
 
-                        <tr>
-                          <td className="text-[13px] font-normal py-2.5 pl-4 pr-0 whitespace-nowrap">
-                            <div className="form-check custom-checkbox block min-h-[1.3125rem] mb-0.5 text-sm pl-[1.5em] font-semibold">
-                              <input
-                                type="checkbox"
-                                className="form-check-input"
-                                id="customCheckBox44"
-                                required=""
-                              />
-                              <label
-                                className="form-check-label ml-[0.3125rem] text-sm text-secondary dark:text-white mt-[0.1875rem] font-normal"
-                                htmlFor="customCheckBox44"
-                              ></label>
-                            </div>
-                          </td>
-                          <td className="text-[13px] font-normal py-2.5 px-4 whitespace-nowrap text-body-color">
-                            Canary
-                          </td>
-                          <td className="text-[13px] font-normal py-2.5 px-4 whitespace-nowrap">
-                            <div className="flex items-center">
-                              <img
-                                src="assets/images/contacts/pic888.jpg"
-                                className="inline-block w-[1.875rem] min-w-[1.875rem] h-[1.875rem] rounded-full relative object-cover"
-                                width="30px"
-                                height="30px"
-                                alt=""
-                              />
-                              <p className="ml-2 dark:text-white text-[13px]">
-                                Elijah James
-                              </p>
-                            </div>
-                          </td>
-                          <td className="text-[13px] py-2.5 pl-4 pr-0 font-normal">
-                            <div className="flex items-center">
-                              <div className="progress bg-[#f6f6f6] dark:bg-[#1E1E1E] mr-[5px] h-[5px] overflow-hidden flex-1">
-                                <div
-                                  className="progress-bar bg-success rounded-[4px]"
-                                  style={{ width: "40%", height: "5px" }}
-                                  role="progressbar"
-                                ></div>
-                              </div>
-                              <span className="text-success">40%</span>
-                            </div>
-                          </td>
-                          <td className="text-[13px] py-2.5 pl-4 pr-0 font-normal">
-                            <div className="avatar-list avatar-list-stacked">
-                              <img
-                                src="assets/images/contacts/pic666.jpg"
-                                className="inline-block w-[1.875rem] h-[1.875rem] me-[-13px] rounded-full border-2 border-white dark:border-[#444444] relative object-cover duration-300 hover:z-[1]"
-                                alt=""
-                              />
-                              <img
-                                src="assets/images/contacts/pic555.jpg"
-                                className="inline-block w-[1.875rem] h-[1.875rem] me-[-13px] rounded-full border-2 border-white dark:border-[#444444] relative object-cover duration-300 hover:z-[1]"
-                                alt=""
-                              />
-                              <img
-                                src="assets/images/contacts/pic1.jpg"
-                                className="inline-block w-[1.875rem] h-[1.875rem] me-[-13px] rounded-full border-2 border-white dark:border-[#444444] relative object-cover duration-300 hover:z-[1]"
-                                alt=""
-                              />
-                              <img
-                                src="assets/images/contacts/pic666.jpg"
-                                className="inline-block w-[1.875rem] h-[1.875rem] me-[-13px] rounded-full border-2 border-white dark:border-[#444444] relative object-cover duration-300 hover:z-[1]"
-                                alt=""
-                              />
-                            </div>
-                          </td>
-                          <td className="text-[13px] py-2.5 pl-4 pr-0 font-normal">
-                            <span className="text-xs py-[5px] px-3 rounded font-medium leading-[1.5] text-success bg-success-light">
-                              Completed
-                            </span>
-                          </td>
-                          <td className="text-right text-[13px] font-normal py-2.5 px-4 whitespace-nowrap">
-                            <span className="text-body-color dark:text-white">
-                              06 Sep 2021
-                            </span>
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td className="text-[13px] font-normal py-2.5 pl-4 pr-0 whitespace-nowrap">
-                            <div className="form-check custom-checkbox block min-h-[1.3125rem] mb-0.5 text-sm pl-[1.5em] font-semibold">
-                              <input
-                                type="checkbox"
-                                className="form-check-input"
-                                id="customCheckBox66"
-                                required=""
-                              />
-                              <label
-                                className="form-check-label ml-[0.3125rem] text-sm text-secondary dark:text-white mt-[0.1875rem] font-normal"
-                                htmlFor="customCheckBox66"
-                              ></label>
-                            </div>
-                          </td>
-                          <td className="text-[13px] font-normal py-2.5 px-4 whitespace-nowrap text-body-color">
-                            Bigfish
-                          </td>
-                          <td className="text-[13px] font-normal py-2.5 px-4 whitespace-nowrap">
-                            <div className="flex items-center">
-                              <img
-                                src="assets/images/contacts/pic777.jpg"
-                                className="inline-block w-[1.875rem] min-w-[1.875rem] h-[1.875rem] rounded-full relative object-cover"
-                                width="30px"
-                                height="30px"
-                                alt=""
-                              />
-                              <p className="ml-2 dark:text-white text-[13px]">
-                                Donald Benjamin
-                              </p>
-                            </div>
-                          </td>
-                          <td className="text-[13px] py-2.5 pl-4 pr-0 font-normal">
-                            <div className="flex items-center">
-                              <div className="progress bg-[#f6f6f6] dark:bg-[#1E1E1E] mr-[5px] h-[5px] overflow-hidden flex-1">
-                                <div
-                                  className="progress-bar bg-danger rounded-[4px]"
-                                  style={{ width: "30%", height: "5px" }}
-                                  role="progressbar"
-                                ></div>
-                              </div>
-                              <span className="text-danger">30%</span>
-                            </div>
-                          </td>
-                          <td className="text-[13px] py-2.5 pl-4 pr-0 font-normal">
-                            <div className="avatar-list avatar-list-stacked">
-                              <img
-                                src="assets/images/contacts/pic1.jpg"
-                                className="inline-block w-[1.875rem] h-[1.875rem] me-[-13px] rounded-full border-2 border-white dark:border-[#444444] relative object-cover duration-300 hover:z-[1]"
-                                alt=""
-                              />
-                              <img
-                                src="assets/images/contacts/pic777.jpg"
-                                className="inline-block w-[1.875rem] h-[1.875rem] me-[-13px] rounded-full border-2 border-white dark:border-[#444444] relative object-cover duration-300 hover:z-[1]"
-                                alt=""
-                              />
-                              <img
-                                src="assets/images/contacts/pic666.jpg"
-                                className="inline-block w-[1.875rem] h-[1.875rem] me-[-13px] rounded-full border-2 border-white dark:border-[#444444] relative object-cover duration-300 hover:z-[1]"
-                                alt=""
-                              />
-                            </div>
-                          </td>
-                          <td className="text-[13px] py-2.5 pl-4 pr-0 font-normal">
-                            <span className="text-xs py-[5px] px-3 rounded font-medium leading-[1.5] text-danger bg-danger-light">
-                              Inprogress
-                            </span>
-                          </td>
-                          <td className="text-right text-[13px] font-normal py-2.5 px-4 whitespace-nowrap">
-                            <span className="text-body-color dark:text-white">
-                              06 Sep 2020
-                            </span>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                            <th className="text-[13px] py-2.5 px-4 bg-[#F0F4F9] text-[#374557] capitalize font-medium bg-none whitespace-nowrap text-left">
+                              Location
+                            </th>
+                            <th className="text-[13px] py-2.5 px-4 bg-[#F0F4F9] text-[#374557] capitalize font-medium bg-none whitespace-nowrap text-right">
+                              Joined Date
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {allClient?.map((item, index) => (
+                            <tr
+                              key={index}
+                              onClick={() => handleNavigateToDetail(1)}
+                              className="cursor-pointer hover:bg-primary-light"
+                            >
+                              <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[1.125rem] px-5 font-normal whitespace-nowrap">
+                                <div className="flex items-center">
+                                  {/* <AvatarByNameRect
+                                    name={
+                                      item?.attributes?.clientContactPersonName
+                                    }
+                                  /> */}
+                                  <img
+                                    src={
+                                      base_img_url +
+                                      item?.attributes?.logo?.data?.attributes
+                                        ?.url
+                                    }
+                                    className="w-[2.25rem] h-[2.25rem] inline-block mr-2.5 relative object-cover rounded-full"
+                                  />
+                                  <div>
+                                    <h6 className="text-sm">
+                                      {
+                                        item?.attributes
+                                          ?.clientContactPersonName
+                                      }
+                                    </h6>
+                                    <span className="text-body-color dark:text-white text-xs block">
+                                      {
+                                        item?.attributes
+                                          ?.clientContactPersonEmail
+                                      }
+                                    </span>
+                                    <span className="text-body-color dark:text-white text-xs">
+                                      {
+                                        item?.attributes
+                                          ?.clientContactPersonNumber
+                                      }
+                                    </span>
+                                  </div>
+                                </div>
+                              </td>
+                              <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[1.125rem] px-5 font-normal whitespace-nowrap">
+                                <div>
+                                  <h6 className="text-sm">
+                                    {item?.attributes?.companyName}
+                                  </h6>
+                                  <span className="text-body-color text-xs text-primary underline">
+                                    {item?.attributes?.clientEmail}
+                                  </span>
+                                </div>
+                              </td>
+                              <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[1.125rem] px-5 font-normal whitespace-nowrap">
+                                <span className="text-body-color dark:text-white">
+                                  {item?.attributes?.clientContactNumber}
+                                </span>
+                              </td>
+                              <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[1.125rem] px-5 font-normal whitespace-nowrap">
+                                <span className="text-body-color dark:text-white">
+                                  {item?.attributes?.clientAddress}
+                                </span>
+                              </td>
+                              <td className="border-b text-end border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[1.125rem] px-5 font-normal whitespace-nowrap">
+                                <span className="text-body-color dark:text-white">
+                                  {formatDate(item?.attributes?.createdAt)}
+                                </span>
+                              </td>
+                              {/* <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-[1.125rem] px-5 font-normal whitespace-nowrap text-right">
+                          <span className="text-xs py-[5px] px-3 rounded font-medium leading-[1.5] text-success bg-success-light">
+                            Active
+                          </span>
+                        </td> */}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    )}
                   </div>
                 </div>
               </div>
@@ -331,7 +184,7 @@ const Home = () => {
                         <div className="flex items-center">
                           <div className="event-box bg-primary-light h-[55px] w-[55px] py-1 text-center rounded-md leading-[9px]">
                             <h5 className="text-xl font-semibold text-primary">
-                              20
+                              27
                             </h5>
                             <span className="text-body-color dark:text-white text-[13px]">
                               Mon
@@ -339,10 +192,10 @@ const Home = () => {
                           </div>
                           <div className="event-data ml-2">
                             <h5 className="mb-0">
-                              <a>Development planning</a>
+                              <a>Sales Training</a>
                             </h5>
                             <span className="text-body-color text-[13px]">
-                              w3it Technologies
+                              August 27, 2024
                             </span>
                           </div>
                         </div>
@@ -362,33 +215,10 @@ const Home = () => {
                           </div>
                           <div className="event-data ml-2">
                             <h5 className="text-[15px]">
-                              <a>Development planning</a>
+                              <a>Team Dinner</a>
                             </h5>
                             <span className="text-body-color text-[13px]">
-                              w3it Technologies
-                            </span>
-                          </div>
-                        </div>
-                        <span className="text-secondary dark:text-white text-sm">
-                          12:05 PM
-                        </span>
-                      </div>
-                      <div className="event-media flex items-center justify-between py-2.5 border-b border-[#E6E6E6] dark:border-transparent">
-                        <div className="flex items-center">
-                          <div className="event-box bg-primary-light h-[55px] w-[55px] py-1 text-center rounded-md leading-[9px]">
-                            <h5 className="text-xl font-semibold text-primary">
-                              20
-                            </h5>
-                            <span className="text-body-color dark:text-white text-[13px]">
-                              Mon
-                            </span>
-                          </div>
-                          <div className="event-data ml-2">
-                            <h5 className="text-[15px]">
-                              <a>Development planning</a>
-                            </h5>
-                            <span className="text-body-color text-[13px]">
-                              w3it Technologies
+                              July 30, 2024
                             </span>
                           </div>
                         </div>
@@ -438,7 +268,7 @@ const Home = () => {
                         Completed Projects
                       </p>
                       <span className="text-body-color text-[13px]">
-                        125 Projects
+                        1 Projects
                       </span>
                     </div>
                     <div className="project-media flex items-center justify-between py-2.5">
@@ -462,7 +292,7 @@ const Home = () => {
                         Progress Projects
                       </p>
                       <span className="text-body-color text-[13px]">
-                        125 Projects
+                        1 Projects
                       </span>
                     </div>
                     <div className="project-media flex items-center justify-between py-2.5">
@@ -486,31 +316,7 @@ const Home = () => {
                         Cancelled
                       </p>
                       <span className="text-body-color text-[13px]">
-                        125 Projects
-                      </span>
-                    </div>
-                    <div className="project-media flex items-center justify-between py-2.5">
-                      <p className="text-secondary dark:text-body-color leading-[1.8]">
-                        <svg
-                          className="mr-2 inline-block"
-                          width="12"
-                          height="13"
-                          viewBox="0 0 12 13"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <rect
-                            y="0.5"
-                            width="12"
-                            height="12"
-                            rx="3"
-                            fill="#FF9F00"
-                          />
-                        </svg>
-                        Yet to Start
-                      </p>
-                      <span className="text-body-color text-[13px]">
-                        125 Projects
+                        1 Projects
                       </span>
                     </div>
                   </div>
@@ -573,9 +379,7 @@ const Home = () => {
                           <th className="text-[13px] py-2.5 px-4 bg-[#F0F4F9] text-[#374557] capitalize font-medium bg-none whitespace-nowrap text-left">
                             Gender
                           </th>
-                          <th className="text-[13px] py-2.5 px-4 bg-[#F0F4F9] text-[#374557] capitalize font-medium bg-none whitespace-nowrap text-left">
-                            Location
-                          </th>
+
                           <th className="text-[13px] py-2.5 px-4 bg-[#F0F4F9] text-[#374557] capitalize font-medium bg-none whitespace-nowrap text-right">
                             Status
                           </th>
@@ -642,11 +446,7 @@ const Home = () => {
                                   {item?.attributes?.primaryEmail || "N/A"}
                                 </a>
                               </td>
-                              <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-2.5 px-4 font-normal whitespace-nowrap">
-                                <span className="text-body-color dark:text-white text-[13px]">
-                                  +12 123 456 7890
-                                </span>
-                              </td>
+
                               <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-2.5 px-4 font-normal whitespace-nowrap">
                                 <span className="text-body-color dark:text-white text-[13px]">
                                   {item?.attributes?.gender || "N/A"}
@@ -654,7 +454,7 @@ const Home = () => {
                               </td>
                               <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-2.5 px-4 font-normal whitespace-nowrap">
                                 <span className="text-body-color dark:text-white text-[13px]">
-                                  AZ
+                                  N/A
                                 </span>
                               </td>
                               <td className="border-b border-[#E6E6E6] dark:border-[#444444] text-[13px] py-2.5 px-5 font-normal text-right whitespace-nowrap">

@@ -108,7 +108,7 @@ const Sidebar = () => {
             to={paths.dashboard.coreHr}
             name="core-hr"
             icon="solar:users-group-rounded-bold-duotone"
-            text="Core HR"
+            text="Attendence"
             activeMenu={activeMenu}
           />
 

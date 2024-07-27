@@ -9,6 +9,7 @@ import {
 import { getAllChatRoomList } from "../../../selectors/selectors";
 import GetUserImage from "../../../const/GetUserImage";
 import GetUserFullname from "../../../const/GetUserFullname";
+import GroupProfileImage from "../../../const/GroupProfileImage";
 
 const ChatRoom = ({ setChatID, chatID }) => {
   const dispatch = useDispatch();
@@ -58,7 +59,7 @@ const ChatRoom = ({ setChatID, chatID }) => {
           </span>
         </div>
       </div>
-      <div className="people-list dz-scroll relative overflow-y-scroll overflow-x-hidden">
+      <div className="people-list dz-scroll h-full relative overflow-y-scroll overflow-x-hidden">
         {filteredChatRooms.map((item, index) => (
           <div
             key={index}
@@ -69,10 +70,25 @@ const ChatRoom = ({ setChatID, chatID }) => {
               item?.id === chatID ? "bg-primary-light" : ""
             } chat-p style-1 flex justify-between py-4 px-3 hover:bg-primary-light cursor-pointer`}
           >
-            <div className="flex active relative">
-              <GetUserImage userName={item?.members?.[0]?.username} />
+            <div
+              className={`flex ${item?.is_private ? "active" : ""} relative`}
+            >
+              {item?.is_private ? (
+                <GetUserImage userName={item?.members?.[0]?.username} />
+              ) : (
+                <GroupProfileImage />
+              )}
+
               <div className="ml-2">
-                <GetUserFullname userName={item?.members?.[0]?.username} />
+                {item?.is_private ? (
+                  <GetUserFullname userName={item?.members?.[0]?.username} />
+                ) : (
+                  <div className="flex">
+                    <GetUserFullname userName={item?.members?.[0]?.username} />,
+                    &nbsp;
+                    <GetUserFullname userName={item?.members?.[1]?.username} />
+                  </div>
+                )}
                 <span className="text-xs text-body-color whitespace-nowrap">
                   <strong>You:</strong> {item?.members?.[0]?.email}{" "}
                 </span>
