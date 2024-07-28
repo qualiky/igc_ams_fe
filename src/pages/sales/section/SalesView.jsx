@@ -100,7 +100,7 @@ const SalesView = () => {
                     {...provided.droppableProps}
                     className="flex flex-col md:w-[290px] w-[250px] gap-3 items-center py-5"
                   >
-                    <div className="flex items-center justify-between py-[7px] px-3 w-full bg-[#F1F2F4] dark:bg-[#1E1E1E] dark:text-white  rounded border border-stone-200 uppercase font-semibold tracking-wider text-[15px]">
+                    <div className="flex items-center justify-between py-[7px] px-3 w-full bg-white dark:bg-[#1E1E1E] dark:text-white  rounded border border-stone-200 uppercase font-semibold tracking-wider text-[15px]">
                       <p className="text-black dark:text-white">
                         {column?.name}
                       </p>

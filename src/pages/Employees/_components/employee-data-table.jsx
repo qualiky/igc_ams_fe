@@ -40,7 +40,7 @@ const EmployeeDataTable = () => {
       name: "ID",
       selector: (row) => row.id,
       cell: (row) => (
-        <p className="text-black dark:text-white">00{row?.id || "-"}</p>
+        <p className="text-black dark:text-white ">00{row?.id || "-"}</p>
       ),
       sortable: true,
       width: "100px",
@@ -75,7 +75,7 @@ const EmployeeDataTable = () => {
       cell: (row) => (
         <span
           onClick={() => handleView(row?.id)}
-          className="cursor-pointer transition duration-1000 dark:text-white ease-in-out hover:underline hover:font-bold"
+          className="cursor-pointer transition duration-1000 text-black dark:text-white ease-in-out hover:underline hover:font-bold"
         >
           {row?.attributes?.firstName} {row?.attributes?.lastName}
         </span>

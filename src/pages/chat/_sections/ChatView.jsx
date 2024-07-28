@@ -284,9 +284,9 @@ const ChatView = () => {
                                   <p
                                     className={`text-secondary text-justify text-[13px] ${
                                       msg.sender === me
-                                        ? "bg-[#eeeeee] dark:bg-[#383838]"
-                                        : "bg-primary text-white dark:bg-primary"
-                                    } dark:text-white py-2.5 px-[15px] rounded-md ${
+                                        ? "bg-[#eeeeee] "
+                                        : "bg-primary text-white dark:bg-primary "
+                                    } dark:text-black py-2.5 px-[15px] rounded-md ${
                                       msg.sender === me
                                         ? "rounded-ee-none"
                                         : "rounded-ss-none"

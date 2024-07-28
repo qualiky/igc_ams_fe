@@ -58,7 +58,7 @@ const Login = () => {
                 <Controller
                   name="identifier"
                   control={control}
-                  defaultValue="roshan.nyaupane@apexcollege.edu.np"
+                  defaultValue=""
                   render={({ field }) => (
                     <input
                       {...field}
@@ -77,7 +77,7 @@ const Login = () => {
                 <Controller
                   name="password"
                   control={control}
-                  defaultValue="123456"
+                  defaultValue=""
                   render={({ field }) => (
                     <input
                       {...field}
